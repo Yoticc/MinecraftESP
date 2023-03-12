@@ -13,4 +13,10 @@
     <None Remove="obj\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Hook">
+      <HintPath>..\..\Hook\Hook\bin\Release\net7.0\Hook.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
