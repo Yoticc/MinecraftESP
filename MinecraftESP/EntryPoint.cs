@@ -1,5 +1,5 @@
 ﻿using Hook;
-using MinecraftESP;
+using OpenGL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +9,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static OpenGL.Enums;
+using Keys = ESP.Interop.Keys;
 
-namespace Sample;
+namespace ESP;
 public unsafe class EntryPoint
 {
     private static string logPath = @"C:\log.txt";
@@ -19,42 +21,128 @@ public unsafe class EntryPoint
         File.AppendAllText(logPath, $"{obj}\n");
     }
 
-    private static int counter = 0;
-    private static void Show(object message)
-    {
-        Interop.MessageBox(0, message.ToString(), counter.ToString(),0);
-        counter++;
-    }
-
-    [UnmanagedCallersOnly(EntryPoint = "Sleep2")]
-    public static void Sleep2(uint ms)
-    {
-        Show("sleep time: " + ms);
-    }
-
+    Render render;
     public void Load()
     {
         File.WriteAllText(logPath, "");
         Log($"Injected at {DateTime.Now}");
 
+        Interop.LoadLibrary(@"D:\VS\repos\MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\Hook.dll");
+        Interop.LoadLibrary(@"D:\VS\repos\MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\OpenGL.dll");
+
         HookApi.AltInit();
+        GL.InitGL();
+                
+        RenderHook.Init(render = new Render());
 
-        Function origin = new Function("kernel32.Sleep");
-        Function ripped = new Function((delegate* unmanaged<uint, void>)&Sleep2);
-        HookFunction hook = new HookFunction(origin, ripped);
-
-        hook.Attach();
-        
         HookApi.Commit();
 
-        Show("First");
-        // Will be hooked
-        Interop.Sleep(10000);
+        StartConsoleHandler();
+        InitBinds();
 
-        Show("Second");
-        // Will not be hooked
-        ((delegate* unmanaged<uint, void>)hook)(10000); //can be used 'hook', 'origin', or 'origin.Ptr'
-        Show("End");
+        WriteStartMessage();
+    }
+
+    private void InitBinds()
+    {
+        BindManager.Add(
+            new Bind(Keys.N, () => { Console.WriteLine("Funny"); }),
+            new Bind(Keys.M, () => { Console.WriteLine("Not Funny"); })
+        );
+        BindManager.StartReceive();
+    }
+
+    private void StartConsoleHandler()
+    {
+        Interop.StartThread(() =>
+        {
+            Console.WriteLine("Thread started");
+            string input;
+            string[] args;
+            Cap cap;
+            while (true)
+            {
+                try
+                {
+                    input = Console.ReadLine();
+                    args = input.Split(' ');
+
+                    if (args[0] == "reset")
+                    {
+                        render.blockedEnableCaps.Clear();
+                        render.blockedDisableCaps.Clear();
+                        render.extraEnableCaps.Clear();
+                        render.extraDisableCaps.Clear();
+                        continue;
+                    }
+
+                    cap = Enum.Parse<Cap>(args[3]);
+
+                    if (args[0] == "enable")
+                    {
+                        if (args[1] == "block")
+                        {
+                            if (args[2] == "add")
+                            {
+                                render.blockedEnableCaps.Add(cap);
+                            }
+                            else if (args[2] == "remove")
+                            {
+                                render.blockedEnableCaps.Remove(cap);
+                            }
+                        }
+                        else if (args[1] == "extra")
+                        {
+                            if (args[2] == "add")
+                            {
+                                render.extraEnableCaps.Add(cap);
+                            }
+                            else if (args[2] == "remove")
+                            {
+                                render.extraEnableCaps.Remove(cap);
+                                ((delegate* unmanaged<Cap, void>)RenderHook.DisableHook)(cap);
+                            }
+                        }
+                    }
+                    else if (args[0] == "disable")
+                    {
+                        if (args[1] == "block")
+                        {
+                            if (args[2] == "add")
+                            {
+                                render.blockedDisableCaps.Add(cap);
+                            }
+                            else if (args[2] == "remove")
+                            {
+                                render.blockedDisableCaps.Remove(cap);
+                            }
+                        }
+                        else if (args[1] == "extra")
+                        {
+                            if (args[2] == "add")
+                            {
+                                render.extraDisableCaps.Add(cap);
+                            }
+                            else if (args[2] == "remove")
+                            {
+                                render.extraDisableCaps.Remove(cap);
+                            }
+                        }
+                    }
+                }
+                catch { Console.WriteLine("ex"); }
+            }
+        });
+    }
+
+    private void WriteStartMessage()
+    {
+
+        Console.Clear();
+        ConsoleColor old = Console.ForegroundColor;
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("ESP was successfully initialized!");
+        Console.ForegroundColor = old;
     }
 
     public void Unload()

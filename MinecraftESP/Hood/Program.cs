@@ -1,9 +1,8 @@
-﻿using MinecraftESP;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Sample;
+namespace ESP;
 
 public class Program
 {
