@@ -21,7 +21,7 @@ public unsafe class EntryPoint
         File.AppendAllText(logPath, $"{obj}\n");
     }
 
-    Render render;
+    private Render render;
     public void Load()
     {
         File.WriteAllText(logPath, "");
@@ -37,107 +37,46 @@ public unsafe class EntryPoint
 
         HookApi.Commit();
 
-        StartConsoleHandler();
-        InitBinds();
+        Interop.StartThread(StartConsoleHandler);
+        BindManager.Add(InitBinds());
 
         WriteStartMessage();
     }
 
-    private void InitBinds()
+
+    private List<Bind> InitBinds()
     {
-        BindManager.Add(
-            new Bind(Keys.N, () => { Console.WriteLine("Funny"); }),
-            new Bind(Keys.M, () => { Console.WriteLine("Not Funny"); })
-        );
-        BindManager.StartReceive();
+        return new List<Bind>()
+        {
+            new Bind(Keys.Z, () => render.NoLight = !render.NoLight ),
+            new Bind(Keys.X, () => render.NoBackground = !render.NoBackground ),
+            new Bind(Keys.C, () => render.NoFog = !render.NoFog ),
+            new Bind(Keys.V, () => render.AntiCullFace = !render.AntiCullFace ),
+            new Bind(Keys.B, () => render.WorldChams = !render.WorldChams ),
+            new Bind(Keys.N, () => render.CaveViewer = !render.CaveViewer ),
+            new Bind(Keys.M, () => render.RainbowText = !render.RainbowText ),
+        };
     }
 
     private void StartConsoleHandler()
     {
-        Interop.StartThread(() =>
+        string input;
+        string[] args;
+        Cap cap;
+        while (true)
         {
-            Console.WriteLine("Thread started");
-            string input;
-            string[] args;
-            Cap cap;
-            while (true)
+            try
             {
-                try
-                {
-                    input = Console.ReadLine();
-                    args = input.Split(' ');
+                input = Console.ReadLine();
+                args = input.Split(' ');
 
-                    if (args[0] == "reset")
-                    {
-                        render.blockedEnableCaps.Clear();
-                        render.blockedDisableCaps.Clear();
-                        render.extraEnableCaps.Clear();
-                        render.extraDisableCaps.Clear();
-                        continue;
-                    }
-
-                    cap = Enum.Parse<Cap>(args[3]);
-
-                    if (args[0] == "enable")
-                    {
-                        if (args[1] == "block")
-                        {
-                            if (args[2] == "add")
-                            {
-                                render.blockedEnableCaps.Add(cap);
-                            }
-                            else if (args[2] == "remove")
-                            {
-                                render.blockedEnableCaps.Remove(cap);
-                            }
-                        }
-                        else if (args[1] == "extra")
-                        {
-                            if (args[2] == "add")
-                            {
-                                render.extraEnableCaps.Add(cap);
-                            }
-                            else if (args[2] == "remove")
-                            {
-                                render.extraEnableCaps.Remove(cap);
-                                ((delegate* unmanaged<Cap, void>)RenderHook.DisableHook)(cap);
-                            }
-                        }
-                    }
-                    else if (args[0] == "disable")
-                    {
-                        if (args[1] == "block")
-                        {
-                            if (args[2] == "add")
-                            {
-                                render.blockedDisableCaps.Add(cap);
-                            }
-                            else if (args[2] == "remove")
-                            {
-                                render.blockedDisableCaps.Remove(cap);
-                            }
-                        }
-                        else if (args[1] == "extra")
-                        {
-                            if (args[2] == "add")
-                            {
-                                render.extraDisableCaps.Add(cap);
-                            }
-                            else if (args[2] == "remove")
-                            {
-                                render.extraDisableCaps.Remove(cap);
-                            }
-                        }
-                    }
-                }
-                catch { Console.WriteLine("ex"); }
             }
-        });
+            catch { Console.WriteLine("ex"); }
+        }
     }
 
     private void WriteStartMessage()
     {
-
         Console.Clear();
         ConsoleColor old = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Green;
