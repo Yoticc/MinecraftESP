@@ -1,4 +1,5 @@
-﻿using Hook;
+﻿using ESP.Utils;
+using Hook;
 using OpenGL;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static OpenGL.Enums;
-using Keys = ESP.Interop.Keys;
+using Keys = ESP.Utils.Interop.Keys;
+using RH = ESP.RenderHook;
 
 namespace ESP;
 public unsafe class EntryPoint
@@ -32,7 +35,7 @@ public unsafe class EntryPoint
 
         HookApi.AltInit();
         GL.InitGL();
-                
+
         RenderHook.Init(render = new Render());
 
         HookApi.Commit();
@@ -48,13 +51,14 @@ public unsafe class EntryPoint
     {
         return new List<Bind>()
         {
-            new Bind(Keys.Z, () => render.NoLight = !render.NoLight ),
-            new Bind(Keys.X, () => render.NoBackground = !render.NoBackground ),
-            new Bind(Keys.C, () => render.NoFog = !render.NoFog ),
-            new Bind(Keys.V, () => render.AntiCullFace = !render.AntiCullFace ),
-            new Bind(Keys.B, () => render.WorldChams = !render.WorldChams ),
-            new Bind(Keys.N, () => render.CaveViewer = !render.CaveViewer ),
-            new Bind(Keys.M, () => render.RainbowText = !render.RainbowText ),
+            new Bind(Keys.Z, () => render.Settings.NoLight = !render.Settings.NoLight ),
+            new Bind(Keys.X, () => render.Settings.NoBackground = !render.Settings.NoBackground ),
+            new Bind(Keys.C, () => render.Settings.NoFog = !render.Settings.NoFog ),
+            new Bind(Keys.V, () => render.Settings.AntiCullFace = !render.Settings.AntiCullFace ),
+            new Bind(Keys.B, () => render.Settings.WorldChams = !render.Settings.WorldChams ),
+            new Bind(Keys.N, () => render.Settings.CaveViewer = !render.Settings.CaveViewer ),
+            new Bind(Keys.M, () => render.Settings.RainbowText = !render.Settings.RainbowText ),
+            new Bind(Keys.L, () => render.Settings.ESP = !render.Settings.ESP ),
         };
     }
 
@@ -87,5 +91,11 @@ public unsafe class EntryPoint
     public void Unload()
     {
         Log($"Uninjected at {DateTime.Now}");
+        RH.EnableHook.Detach();
+        RH.TranslateFHook.Detach();
+        RH.BeginHook.Detach();
+        RH.ScaleFHook.Detach();
+        RH.DisableHook.Detach();
+        RH.OrthoHook.Detach();
     }
 }

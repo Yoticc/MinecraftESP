@@ -9,6 +9,7 @@
 	  <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
 	  <PublishAot>true</PublishAot>
 	  <StripSymbols>true</StripSymbols>
+	  <RootNamespace>ESP</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

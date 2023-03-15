@@ -6,9 +6,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Keys = ESP.Interop.Keys;
+using Keys = ESP.Utils.Interop.Keys;
 
-namespace ESP;
+namespace ESP.Utils;
 public unsafe static class BindManager
 {
     #region Interop

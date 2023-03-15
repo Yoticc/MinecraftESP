@@ -1,5 +1,4 @@
-﻿using ESP;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -7,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ESP;
+namespace ESP.Utils;
 public static class RGB
 {
     private const int COUNT_PHASE = 3;
@@ -20,10 +19,14 @@ public static class RGB
     [DllImport("kernel32")]
     private static extern uint GetTickCount();
 
-    public static int Speed { get => speed; set {
+    public static int Speed
+    {
+        get => speed; set
+        {
             speed = value;
             ticksPerPhase = speed / COUNT_PHASE;
-        } }
+        }
+    }
 
     private static int speed;
     private static int ticksPerPhase;
