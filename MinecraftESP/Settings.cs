@@ -39,11 +39,11 @@ public class Settings
             new LBox(true, new CAABB(new Color(.8, .5, 0, .75), chestBox), 1.3f), 
             new PBox(true, new CAABB(new Color(.8, .5, 0, .2), chestBox))
         ),
-        new Tracer(true, new Color(50, 50, 50, 200), 2)
+        new Tracer(true, new Color(100, 50, 120, 200), 2, 0, .0625f, -.4375f)
         );
 
     public TargetOpt LargeChest = new TargetOpt(
-        true,
+        false,
         new Box(
             new LBox(true, new CAABB(new Color(.8, .6, .1, .75), largeChestBox), 1.3f),
             new PBox(true, new CAABB(new Color(.6, .5, 0, .2), largeChestBox))

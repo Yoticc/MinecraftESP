@@ -1,4 +1,5 @@
-﻿using Hook;
+﻿using ESP.Utils;
+using Hook;
 using OpenGL;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ public unsafe class RenderHook
         OrthoHook = new HookFunction(GL.Interface.glOrtho, (delegate* unmanaged<double, double, double, double, double, double, void>)&glOrtho).Attach();
         TranslateFHook = new HookFunction(GL.Interface.glTranslatef, (delegate* unmanaged<float, float, float, void>)&glTrasnlateF).Attach();
         ScaleFHook = new HookFunction(GL.Interface.glScalef, (delegate* unmanaged<float, float, float, void>)&glScaleF).Attach();
+        
+        SwapBuffersHook = new HookFunction(Interop.GetProcAddress(GL.Interface.Base, "wglSwapBuffers").ToPointer(), (delegate* unmanaged<IntPtr, void>)&wglSwapBuffers).Attach();
     }
     public static Render Render { get; private set; }
 
@@ -31,6 +34,7 @@ public unsafe class RenderHook
     public static HookFunction OrthoHook;
     public static HookFunction TranslateFHook;
     public static HookFunction ScaleFHook;
+    public static HookFunction SwapBuffersHook;
 
     public static void Enable(Cap cap) => ((delegate* unmanaged<Cap, void>)EnableHook)(cap);
     public static void Disable(Cap cap) => ((delegate* unmanaged<Cap, void>)DisableHook)(cap);
@@ -38,6 +42,7 @@ public unsafe class RenderHook
     public static void Ortho(double left, double right, double bottom, double top, double zNear, double zFar) => ((delegate* unmanaged<double, double, double, double, double, double, void>)OrthoHook)(left, right, bottom, top, zNear, zFar);
     public static void TranslateF(float x, float y, float z) => ((delegate* unmanaged<float, float, float, void>)TranslateFHook)(x, y, z);
     public static void ScaleF(float x, float y, float z) => ((delegate* unmanaged<float, float, float, void>)ScaleFHook)(x, y, z);
+    public static void SwapBuffers(IntPtr hdc) => ((delegate* unmanaged<IntPtr, void>)SwapBuffersHook)(hdc);
 
     [UnmanagedCallersOnly]
     private static void glEnable(Cap cap)
@@ -79,5 +84,12 @@ public unsafe class RenderHook
     {
         if (Render.ScaleF(ref x, ref y, ref z))
             ScaleF(x, y, z);
+    }
+
+    [UnmanagedCallersOnly]
+    private static void wglSwapBuffers(IntPtr hdc)
+    {
+        SwapBuffers(hdc);
+        Render.SwapBuffers(hdc);
     }
 }

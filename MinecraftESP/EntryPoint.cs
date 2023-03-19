@@ -40,10 +40,11 @@ public unsafe class EntryPoint
 
         HookApi.Commit();
 
-        Interop.StartThread(StartConsoleHandler);
         BindManager.Add(InitBinds());
 
-        WriteStartMessage();
+        //Interop.StartThread(StartConsoleHandler);
+        //SetupConsole();
+        //WriteStartMessage();
     }
 
 
@@ -61,6 +62,25 @@ public unsafe class EntryPoint
             new Bind(Keys.L, () => render.Settings.ESP = !render.Settings.ESP ),
         };
     }
+
+    private bool isDefConsoleInvalid = false;
+    private string diservePathToConsoleInpuFile = @"C:\mccon.txt";
+    private void SetupConsole()
+    {
+        try
+        {
+            Console.Clear();
+            Console.OutputEncoding = Encoding.Unicode;
+        } 
+        catch (IOException ex) { isDefConsoleInvalid = true; }
+
+        if (isDefConsoleInvalid)
+        {
+            File.Create(diservePathToConsoleInpuFile).Dispose();
+            Console.SetIn(File.OpenText(diservePathToConsoleInpuFile));
+        }
+    }
+
 
     private void StartConsoleHandler()
     {
@@ -81,7 +101,6 @@ public unsafe class EntryPoint
 
     private void WriteStartMessage()
     {
-        Console.Clear();
         ConsoleColor old = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("ESP was successfully initialized!");

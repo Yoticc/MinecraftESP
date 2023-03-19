@@ -22,6 +22,7 @@ public class TargetOpt
     public Box Box;
     public Tracer Tracer;
     public Chams Chams;
+    //public int index = 0;
 
     public void Add(GLTarget target)
     {
