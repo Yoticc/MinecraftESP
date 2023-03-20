@@ -19,16 +19,24 @@ namespace ESP;
 public unsafe class EntryPoint
 {
     private static string logPath = @"C:\log.txt";
+    public static void Logln(object obj)
+    {
+        File.AppendAllText(logPath, obj.ToString());
+        File.AppendAllText(logPath, "\n");
+    }
+
     public static void Log(object obj)
     {
-        File.AppendAllText(logPath, $"{obj}\n");
+        File.AppendAllText(logPath, obj.ToString());
     }
 
     private Render render;
     public void Load()
     {
         File.WriteAllText(logPath, "");
-        Log($"Injected at {DateTime.Now}");
+
+        Log("Injected at");
+        Logln(DateTime.Now);
 
         Interop.LoadLibrary(@"D:\VS\repos\MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\Hook.dll");
         Interop.LoadLibrary(@"D:\VS\repos\MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\OpenGL.dll");
@@ -109,7 +117,8 @@ public unsafe class EntryPoint
 
     public void Unload()
     {
-        Log($"Uninjected at {DateTime.Now}");
+        Log("Uninjected at");
+        Logln(DateTime.Now);
         RH.EnableHook.Detach();
         RH.TranslateFHook.Detach();
         RH.BeginHook.Detach();

@@ -12,13 +12,15 @@ using RH = ESP.RenderHook;
 using RU = ESP.Utils.RenderUtils;
 
 namespace ESP.Structs;
-public unsafe class GLTarget : IDisposable
+public unsafe struct GLTarget : IDisposable
 {
     public GLTarget()
     {
         projectionHandle = GCHandle.Alloc(Projection, GCHandleType.Pinned);
         modelviewHandle = GCHandle.Alloc(Modelview, GCHandleType.Pinned);
     }
+
+    public bool IsValid;
 
     public float[] Projection = new float[16];
     public float[] Modelview = new float[16];

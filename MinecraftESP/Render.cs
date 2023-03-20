@@ -1,4 +1,5 @@
-﻿using ESP.Structs;
+﻿using ESP.Hood;
+using ESP.Structs;
 using ESP.Structs.Options;
 using ESP.Utils;
 using OpenGL;
@@ -55,9 +56,9 @@ public unsafe class Render
     public bool TranslateF(ref float x, ref float y, ref float z)
     {
         if (x == .5 && y == .4375 && z == .9375)
-            Settings.Chest.Add(GetTarget(Settings.Chest, 0, .0625f, -.4375f));
+            SetTarget(Settings.Chest, 0, .0625f, -.4375f);
         else if (x == 1 && y == 0.4375 && z == 0.9375)
-            Settings.LargeChest.Add(GetTarget(Settings.LargeChest, 0, .0625f, -.4375f));
+            SetTarget(Settings.LargeChest, 0, .0625f, -.4375f);
 
         return true;
     }
@@ -65,12 +66,12 @@ public unsafe class Render
     public bool ScaleF(ref float x, ref float y, ref float z)
     {
         if (x == .9375 && y == .9375 && z == .9375)
-            Settings.LargeChest.Add(GetTarget(Settings.Player, 0, -1, 0));
+            SetTarget(Settings.Player, 0, -1, 0);
         else if (x == .25 && y == .25 && z == .25)
-            Settings.Item.Add(GetTarget(Settings.Item));
+            SetTarget(Settings.Item);
         else if (x == .5 && y == .5 && z == .5)
-            Settings.Item.Add(GetTarget(Settings.Item));
-        else Settings.Other.Add(GetTarget(Settings.Other));
+            SetTarget(Settings.Item);
+        else SetTarget(Settings.Other);
 
         return true;
     }
@@ -116,7 +117,12 @@ public unsafe class Render
         foreach (TargetOpt targetOpt in Settings.AsList)
             if (targetOpt.Enabled)
                 foreach (GLTarget target in targetOpt.Targets)
+                {
+                    if (!target.IsValid)
+                        break;
+
                     target.DrawOver(targetOpt);
+                }
 
         /*
         foreach (GLTarget target in Settings.Chest.Targets)
@@ -133,28 +139,32 @@ public unsafe class Render
     {
         foreach (TargetOpt targetOpt in Settings.AsList)
         {
-            foreach (GLTarget target in targetOpt.Targets)
-                target.Dispose();
-            targetOpt.Targets.Clear();
+            for (int i = 0; i < targetOpt.Targets.Length; i++)
+                targetOpt.Targets[i].IsValid = false;
+            targetOpt.Index = 0;
         }
     }
 
 
-    private GLTarget GetTarget(TargetOpt options, float offsetX = 0, float offsetY = 0, float offsetZ = 0)
+    private void SetTarget(TargetOpt options, float offsetX = 0, float offsetY = 0, float offsetZ = 0)
     {
-        GLTarget target = new GLTarget();
+        try
+        {
+            int index = options.Index % 256;
+            options.Targets[index].IsValid = true;
+            GL.GetFloatv(PName.ProjectionMatrix, options.Targets[index].Projection);
+            GL.GetFloatv(PName.ModelviewMatrix, options.Targets[index].Modelview);
 
-        GL.GetFloatv(PName.ProjectionMatrix, target.Projection);
-        GL.GetFloatv(PName.ModelviewMatrix, target.Modelview);
+            float[] m3 = new float[4];
+            for (int i = 0; i < 4; ++i)
+                m3[i] = options.Targets[index].Modelview[i] * offsetX + options.Targets[index].Modelview[i + 4] * offsetY + options.Targets[index].Modelview[i + 8] * offsetZ + options.Targets[index].Modelview[i + 12];
 
-        float[] m3 = new float[4];
-        for (int i = 0; i < 4; ++i)
-            m3[i] = target.Modelview[i] * offsetX + target.Modelview[i + 4] * offsetY + target.Modelview[i + 8] * offsetZ + target.Modelview[i + 12];
+            Buffer.BlockCopy(m3, 0, options.Targets[index].Modelview, 12, sizeof(float) * m3.Length);
 
-        Buffer.BlockCopy(m3, 0, target.Modelview, 12, sizeof(float) * m3.Length);
+            options.Targets[index].DrawDuring(options);
 
-        target.DrawDuring(options);
-
-        return target;
+            options.Index = index + 1;
+        }
+        catch (Exception ex) { Interop.MessageBox(0, ex.Message, "C#", 0); }
     }
 }

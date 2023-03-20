@@ -14,19 +14,18 @@ public class TargetOpt
         Box = box;
         Tracer = tracer;
         Chams = chams;
+
+        for (int i = 0; i < 256; i++)
+            Targets[i] = new GLTarget();
     }
 
-    public List<GLTarget> Targets { get; private set; } = new List<GLTarget>();
+    public GLTarget[] Targets { get; private set; } = new GLTarget[256];
 
     public bool Enabled;
     public Box Box;
     public Tracer Tracer;
     public Chams Chams;
-    //public int index = 0;
+    public int Index = 0;
 
-    public void Add(GLTarget target)
-    {
-        Targets.Add(target);
-        target.DrawDuring(this);
-    }
+    public void DrawDuring(GLTarget target) => target.DrawDuring(this);
 }

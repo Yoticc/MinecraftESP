@@ -30,6 +30,4 @@ public struct Color
     }
 
     public float R = 0, G = 0, B = 0, A = 1;
-
-    public override string ToString() => $"{R} {G} {B} {A}";
 }
