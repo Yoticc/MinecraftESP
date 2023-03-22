@@ -14,19 +14,22 @@ using RU = ESP.Utils.RenderUtils;
 namespace ESP.Structs;
 public unsafe struct GLTarget : IDisposable
 {
+    private const int DATA_SIZE = 16;
+    private const int DATA_SIZE_P2 = DATA_SIZE * DATA_SIZE;
+    private const int FLOAT_SIZE = sizeof(float);
+    private const int FLOAT_DATA_SIZE = DATA_SIZE * FLOAT_SIZE;
+    private const int FLOAT_DATA_SIZE_P2 = FLOAT_DATA_SIZE * FLOAT_DATA_SIZE;
+
     public GLTarget()
     {
-        projectionHandle = GCHandle.Alloc(Projection, GCHandleType.Pinned);
-        modelviewHandle = GCHandle.Alloc(Modelview, GCHandleType.Pinned);
+        Projection = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, FLOAT_DATA_SIZE_P2);
+        Modelview = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, FLOAT_DATA_SIZE_P2);
     }
 
     public bool IsValid;
 
-    public float[] Projection = new float[16];
-    public float[] Modelview = new float[16];
-
-    private GCHandle projectionHandle;
-    private GCHandle modelviewHandle;
+    public float* Projection;
+    public float* Modelview;
 
     public void DrawDuring(TargetOpt options)
     {
@@ -40,13 +43,14 @@ public unsafe struct GLTarget : IDisposable
         }
     }
 
+    private AABB tracerBox = new AABB(-.1, -.1, -.1, .1, .1, .1);
     public void DrawOver(TargetOpt options)
     {
         GL.MatrixMode(Matrix.Projection);
-        GL.LoadMatrixf(Projection);
+        GL.Interface.glLoadMatrixf(Projection);
 
         GL.MatrixMode(Matrix.Modelview);
-        GL.LoadMatrixf(Modelview);
+        GL.Interface.glLoadMatrixf(Modelview);
 
         if (options.Box.L.Enabled)
         {
@@ -55,13 +59,11 @@ public unsafe struct GLTarget : IDisposable
             RU.DrawOutlineAABB(options.Box.L.Box.AABB);
         }
 
-        /*
         if (options.Box.P.Enabled)
         {
             RU.Color(options.Box.P.Box.Color);
-            RU.DrawSolidAABB(options.Box.L.Box.AABB);
+            RU.DrawSolidAABB(options.Box.P.Box.AABB);
         }
-        */
 
         if (options.Tracer.Enabled)
         {
@@ -70,48 +72,11 @@ public unsafe struct GLTarget : IDisposable
             RU.Color(options.Tracer.Color);
             RU.DrawTracer(0, 0, -0.1f, Modelview[12] + options.Tracer.OffsetX, Modelview[13] + options.Tracer.OffsetY, Modelview[14] + options.Tracer.OffsetZ);
         }
-
-        /*
-        GL.Begin(Mode.Lines);
-        GL.Vertex3f(0, 0, -.1f);
-        GL.Vertex3f(Modelview[12] + options.Tracer.OffsetX, Modelview[13] + options.Tracer.OffsetY, Modelview[14] + options.Tracer.OffsetZ);
-        GL.End();
-        */
-        /*
-        GL.MatrixMode(Matrix.Projection);
-        GL.LoadMatrixf(Projection);
-
-        GL.MatrixMode(Matrix.Modelview);
-        GL.LoadMatrixf(Modelview);
-                
-        if (options.Box.L.Enabled)
-        {
-            GL.LineWidth(options.Box.L.LineWidth);
-            RU.Color(options.Box.L.Box.Color);
-            RU.DrawOutlineAABB(options.Box.L.Box.AABB);
-        }
-
-        if (options.Box.P.Enabled)
-        {
-            RU.Color(options.Box.P.Box.Color);
-            RU.DrawSolidAABB(options.Box.L.Box.AABB);
-        }
-
-        if (options.Tracer.Enabled)
-        {
-            //Console.Write($"Draw tracer to {Modelview[12]} {Modelview[13]} {Modelview[14]}");
-
-            GL.LoadIdentity();
-            GL.LineWidth(options.Tracer.LineWidth);
-            RU.Color(options.Tracer.Color);
-            RU.DrawTracer(0, 0, -0.1f, Modelview[12] + options.Tracer.OffsetX, Modelview[13] + options.Tracer.OffsetY, Modelview[14] + options.Tracer.OffsetZ);
-        }
-        */
     }
 
     public void Dispose()
     {
-        projectionHandle.Free();
-        modelviewHandle.Free();
+        NativeMemory.AlignedFree(Projection);
+        NativeMemory.AlignedFree(Modelview);
     }
 }

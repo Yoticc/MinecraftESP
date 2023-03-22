@@ -38,7 +38,6 @@ public unsafe class Render
         else if (cap == Cap.Texture2D && Settings.NoBackground) { }
         else return true;
 
-
         return false;
     }
 
@@ -71,15 +70,28 @@ public unsafe class Render
             SetTarget(Settings.Item);
         else if (x == .5 && y == .5 && z == .5)
             SetTarget(Settings.Item);
-        else SetTarget(Settings.Other);
+        else if (x.IsBetween(.666665f, .6666668f) && y.IsBetween(-.6666668f, -.666665f) && z.IsBetween(-.6666668f, -.666665f))
+            SetTarget(Settings.Sign);
+        else
+        {
+            Log.Write(x);
+            Log.Write(" ");
+            Log.Write(y);
+            Log.Write(" ");
+            Log.Write(z);
+            Log.WriteLine(" ");
+            SetTarget(Settings.Other);
+        }
 
         return true;
     }
 
-
     public bool Ortho(ref double left, ref double right, ref double bottom, ref double top, ref double zNear, ref double zFar)
     {
         if (zNear != 1000 || zFar != 3000)
+            return true;
+
+        if (!Settings.ESP)
             return true;
 
         GL.PushAttrib(0x000fffff);
@@ -95,25 +107,6 @@ public unsafe class Render
         RH.Enable(Cap.Blend);
         GL.BlendFunc(Factor.SrcAlpha, Factor.OneMinusSrcAlpha);
 
-        /*
-        foreach (GLTarget target in Settings.Chest.Targets)
-        {
-            GL.MatrixMode(Matrix.Projection);
-            GL.LoadMatrixf(target.Projection);
-
-            GL.MatrixMode(Matrix.Modelview);
-            GL.LoadMatrixf(target.Modelview);
-
-            GL.LoadIdentity();
-
-            GL.Begin(Mode.Lines);
-            GL.Vertex3f(0, 0, -.1f);
-            GL.Vertex3f(target.Modelview[12], target.Modelview[13], target.Modelview[14]);
-            GL.End();
-        }
-        */
-
-        
         foreach (TargetOpt targetOpt in Settings.AsList)
             if (targetOpt.Enabled)
                 foreach (GLTarget target in targetOpt.Targets)
@@ -124,13 +117,8 @@ public unsafe class Render
                     target.DrawOver(targetOpt);
                 }
 
-        /*
-        foreach (GLTarget target in Settings.Chest.Targets)
-            target.DrawOver(Settings.Chest);
-        */
-
         GL.PopAttrib();
-        GL.PopMatrix();      
+        GL.PopMatrix();
 
         return true;
     }
@@ -145,21 +133,24 @@ public unsafe class Render
         }
     }
 
-
+    private int index;
+    private float[] m3 = new float[4];
     private void SetTarget(TargetOpt options, float offsetX = 0, float offsetY = 0, float offsetZ = 0)
     {
         try
         {
-            int index = options.Index % 256;
+            index  = options.Index % 256;
             options.Targets[index].IsValid = true;
-            GL.GetFloatv(PName.ProjectionMatrix, options.Targets[index].Projection);
-            GL.GetFloatv(PName.ModelviewMatrix, options.Targets[index].Modelview);
+            GL.Interface.glGetFloatv(PName.ProjectionMatrix, options.Targets[index].Projection);
+            GL.Interface.glGetFloatv(PName.ModelviewMatrix, options.Targets[index].Modelview);
 
-            float[] m3 = new float[4];
             for (int i = 0; i < 4; ++i)
                 m3[i] = options.Targets[index].Modelview[i] * offsetX + options.Targets[index].Modelview[i + 4] * offsetY + options.Targets[index].Modelview[i + 8] * offsetZ + options.Targets[index].Modelview[i + 12];
 
-            Buffer.BlockCopy(m3, 0, options.Targets[index].Modelview, 12, sizeof(float) * m3.Length);
+            options.Targets[index].Modelview[12] = m3[0];
+            options.Targets[index].Modelview[13] = m3[1];
+            options.Targets[index].Modelview[14] = m3[2];
+            options.Targets[index].Modelview[15] = m3[3];
 
             options.Targets[index].DrawDuring(options);
 

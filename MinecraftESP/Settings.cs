@@ -13,7 +13,7 @@ public class Settings
     {
         AsList = new List<TargetOpt>()
         {
-            Chest, 
+            Chest,
             LargeChest,
             Player,
             Sign,
@@ -26,7 +26,7 @@ public class Settings
 
     private static AABB chestBox = new AABB(.0625, .0625, .5, .9375, .9375, .9375 + .5 - .0625);
     private static AABB largeChestBox = new AABB(.0625, .0625, .5, .9375 + 1, .9375, .9375 + .5 - .0625);
-    private static AABB playerBox = new AABB(-.3, 1, -.3, .3, 2.8, .3);
+    private static AABB playerBox = new AABB(-.3, 1, -.3, .3, -.8, .3);
     private static AABB signBox = new AABB(-.475, .11, .02, .475, .275, .04);
     private static AABB itemBox = new AABB(-.125, -.125, -.125, .125, .125, .125);
     private static AABB otherBox = new AABB(-.125, -.125, -.125, .125, .125, .125);
@@ -34,13 +34,11 @@ public class Settings
     public List<TargetOpt> AsList { get; init; }
 
     public TargetOpt Chest = new TargetOpt(
-        true, 
+        false, 
         new Box(
-            new LBox(true, new CAABB(new Color(.8, .5, 0, .75), chestBox), 1.3f), 
+            new LBox(true, new CAABB(new Color(.8, .5, 0, .75), chestBox), 1.3f),
             new PBox(true, new CAABB(new Color(.8, .5, 0, .2), chestBox))
-        ),
-        new Tracer(true, new Color(100, 50, 120, 200), 2, 0, .0625f, -.4375f)
-        );
+        ));
 
     public TargetOpt LargeChest = new TargetOpt(
         false,
@@ -53,14 +51,14 @@ public class Settings
         false,
         new Box(
             new LBox(true, new CAABB(new Color(.8, .6, .1, .75), playerBox), 1),
-            new PBox(true, new CAABB(new Color(.6, .5, 0, .2), playerBox))
+            new PBox(false, new CAABB(new Color(.6, .5, 0, .2), playerBox))
         ),
-        new Tracer(true, new Color(1, 1, 1, .9), 1, 0, 2.6f, 0),
+        new Tracer(true, new Color(1, 1, 1, .9), 1, 0, .6f, 0),
         new Chams(true, false, new Color(), true)
         );
 
     public TargetOpt Sign = new TargetOpt(
-        false,
+        true,
         new Box(
             new LBox(true, new CAABB(new Color(.8, .6, .1, .75), signBox), .7f),
             new PBox(true, new CAABB(new Color(.6, .5, 0, .2), signBox))
@@ -74,7 +72,7 @@ public class Settings
         ));
 
     public TargetOpt Other = new TargetOpt(
-        false,
+        true,
         new Box(
             new LBox(true, new CAABB(new Color(1, 1, 1, .75), otherBox), .7f)
         ));
