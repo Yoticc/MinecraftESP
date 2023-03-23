@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="DllMain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="DllMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{b882c57d-657c-4bc9-a292-76ca5150b724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structs">
+      <UniqueIdentifier>{ebf53498-71d9-4be5-8d35-b134693ab7b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{0bad8296-44df-47ac-a836-5e4ed763ad73}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

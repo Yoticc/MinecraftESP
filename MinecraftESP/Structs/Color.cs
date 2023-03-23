@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,4 +31,16 @@ public struct Color
     }
 
     public float R = 0, G = 0, B = 0, A = 1;
+
+    public static Color DistanceColor = new Color(1, 0, 0, 0);
+    public static Color RGBColor = new Color(2, 0, 0, 0);
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null) return false;
+
+        Color color = (Color)obj;
+
+        return color.R == R && color.G == G && color.B == B && color.A == A;
+    }
 }

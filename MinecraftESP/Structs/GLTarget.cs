@@ -1,4 +1,5 @@
 ﻿using ESP.Structs.Options;
+using ESP.Utils;
 using OpenGL;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,6 @@ public unsafe struct GLTarget : IDisposable
         }
     }
 
-    private AABB tracerBox = new AABB(-.1, -.1, -.1, .1, .1, .1);
     public void DrawOver(TargetOpt options)
     {
         GL.MatrixMode(Matrix.Projection);
@@ -52,26 +52,37 @@ public unsafe struct GLTarget : IDisposable
         GL.MatrixMode(Matrix.Modelview);
         GL.Interface.glLoadMatrixf(Modelview);
 
+        float dist = RU.GetDistance(0, 0, 0, Modelview[12], Modelview[13], Modelview[14]);
+
         if (options.Box.L.Enabled)
         {
             GL.LineWidth(options.Box.L.LineWidth);
-            RU.Color(options.Box.L.Box.Color);
-            RU.DrawOutlineAABB(options.Box.L.Box.AABB);
+            SetColor(options.Box.L.CAABB.Color, dist);
+            RU.DrawOutlineAABB(options.Box.L.CAABB.AABB);
         }
 
         if (options.Box.P.Enabled)
         {
-            RU.Color(options.Box.P.Box.Color);
-            RU.DrawSolidAABB(options.Box.P.Box.AABB);
+            SetColor(options.Box.P.CAABB.Color, dist);
+            RU.DrawSolidAABB(options.Box.P.CAABB.AABB);
         }
 
         if (options.Tracer.Enabled)
         {
             GL.LoadIdentity();
-            GL.LineWidth(options.Tracer.LineWidth);      
-            RU.Color(options.Tracer.Color);
+            GL.LineWidth(options.Tracer.LineWidth);
+            SetColor(options.Tracer.Color, dist);
             RU.DrawTracer(0, 0, -0.1f, Modelview[12] + options.Tracer.OffsetX, Modelview[13] + options.Tracer.OffsetY, Modelview[14] + options.Tracer.OffsetZ);
         }
+    }
+
+    private static void SetColor(Color baseColor, float dist)
+    {
+        if (baseColor.Equals(Color.RGBColor))
+            RU.Color(ColorUtils.GetRGB());
+        else if (baseColor.Equals(Color.DistanceColor))
+            RU.Color(ColorUtils.GetDistColor(64, dist));
+        else RU.Color(baseColor);
     }
 
     public void Dispose()

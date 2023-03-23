@@ -103,4 +103,6 @@ public class RenderUtils
     }
 
     public static void Color(Color color) => GL.Color4f(color.R, color.G, color.B, color.A);
+
+    public static float GetDistance(float x1, float y1, float z1, float x2, float y2, float z2) => (float)Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2, 2));
 }

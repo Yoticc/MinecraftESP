@@ -1,4 +1,6 @@
 ﻿global using Log = ESP.Utils.LogManger;
+using ESP.Structs;
+using ESP.Structs.Options;
 using ESP.Utils;
 using Hook;
 using OpenGL;
@@ -18,27 +20,54 @@ using RH = ESP.RenderHook;
 namespace ESP;
 public unsafe class EntryPoint
 {
-    private static Render render; //CallConvCdecl
+    private static Render render;
 
     [UnmanagedCallersOnly(EntryPoint = "Load", CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
     public static void Load()
     {
         Log.SetFile(@"B:\log.txt");
         Log.Clear();
-        Log.Write("Injected at");
-        Log.WriteLine(DateTime.Now);
+        Log.WriteLine($"Injected at {DateTime.Now}");
 
-        Interop.LoadLibrary(@"D:\VS\repos\MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\Hook.dll");
-        Interop.LoadLibrary(@"D:\VS\repos\MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\OpenGL.dll");
-
-        HookApi.AltInit();
         GL.InitGL();
 
-        RenderHook.Init(render = new Render());
-
+        HookApi.AltInit();
+        RH.Attach(render = new Render());
         HookApi.Commit();
 
         BindManager.Add(InitBinds());
+
+        SetupConsole();
+    }
+
+    [UnmanagedCallersOnly(EntryPoint = "Unload", CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
+    public static void Unload()
+    {
+        Log.WriteLine($"Uninjected at {DateTime.Now}");
+        RH.Detach();
+    }
+
+    private static void SetupConsole()
+    {
+        try
+        {
+            Console.Clear();
+
+            Interop.StartThread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        string str = Console.ReadLine();
+                    }
+                    catch (Exception ex) { Console.WriteLine("ex"); }
+                }
+            });
+
+            Console.Beep(500, 500);
+        }
+        catch { }
     }
 
     private static List<Bind> InitBinds()
@@ -56,15 +85,4 @@ public unsafe class EntryPoint
         };
     }
 
-    public static void Unload()
-    {
-        Log.Write("Uninjected at");
-        Log.WriteLine(DateTime.Now);
-        RH.EnableHook.Detach();
-        RH.TranslateFHook.Detach();
-        RH.BeginHook.Detach();
-        RH.ScaleFHook.Detach();
-        RH.DisableHook.Detach();
-        RH.OrthoHook.Detach();
-    }
 }

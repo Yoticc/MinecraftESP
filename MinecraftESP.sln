@@ -3,18 +3,44 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinecraftESP", "MinecraftESP\MinecraftESP.csproj", "{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinecraftESP", "MinecraftESP\MinecraftESP.csproj", "{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wrapper", "Wrapper\Wrapper.vcxproj", "{A8C3C2B9-9B79-4441-8000-DAA76161183B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Debug|x64.Build.0 = Debug|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Debug|x86.Build.0 = Debug|Any CPU
 		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Release|x64.ActiveCfg = Release|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Release|x64.Build.0 = Release|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E67B193-D813-4BC1-BFED-AFDCCC5E1700}.Release|x86.Build.0 = Release|Any CPU
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Debug|Any CPU.Build.0 = Debug|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Debug|x64.ActiveCfg = Debug|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Debug|x64.Build.0 = Debug|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Debug|x86.ActiveCfg = Debug|Win32
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Debug|x86.Build.0 = Debug|Win32
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Release|Any CPU.ActiveCfg = Release|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Release|Any CPU.Build.0 = Release|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Release|x64.ActiveCfg = Release|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Release|x64.Build.0 = Release|x64
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Release|x86.ActiveCfg = Release|Win32
+		{A8C3C2B9-9B79-4441-8000-DAA76161183B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

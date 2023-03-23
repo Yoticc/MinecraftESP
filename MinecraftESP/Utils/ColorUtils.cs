@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ESP.Structs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -7,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ESP.Utils;
-public static class RGB
+public static class ColorUtils
 {
     private const int COUNT_PHASE = 3;
 
-    static RGB()
+    static ColorUtils()
     {
         Speed = 2000;
     }
@@ -30,7 +31,7 @@ public static class RGB
 
     private static int speed;
     private static int ticksPerPhase;
-    public static (float r, float g, float b) GetF()
+    public static Color GetRGB()
     {
         int ticks = (int)GetTickCount() % Speed;
         int phase = ticks / ticksPerPhase;
@@ -40,13 +41,23 @@ public static class RGB
         switch (phase)
         {
             case 0:
-                return ((float)dest / ticksPerPhase, (float)rest / ticksPerPhase, 0);
+                return new Color((float)dest / ticksPerPhase, (float)rest / ticksPerPhase, 0);
             case 1:
-                return ((float)rest / ticksPerPhase, 0, (float)dest / ticksPerPhase);
+                return new Color((float)rest / ticksPerPhase, 0, (float)dest / ticksPerPhase);
             case 2:
-                return (0, (float)dest / ticksPerPhase, (float)rest / ticksPerPhase);
+                return new Color(0, (float)dest / ticksPerPhase, (float)rest / ticksPerPhase);
             default:
-                return (0, 0, 0);
+                return new Color(0, 0, 0);
         }
+    }
+
+    public static Color GetDistColor(float max, float value)
+    {
+        float perc = value / max;
+        float a = Math.Clamp((float)(1 - (value / (max * (1 / 0.5)))), .7f, 1);
+        float r = Math.Clamp(perc <= .5f ? 1 : 1 - (perc - .5f) * 2, 0, 1),
+              g = Math.Clamp(perc <= .5f ? perc * 2 : 1, 0, 1);
+
+        return new Color(r, g, 0, a);
     }
 }

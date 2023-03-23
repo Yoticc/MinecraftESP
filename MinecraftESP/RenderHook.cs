@@ -13,7 +13,7 @@ using Render = ESP.Render;
 namespace ESP;
 public unsafe class RenderHook
 {
-    public static void Init(Render render)
+    public static void Attach(Render render)
     {
         Render = render;
 
@@ -91,5 +91,16 @@ public unsafe class RenderHook
     {
         SwapBuffers(hdc);
         Render.SwapBuffers(hdc);
+    }
+
+    public static void Detach()
+    {
+        EnableHook.Detach();
+        TranslateFHook.Detach();
+        BeginHook.Detach();
+        ScaleFHook.Detach();
+        DisableHook.Detach();
+        OrthoHook.Detach();
+        SwapBuffersHook.Detach();
     }
 }
