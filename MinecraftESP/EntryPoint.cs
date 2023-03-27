@@ -1,20 +1,10 @@
 ﻿global using Log = ESP.Utils.LogManger;
-using ESP.Structs;
-using ESP.Structs.Options;
 using ESP.Utils;
 using Hook;
 using OpenGL;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using static OpenGL.Enums;
 using Keys = ESP.Utils.Interop.Keys;
 using RH = ESP.RenderHook;
 namespace ESP;
@@ -29,12 +19,11 @@ public unsafe class EntryPoint
         Log.Clear();
         Log.WriteLine($"Injected at {DateTime.Now}");
 
-        GL.InitGL();
+        GL.InitGL();        
 
         HookApi.AltInit();
         RH.Attach(render = new Render());
         HookApi.Commit();
-
         BindManager.Add(InitBinds());
 
         SetupConsole();

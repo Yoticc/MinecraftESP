@@ -19,12 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Hook">
-      <HintPath>..\..\Hook\Hook\bin\Release\net7.0\Hook.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenGL">
-      <HintPath>..\..\OpenGL\OpenGL\bin\Release\net7.0\OpenGL.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Yotic.Hook" Version="1.1.0" />
+    <PackageReference Include="Yotic.OpenGL" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
