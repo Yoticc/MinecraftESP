@@ -1,10 +1,5 @@
-﻿using ESP.Structs.Options;
-using ESP.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ESP.Structs;
+using ESP.Structs.Options;
 
 namespace ESP;
 public class Settings
@@ -65,7 +60,7 @@ public class Settings
         ));
 
     public TargetOpt Item = new TargetOpt(
-        false,
+        true,
         new Box(
             new LBox(true, new CAABB(new Color(.8, .6, .1, .75), itemBox), .7f),
             new PBox(false, new CAABB(new Color(.6, .5, 0, .2), itemBox))

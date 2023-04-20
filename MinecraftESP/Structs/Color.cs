@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ESP.Structs;
+﻿namespace ESP.Structs;
 public struct Color
 {
     public Color(byte r, byte g, byte b, byte a = byte.MaxValue)

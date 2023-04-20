@@ -2,16 +2,7 @@
 using ESP.Structs.Options;
 using ESP.Utils;
 using OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using static OpenGL.Enums;
-using Render = ESP.Render;
 using RH = ESP.RenderHook;
 using RU = ESP.Utils.RenderUtils;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace ESP.Utils;
 public class LogManger
@@ -19,11 +15,14 @@ public class LogManger
     }
 
     public static void Clear() => stream.SetLength(0);
+
     public static void Write(object obj)
     {
         byte[] buffer = Encoding.GetBytes(obj.ToString());
         stream.Write(buffer, 0, buffer.Length);
+        stream.Flush();
     }
+
     public static void WriteLine(object obj)
     {
         Write(obj);

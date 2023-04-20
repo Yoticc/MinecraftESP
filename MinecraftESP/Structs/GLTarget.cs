@@ -1,15 +1,8 @@
 ﻿using ESP.Structs.Options;
 using ESP.Utils;
 using OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using static OpenGL.Enums;
-using RH = ESP.RenderHook;
 using RU = ESP.Utils.RenderUtils;
 
 namespace ESP.Structs;
@@ -19,12 +12,11 @@ public unsafe struct GLTarget : IDisposable
     private const int DATA_SIZE_P2 = DATA_SIZE * DATA_SIZE;
     private const int FLOAT_SIZE = sizeof(float);
     private const int FLOAT_DATA_SIZE = DATA_SIZE * FLOAT_SIZE;
-    private const int FLOAT_DATA_SIZE_P2 = FLOAT_DATA_SIZE * FLOAT_DATA_SIZE;
 
     public GLTarget()
     {
-        Projection = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, FLOAT_DATA_SIZE_P2);
-        Modelview = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, FLOAT_DATA_SIZE_P2);
+        Projection = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, 16);
+        Modelview = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, 16);
     }
 
     public bool IsValid;

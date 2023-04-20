@@ -2,7 +2,6 @@
 using ESP.Utils;
 using Hook;
 using OpenGL;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Keys = ESP.Utils.Interop.Keys;
@@ -15,7 +14,7 @@ public unsafe class EntryPoint
     [UnmanagedCallersOnly(EntryPoint = "Load", CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
     public static void Load()
     {
-        Log.SetFile(@"B:\log.txt");
+        Log.SetFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "cs-mc-esp-log.txt"));
         Log.Clear();
         Log.WriteLine($"Injected at {DateTime.Now}");
 
@@ -30,11 +29,7 @@ public unsafe class EntryPoint
     }
 
     [UnmanagedCallersOnly(EntryPoint = "Unload", CallConvs = new System.Type[] { typeof(CallConvCdecl) })]
-    public static void Unload()
-    {
-        Log.WriteLine($"Uninjected at {DateTime.Now}");
-        RH.Detach();
-    }
+    public static void Unload() { }
 
     private static void SetupConsole()
     {
@@ -48,7 +43,7 @@ public unsafe class EntryPoint
                 {
                     try
                     {
-                        string str = Console.ReadLine();
+                        //string str = Console.ReadLine();
                     }
                     catch (Exception ex) { Console.WriteLine("ex"); }
                 }

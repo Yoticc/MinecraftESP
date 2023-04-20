@@ -1,11 +1,4 @@
-﻿using ESP.Structs.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ESP.Structs.Options;
+﻿namespace ESP.Structs.Options;
 public class TargetOpt
 {
     public TargetOpt(bool enabled, Box box, Tracer tracer = default, Chams chams = default)

@@ -1,13 +1,6 @@
 ﻿using ESP.Structs;
-using ESP.Structs.Options;
 using OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static OpenGL.Enums;
-using Render = ESP.Render;
 using RH = ESP.RenderHook;
 
 namespace ESP.Utils;
