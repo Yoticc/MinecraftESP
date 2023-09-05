@@ -168,7 +168,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>C:\Users\Админ\source\packages\OpenGL\Library;C:\Users\Админ\source\packages\Detours\Library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>D:\VS\repos\MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\native\MinecraftESP.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>

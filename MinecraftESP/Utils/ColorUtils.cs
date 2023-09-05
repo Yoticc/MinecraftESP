@@ -1,18 +1,9 @@
-﻿using ESP.Structs;
-using System.Runtime.InteropServices;
-
-namespace ESP.Utils;
+﻿namespace ESP.Utils;
 public static class ColorUtils
 {
-    private const int COUNT_PHASE = 3;
+    const int COUNT_PHASE = 3;
 
-    static ColorUtils()
-    {
-        Speed = 2000;
-    }
-
-    [DllImport("kernel32")]
-    private static extern uint GetTickCount();
+    static ColorUtils() => Speed = 2000;
 
     public static int Speed
     {
@@ -23,8 +14,7 @@ public static class ColorUtils
         }
     }
 
-    private static int speed;
-    private static int ticksPerPhase;
+    static int speed, ticksPerPhase;
     public static Color GetRGB()
     {
         int ticks = (int)GetTickCount() % Speed;

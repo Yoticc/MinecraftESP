@@ -1,12 +1,10 @@
-﻿using System.Text;
-
-namespace ESP.Utils;
-public class LogManger
+﻿namespace ESP.Utils;
+public static class Logger
 {
-    public static string Path { get; private set; }
-    public static Encoding Encoding { get; private set; } = Encoding.UTF8;
+    public static string Path { get; set; }
+    public static Encoding Encoding { get; set; } = Encoding.UTF8;
 
-    private static FileStream stream;
+    static FileStream stream;
 
     public static void SetFile(string path)
     {

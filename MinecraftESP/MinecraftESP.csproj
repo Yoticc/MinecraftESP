@@ -19,8 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Yotic.Hook" Version="1.1.0" />
-    <PackageReference Include="Yotic.OpenGL" Version="1.0.0" />
+    <PackageReference Include="Yotic.Hook" Version="1.1.1" />
+    <PackageReference Include="Yotic.Memory" Version="1.0.0" />
+    <PackageReference Include="Yotic.OpenGL" Version="1.1.0" />
   </ItemGroup>
 
 </Project>

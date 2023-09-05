@@ -1,9 +1,4 @@
-﻿using ESP.Structs;
-using OpenGL;
-using static OpenGL.Enums;
-using RH = ESP.RenderHook;
-
-namespace ESP.Utils;
+﻿namespace ESP.Utils;
 public class RenderUtils
 {
     public static void Push()
@@ -97,5 +92,5 @@ public class RenderUtils
 
     public static void Color(Color color) => GL.Color4f(color.R, color.G, color.B, color.A);
 
-    public static float GetDistance(float x1, float y1, float z1, float x2, float y2, float z2) => (float)Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2, 2));
+    public static float GetDistance(float x1, float y1, float z1, float x2 = 0, float y2 = 0, float z2 = 0) => (float)Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2, 2));
 }

@@ -1,17 +1,9 @@
-﻿using ESP.Structs;
-using ESP.Structs.Options;
-using ESP.Utils;
-using OpenGL;
-using static OpenGL.Enums;
-using RH = ESP.RenderHook;
-using RU = ESP.Utils.RenderUtils;
-
-namespace ESP;
+﻿namespace ESP;
 public unsafe class Render
 {
     public Settings Settings = new Settings();
 
-    private bool nowInInventory;
+    bool nowInInventory;
 
     public bool Enable(ref Cap cap)
     {
@@ -35,7 +27,7 @@ public unsafe class Render
 
     public bool Begin(ref Mode mode)
     {
-        if (mode == Mode.TrianglesStript && Settings.RainbowText)
+        if (mode == Mode.TriangleStript && Settings.RainbowText)
             RU.Color(ColorUtils.GetRGB());
         
         return true;
@@ -96,9 +88,6 @@ public unsafe class Render
             if (targetOpt.Enabled)
                 foreach (GLTarget target in targetOpt.Targets)
                 {
-                    if (!target.IsValid)
-                        break;
-
                     target.DrawOver(targetOpt);
                 }
 
@@ -108,39 +97,32 @@ public unsafe class Render
         return true;
     }
 
-    public void SwapBuffers(IntPtr hdc)
+    public void SwapBuffers(nint hdc)
     {
         nowInInventory = false;
 
-        foreach (TargetOpt targetOpt in Settings.AsList)
-        {
-            for (int i = 0; i < targetOpt.Targets.Length; i++)
-                targetOpt.Targets[i].IsValid = false;
-            targetOpt.Index = 0;
-        }
+        foreach (var target in Settings.AsList)
+            target.Targets.Clear();
     }
 
-    private int index;
-    private float[] m3 = new float[4];
-    private void SetTarget(TargetOpt options, float offsetX = 0, float offsetY = 0, float offsetZ = 0)
+    void SetTarget(TargetOpt options, float offsetX = 0, float offsetY = 0, float offsetZ = 0)
     {
         if (nowInInventory)
             return;
 
-        index = options.Index % 256;
-        GL.Interface.glGetFloatv(PName.ProjectionMatrix, options.Targets[index].Projection);
-        GL.Interface.glGetFloatv(PName.ModelviewMatrix, options.Targets[index].Modelview);
+        var target = new GLTarget();
+        var mv = target.Modelview;
+        var m3 = new float[4];
 
-        for (int i = 0; i < 4; ++i)
-            m3[i] = options.Targets[index].Modelview[i] * offsetX + options.Targets[index].Modelview[i + 4] * offsetY + options.Targets[index].Modelview[i + 8] * offsetZ + options.Targets[index].Modelview[i + 12];
+        GL.Interface.glGetFloatv(PName.ProjectionMatrix, target.Projection);
+        GL.Interface.glGetFloatv(PName.ModelviewMatrix, mv);
 
-        options.Targets[index].Modelview[12] = m3[0];
-        options.Targets[index].Modelview[13] = m3[1];
-        options.Targets[index].Modelview[14] = m3[2];
-        options.Targets[index].Modelview[15] = m3[3];
+        for (int i = 0; i < 4; i++)
+            m3[i] = mv[i] * offsetX + mv[i + 4] * offsetY + mv[i + 8] * offsetZ + mv[i + 12];
 
-        options.Targets[index].DrawDuring(options);
-        options.Targets[index].IsValid = true;
-        options.Index = index + 1;
+        for (int i = 0; i < 4; i++)
+            mv[12 + i] = m3[i];
+
+        options.Targets.Add(target);
     }
 }

@@ -1,7 +1,4 @@
-﻿using ESP.Structs;
-using ESP.Structs.Options;
-
-namespace ESP;
+﻿namespace ESP;
 public class Settings
 {
     public Settings()
@@ -19,12 +16,12 @@ public class Settings
 
     public bool NoLight, NoBackground, NoFog, AntiCullFace, WorldChams, CaveViewer, RainbowText, ESP = true;
 
-    private static AABB chestBox = new AABB(.0625, .0625, .5, .9375, .9375, .9375 + .5 - .0625);
-    private static AABB largeChestBox = new AABB(.0625, .0625, .5, .9375 + 1, .9375, .9375 + .5 - .0625);
-    private static AABB playerBox = new AABB(-.3, 1, -.3, .3, -.8, .3);
-    private static AABB signBox = new AABB(-.5, .0845, -.043, .5, .585, .041);
-    private static AABB itemBox = new AABB(-.125, -.125, -.125, .125, .125, .125);
-    private static AABB otherBox = new AABB(-.125, -.125, -.125, .125, .125, .125);
+    static AABB chestBox = new AABB(.0625, .0625, .5, .9375, .9375, .9375 + .5 - .0625);
+    static AABB largeChestBox = new AABB(.0625, .0625, .5, .9375 + 1, .9375, .9375 + .5 - .0625);
+    static AABB playerBox = new AABB(-.3, 1, -.3, .3, -.8, .3);
+    static AABB signBox = new AABB(-.5, .0845, -.043, .5, .585, .041);
+    static AABB itemBox = new AABB(-.125, -.125, -.125, .125, .125, .125);
+    static AABB otherBox = new AABB(-.125, -.125, -.125, .125, .125, .125);
 
     public List<TargetOpt> AsList { get; init; }
 
@@ -48,8 +45,7 @@ public class Settings
             new LBox(true, new CAABB(new Color(.1, .8, .7, .75), playerBox), 1),
             new PBox(true, new CAABB(new Color(.1, .7, .8, .05), playerBox))
         ),
-        new Tracer(true, Color.DistanceColor, 1, 0, .6f, 0),
-        new Chams(true, false, new Color(), true)
+        new Tracer(true, Color.DistanceColor, 1, 0, .6f, 0)
         );
 
     public TargetOpt Sign = new TargetOpt(

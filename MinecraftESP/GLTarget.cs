@@ -1,17 +1,10 @@
-﻿using ESP.Structs.Options;
-using ESP.Utils;
-using OpenGL;
-using System.Runtime.InteropServices;
-using static OpenGL.Enums;
-using RU = ESP.Utils.RenderUtils;
-
-namespace ESP.Structs;
+﻿namespace ESP;
 public unsafe struct GLTarget : IDisposable
 {
-    private const int DATA_SIZE = 16;
-    private const int DATA_SIZE_P2 = DATA_SIZE * DATA_SIZE;
-    private const int FLOAT_SIZE = sizeof(float);
-    private const int FLOAT_DATA_SIZE = DATA_SIZE * FLOAT_SIZE;
+    const int DATA_SIZE = 16;
+    const int DATA_SIZE_P2 = DATA_SIZE * DATA_SIZE;
+    const int FLOAT_SIZE = sizeof(float);
+    const int FLOAT_DATA_SIZE = DATA_SIZE * FLOAT_SIZE;
 
     public GLTarget()
     {
@@ -19,32 +12,17 @@ public unsafe struct GLTarget : IDisposable
         Modelview = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, 16);
     }
 
-    public bool IsValid;
-
-    public float* Projection;
-    public float* Modelview;
-
-    public void DrawDuring(TargetOpt options)
-    {
-        if (options.Chams.Enabled)
-        {
-            if (options.Chams.Colored)
-                RU.Color(options.Chams.Color);
-
-            if (options.Chams.ThroughWall)
-                GL.PolygonOffset(1, 1100000);
-        }
-    }
+    public float* Projection, Modelview;
 
     public void DrawOver(TargetOpt options)
     {
         GL.MatrixMode(Matrix.Projection);
-        GL.Interface.glLoadMatrixf(Projection);
+        GL.LoadMatrixf(Projection);
 
         GL.MatrixMode(Matrix.Modelview);
-        GL.Interface.glLoadMatrixf(Modelview);
+        GL.LoadMatrixf(Modelview);
 
-        float dist = RU.GetDistance(0, 0, 0, Modelview[12], Modelview[13], Modelview[14]);
+        float dist = RU.GetDistance(Modelview[12], Modelview[13], Modelview[14]);
 
         if (options.Box.L.Enabled)
         {
@@ -68,7 +46,7 @@ public unsafe struct GLTarget : IDisposable
         }
     }
 
-    private static void SetColor(Color baseColor, float dist)
+    static void SetColor(Color baseColor, float dist)
     {
         if (baseColor.Equals(Color.RGBColor))
             RU.Color(ColorUtils.GetRGB());
