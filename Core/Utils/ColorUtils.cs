@@ -1,4 +1,6 @@
-﻿namespace ESP.Utils;
+﻿using Core;
+
+namespace Core.Utils;
 public static class ColorUtils
 {
     const int COUNT_PHASE = 3;
@@ -38,7 +40,7 @@ public static class ColorUtils
     public static Color GetDistColor(float max, float value)
     {
         float perc = value / max;
-        float a = Math.Clamp((float)(1 - (value / (max * (1 / 0.5)))), .7f, 1);
+        float a = Math.Clamp((float)(1 - value / (max * (1 / 0.5))), .7f, 1);
         float r = Math.Clamp(perc <= .5f ? 1 : 1 - (perc - .5f) * 2, 0, 1),
               g = Math.Clamp(perc <= .5f ? perc * 2 : 1, 0, 1);
 

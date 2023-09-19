@@ -12,15 +12,4 @@
     </ClCompile>
     <ClCompile Include="DllMain.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Libraries">
-      <UniqueIdentifier>{b882c57d-657c-4bc9-a292-76ca5150b724}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Structs">
-      <UniqueIdentifier>{ebf53498-71d9-4be5-8d35-b134693ab7b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hooks">
-      <UniqueIdentifier>{0bad8296-44df-47ac-a836-5e4ed763ad73}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
 </Project>

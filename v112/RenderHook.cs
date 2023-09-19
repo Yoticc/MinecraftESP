@@ -1,21 +1,40 @@
-﻿namespace ESP;
-public unsafe class RenderHook
+﻿using Core;
+using Hook;
+using OpenGL;
+using System.Runtime.InteropServices;
+using static OpenGL.Enums;
+using static Core.Utils.Interop;
+
+namespace v112;
+public unsafe class RenderHook : AbstractRenderHook
 {
-    public static void Attach(Render render)
+    public RenderHook(Render render) : base(render)
     {
         Render = render;
 
         hooks = new HookFunction[]
         {
-            EnableHook = new HookFunction(GL.Interface.glEnable, (delegate* unmanaged<Cap, void>)&glEnable).Attach(),
-            DisableHook = new HookFunction(GL.Interface.glDisable, (delegate* unmanaged<Cap, void>)&glDisable).Attach(),
-            BeginHook = new HookFunction(GL.Interface.glBegin, (delegate* unmanaged<Mode, void>)&glBegin).Attach(),
-            OrthoHook = new HookFunction(GL.Interface.glOrtho, (delegate* unmanaged<double, double, double, double, double, double, void>)&glOrtho).Attach(),
-            TranslateFHook = new HookFunction(GL.Interface.glTranslatef, (delegate* unmanaged<float, float, float, void>)&glTrasnlateF).Attach(),
-            ScaleFHook = new HookFunction(GL.Interface.glScalef, (delegate* unmanaged<float, float, float, void>)&glScaleF).Attach(),
+            EnableHook = new HookFunction(GL.Interface.glEnable, (delegate* unmanaged<Cap, void>)&glEnable),
+            DisableHook = new HookFunction(GL.Interface.glDisable, (delegate* unmanaged<Cap, void>)&glDisable),
+            BeginHook = new HookFunction(GL.Interface.glBegin, (delegate* unmanaged<Mode, void>)&glBegin),
+            OrthoHook = new HookFunction(GL.Interface.glOrtho, (delegate* unmanaged<double, double, double, double, double, double, void>)&glOrtho),
+            TranslateFHook = new HookFunction(GL.Interface.glTranslatef, (delegate* unmanaged<float, float, float, void>)&glTrasnlateF),
+            ScaleFHook = new HookFunction(GL.Interface.glScalef, (delegate* unmanaged<float, float, float, void>)&glScaleF),
 
-            SwapBuffersHook = new HookFunction(GetProcAddress(GL.Interface.Base, "wglSwapBuffers"), (delegate* unmanaged<nint, void>)&wglSwapBuffers).Attach()
+            SwapBuffersHook = new HookFunction(GetProcAddress(GL.Interface.Base, "wglSwapBuffers"), (delegate* unmanaged<nint, void>)&wglSwapBuffers)
         };
+    }
+
+    public override void Attach()
+    {
+        foreach (var hook in hooks)
+            hook.Attach();
+    }
+
+    public override void Detach()
+    {
+        foreach (var hook in hooks)
+            hook.Detach();
     }
 
     public static Render Render;
@@ -65,7 +84,7 @@ public unsafe class RenderHook
             Ortho(left, right, bottom, top, zNear, zFar);
     }
 
-    [UnmanagedCallersOnly]
+    [UnmanagedCallersOnly]  
     static void glTrasnlateF(float x, float y, float z)
     {
         if (Render.TranslateF(ref x, ref y, ref z))
@@ -84,11 +103,5 @@ public unsafe class RenderHook
     {
         SwapBuffers(hdc);
         Render.SwapBuffers(hdc);
-    }
-
-    public static void Detach()
-    {
-        foreach (var function in hooks)
-            function.Detach();
     }
 }

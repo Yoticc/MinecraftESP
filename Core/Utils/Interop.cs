@@ -1,4 +1,4 @@
-﻿namespace ESP.Utils;
+﻿namespace Core.Utils;
 
 #region Struct
 [StructLayout(LayoutKind.Sequential)]
@@ -229,42 +229,42 @@ public unsafe class Interop
     const string user = "user32";
     const string kernel = "kernel32";
 
-    [DllImport(user, CharSet = CharSet.Auto)] public static extern 
+    [DllImport(user, CharSet = CharSet.Auto)] public static extern
         int MessageBox(nint hWnd, string text, string caption, uint type);
 
-    [DllImport(user)] public static extern 
+    [DllImport(user)] public static extern
         ushort GetAsyncKeyState(Keys key);
 
-    [DllImport(user)] public static extern 
+    [DllImport(user)] public static extern
         bool GetCursorInfo(ref CURSORINFO pci);
 
-    [DllImport(user)] public static extern 
+    [DllImport(user)] public static extern
         nint GetForegroundWindow();
 
 
-    [DllImport(kernel)] public static extern 
+    [DllImport(kernel)] public static extern
         uint GetTickCount();
 
-    [DllImport(kernel, CharSet = CharSet.Unicode)] public static extern 
-        nint GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)] string lpModuleName);
+    [DllImport(kernel, CharSet = CharSet.Unicode)] public static extern
+        nint GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)] string moduleName);
 
-    [DllImport(kernel, CharSet = CharSet.Ansi, ExactSpelling = true)] public static extern 
+    [DllImport(kernel, CharSet = CharSet.Ansi, ExactSpelling = true)] public static extern
         nint GetProcAddress(nint hModule, string procName);
 
-    [DllImport(kernel, CharSet = CharSet.Ansi)] public static extern 
-        nint LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport(kernel, CharSet = CharSet.Ansi)] public static extern
+        nint LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string fileName);
 
-    [DllImport(kernel)] public static extern 
+    [DllImport(kernel)] public static extern
         nint GetCurrentThread();
 
-    [DllImport(kernel)] public static extern 
-        nint LoadLibraryEx(string lpFileName, nint hReservedNull, LoadLibraryFlags dwFlags);
+    [DllImport(kernel)] public static extern
+        nint LoadLibraryEx(string fileName, nint reservedNull, LoadLibraryFlags flags);
 
-    [DllImport(kernel)] public static extern 
+    [DllImport(kernel)] public static extern
         void Sleep(uint dwMilliseconds);
 
-    [DllImport(kernel, CharSet = CharSet.Auto)] public static extern 
-        uint CreateThread(uint* lpThreadAttributes, uint dwStackSize, ThreadStart lpStartAddress, uint* lpParameter, uint dwCreationFlags, out uint lpThreadId);
+    [DllImport(kernel, CharSet = CharSet.Auto)] public static extern
+        uint CreateThread(uint* threadAttributes, uint stackSize, ThreadStart startAddress, uint* parameter, uint creationFlags, out uint threadId);
     #endregion
     #region Method
     static int counter = 0;
@@ -275,6 +275,7 @@ public unsafe class Interop
     }
 
     public static int MessageBox(string text) => MessageBox(0, text, "", 0);
+    public static int MessageBox(string caption, string text) => MessageBox(0, text, caption, 0);
 
     public static void* GetProcAddressPtr(nint hModule, [MarshalAs(UnmanagedType.LPWStr)] string lpModuleName) => (void*)GetProcAddress(hModule, lpModuleName);
     public static T* GetProcAddressPtr<T>(nint hModule, [MarshalAs(UnmanagedType.LPWStr)] string lpModuleName) where T : unmanaged => (T*)GetProcAddress(hModule, lpModuleName);

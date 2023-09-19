@@ -9,7 +9,8 @@
 	  <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
 	  <PublishAot>true</PublishAot>
 	  <StripSymbols>true</StripSymbols>
-	  <RootNamespace>ESP</RootNamespace>
+	  <RootNamespace>Core</RootNamespace>
+	  <AssemblyName>MinecraftESP</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Yotic.Hook" Version="1.1.1" />
-    <PackageReference Include="Yotic.Memory" Version="1.0.0" />
-    <PackageReference Include="Yotic.OpenGL" Version="1.1.0" />
+    <ProjectReference Include="..\v112\v112.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\vAZ18\vAZ18.csproj" />
   </ItemGroup>
 
 </Project>

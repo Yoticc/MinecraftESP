@@ -1,7 +1,7 @@
-﻿namespace ESP;
-public class Settings
+﻿namespace Core;
+public class Targets
 {
-    public Settings()
+    public Targets()
     {
         AsList = new List<TargetOpt>()
         {
@@ -14,8 +14,6 @@ public class Settings
         };
     }
 
-    public bool NoLight, NoBackground, NoFog, AntiCullFace, WorldChams, CaveViewer, RainbowText, ESP = true;
-
     static AABB chestBox = new AABB(.0625, .0625, .5, .9375, .9375, .9375 + .5 - .0625);
     static AABB largeChestBox = new AABB(.0625, .0625, .5, .9375 + 1, .9375, .9375 + .5 - .0625);
     static AABB playerBox = new AABB(-.3, 1, -.3, .3, -.8, .3);
@@ -26,7 +24,7 @@ public class Settings
     public List<TargetOpt> AsList { get; init; }
 
     public TargetOpt Chest = new TargetOpt(
-        true, 
+        true,
         new Box(
             new LBox(true, new CAABB(new Color(.8, .5, 0, .5), chestBox), 1.3f),
             new PBox(true, new CAABB(new Color(.8, .5, 0, .09), chestBox))

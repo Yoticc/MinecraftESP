@@ -1,26 +1,26 @@
-﻿namespace ESP.Utils;
+﻿namespace Core.Utils;
 public class RenderUtils
 {
     public static void Push()
     {
         GL.BlendFunc(Factor.SrcAlpha, Factor.OneMinusSrcAlpha);
 
-        RH.Enable(Cap.LineSmooth);
-        RH.Disable(Cap.Texture2D);
-        RH.Enable(Cap.CullFace);
-        RH.Disable(Cap.DepthTest);
+        GL.Enable(Cap.LineSmooth);
+        GL.Disable(Cap.Texture2D);
+        GL.Enable(Cap.CullFace);
+        GL.Disable(Cap.DepthTest);
     }
 
     public static void Pop()
     {
-        RH.Enable(Cap.DepthTest);
-        RH.Enable(Cap.Texture2D);
-        RH.Disable(Cap.LineSmooth);
+        GL.Enable(Cap.DepthTest);
+        GL.Enable(Cap.Texture2D);
+        GL.Disable(Cap.LineSmooth);
     }
 
     public static void DrawOutlineAABB(AABB bb)
     {
-        RH.Begin(Mode.Lines);
+        GL.Begin(Mode.Lines);
 
         GL.Vertex3d(bb.MinX, bb.MinY, bb.MinZ);
         GL.Vertex3d(bb.MaxX, bb.MinY, bb.MinZ);
@@ -52,7 +52,7 @@ public class RenderUtils
 
     public static void DrawSolidAABB(AABB bb)
     {
-        RH.Begin(Mode.Quads);
+        GL.Begin(Mode.Quads);
 
         GL.Vertex3d(bb.MinX, bb.MinY, bb.MinZ);
         GL.Vertex3d(bb.MaxX, bb.MinY, bb.MinZ);
@@ -84,7 +84,7 @@ public class RenderUtils
 
     public static void DrawTracer(float fx, float fy, float fz, float tx, float ty, float tz)
     {
-        RH.Begin(Mode.Lines);
+        GL.Begin(Mode.Lines);
         GL.Vertex3f(fx, fy, fz);
         GL.Vertex3f(tx, ty, tz);
         GL.End();

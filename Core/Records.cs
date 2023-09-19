@@ -1,4 +1,4 @@
-﻿namespace ESP;
+﻿namespace Core;
 
 public record struct Tracer(bool Enabled, Color Color, float LineWidth, float OffsetX = 0, float OffsetY = 0, float OffsetZ = 0);
 public record struct Box(LBox L = default, PBox P = default);

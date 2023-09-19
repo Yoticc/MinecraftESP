@@ -1,15 +1,10 @@
-﻿namespace ESP;
+﻿namespace Core;
 public unsafe struct GLTarget : IDisposable
 {
-    const int DATA_SIZE = 16;
-    const int DATA_SIZE_P2 = DATA_SIZE * DATA_SIZE;
-    const int FLOAT_SIZE = sizeof(float);
-    const int FLOAT_DATA_SIZE = DATA_SIZE * FLOAT_SIZE;
-
     public GLTarget()
     {
-        Projection = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, 16);
-        Modelview = (float*)NativeMemory.AlignedAlloc(FLOAT_DATA_SIZE, 16);
+        Projection = Alloc<float>(16);
+        Modelview = Alloc<float>(16);
     }
 
     public float* Projection, Modelview;
@@ -55,9 +50,5 @@ public unsafe struct GLTarget : IDisposable
         else RU.Color(baseColor);
     }
 
-    public void Dispose()
-    {
-        NativeMemory.AlignedFree(Projection);
-        NativeMemory.AlignedFree(Modelview);
-    }
+    public void Dispose() => Free(Projection, Modelview);
 }

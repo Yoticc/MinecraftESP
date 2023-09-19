@@ -1,4 +1,4 @@
-﻿namespace ESP.Utils;
+﻿namespace Core;
 public unsafe static class BindManager
 {
     static BindManager()
