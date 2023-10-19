@@ -1,4 +1,6 @@
-﻿namespace Core.Utils;
+﻿using Microsoft.Win32.SafeHandles;
+
+namespace Core.Utils;
 
 #region Struct
 [StructLayout(LayoutKind.Sequential)]
@@ -241,6 +243,11 @@ public unsafe class Interop
     [DllImport(user)] public static extern
         nint GetForegroundWindow();
 
+    [DllImport(kernel, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)] public static extern 
+        nint CreateFileW(string fileName, uint desAccess, uint shareMode, nint securityAttb, uint creationDispose, uint flagsAndAttb, nint templateFile);
+
+    [DllImport(kernel)] [return: MarshalAs(UnmanagedType.Bool)] public static extern 
+        bool AllocConsole();
 
     [DllImport(kernel)] public static extern
         uint GetTickCount();
@@ -304,5 +311,23 @@ public unsafe class Interop
         nint procWindow = Process.GetCurrentProcess().MainWindowHandle;
         return activeWindow == procWindow;
     }
+
+    public static FileStream CreateFileStream(string name, uint desAccess, uint shareMode, FileAccess fileAccess)
+    {
+        var fileHandle = CreateFileW(name, desAccess, shareMode, 0, (uint)FileMode.Open, (uint)FileAttributes.Normal, 0);
+        var file = new SafeFileHandle(fileHandle, true);
+        return !file.IsInvalid ? new FileStream(file, fileAccess) : null;
+    }   
+
+    public static StreamWriter CreateOutStream() => new(CreateFileStream("CONOUT$", GENERIC_WRITE, FILE_SHARE_WRITE, FileAccess.Write)) { AutoFlush = true };
+
+    public static StreamReader CreateInStream() => new(CreateFileStream("CONIN$", GENERIC_READ, FILE_SHARE_READ, FileAccess.Read));
+
+    const uint
+        GENERIC_WRITE = 0x40000000,
+        GENERIC_READ = 0x80000000,
+        FILE_SHARE_READ = 1,
+        FILE_SHARE_WRITE = 2;
+
     #endregion
 }

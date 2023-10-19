@@ -1,4 +1,4 @@
-﻿namespace Core;
+﻿namespace Core.Utils;
 public unsafe class ConfigFile
 {
     public static Config* GetConfig()
@@ -22,7 +22,7 @@ public unsafe class ConfigFile
             return Config.NewConfig(new());
         }
     }
-    
+
 
     public static bool IsExists() => File.Exists(ConfigPath);
 
@@ -36,23 +36,23 @@ public unsafe class ConfigFile
         public Keys* Binds;
         public bool* EnableState;
 
-        public MinecraftVersion TargetVersion = MinecraftVersion.v112;
-        public Keys NoLightBind = Keys.NumPad0, NoBackgroundBind = Keys.NumPad1, NoFogBind = Keys.NumPad2, AntiCullFaceBind = Keys.NumPad3, WorldChamsBind = Keys.NumPad4, CaveViewerBind = Keys.NumPad5, RainbowTextBind = Keys.NumPad6, ESPBind = Keys.NumPad7;
-        public bool NoLightEnabled, NoBackgroundEnabled, NoFogEnabled, AntiCullFaceEnabled, WorldChamsEnabled, CaveViewerEnabled, RainbowTextEnabled, ESPEnabled = true;
+        public MinecraftVersion TargetVersion = MinecraftVersion.v115;
+        public Keys NoLightBind = Keys.NumPad0, NoBackgroundBind = Keys.NumPad1, NoFogBind = Keys.NumPad2, CaveViewerBind = Keys.NumPad3, PlayerESPBind = Keys.NumPad4, ChestESPBind = Keys.NumPad5, SignESPBind = Keys.NumPad6, ItemESPBind = Keys.NumPad7;
+        public bool NoLightEnabled, NoBackgroundEnabled, NoFogEnabled, CaveViewerEnabled, PlayerESPEnabled = true, ChestESPEnabled = true, SignESPEnabled = true, ItemESPEnabled = true;
 
         // Oh Allah, today I did big HARAM. I wrote this code, it's the worst code I have written in the last few years. Forgive me for my sins ✡:big_booty_latina_in_hijab:🙏🏼
-        static string[] hackNames = { "NoLight", "NoBackground", "NoFog", "AntiCullFace", "WorldChams", "CaveViewer", "RainbowText", "ESP" };
+        static string[] hackNames = { "NoLight", "NoBackground", "NoFog", "CaveViewer", "PlayerESP", "ChestESP", "SignESP", "ItemESP" };
         public string Serialize()
         {
             var binds = Binds;
             var enableState = EnableState;
-            return 
+            return
 @$"===== README =====
-Github - https://github.com/MrYotic/MinecraftESP
+Github - https://github.com/Yoticc/MinecraftESP
 UnKnoWnCheaTs - https://www.unknowncheats.me/forum/minecraft/576534-esp-naot.html
 
-Available versions - [v112, v119]
-Available keys for binds - https://github.com/MrYotic/MinecraftESP/blob/master/Core/Utils/Interop.cs
+Available versions - [{string.Join(' ', Enum.GetNames<MinecraftVersion>())}]
+Available keys for binds - https://github.com/Yoticc/MinecraftESP/blob/master/Core/Utils/Interop.cs
 
 ===== Config =====
 Target minecraft version: {TargetVersion}
@@ -83,7 +83,7 @@ Target minecraft version: {TargetVersion}
                     config->EnableState[i] = bool.Parse(lines[i + ENABLE_STATES_LINE][1]);
 
                 return config;
-            } 
+            }
             catch
             {
                 MessageBox("You're stupid shit, why the hell did you change config file incorrectly, as if it's difficult to do, this is the task of a 9-year-old boy, and you, a 21-year-old man, couldn't cope with it.\n" +
@@ -98,7 +98,7 @@ Target minecraft version: {TargetVersion}
         public static Config* NewConfig(Config from)
         {
             var ptr = New(from);
-            ptr->Binds = (Keys*)(((byte*)ptr) + sizeof(Keys*) + sizeof(bool*) + sizeof(MinecraftVersion));
+            ptr->Binds = (Keys*)((byte*)ptr + sizeof(Keys*) + sizeof(bool*) + sizeof(MinecraftVersion));
             ptr->EnableState = (bool*)((byte*)ptr->Binds + sizeof(Keys) * STATES);
             return ptr;
         }

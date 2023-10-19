@@ -1,4 +1,4 @@
-﻿namespace Core;
+﻿namespace Core.Utils;
 public unsafe static class BindManager
 {
     static BindManager()
@@ -15,7 +15,7 @@ public unsafe static class BindManager
 
     public static List<Bind> Binds { get; set; } = new List<Bind>();
 
-    public static void Add(IList<Bind> binds) => Binds.AddRange(binds);
+    public static void Add(params Bind[] binds) => Binds.AddRange(binds);
 }
 
 public record Bind(Keys Key, Action Func);

@@ -13,6 +13,10 @@
 	  <AssemblyName>MinecraftESP</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="obj\**" />
     <EmbeddedResource Remove="obj\**" />
@@ -20,9 +24,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\v112\v112.csproj" />
+    <PackageReference Include="Yotic.OpenGL" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\vAZ18\vAZ18.csproj" />
+    <ProjectReference Include="..\v115\v115.csproj" />
+    <ProjectReference Include="..\v19\v19.csproj" />
+    <ProjectReference Include="..\v1\v1.csproj" />
+    <ProjectReference Include="..\vCristalix\vCristalix.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Cetours">
+      <HintPath>..\..\Cetours\Cetours\bin\Debug\net7.0\Cetours.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

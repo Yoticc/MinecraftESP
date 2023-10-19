@@ -11,13 +11,10 @@ public unsafe struct GLTarget : IDisposable
 
     public void DrawOver(TargetOpt options)
     {
-        GL.MatrixMode(Matrix.Projection);
-        GL.LoadMatrixf(Projection);
-
-        GL.MatrixMode(Matrix.Modelview);
-        GL.LoadMatrixf(Modelview);
-
-        float dist = RU.GetDistance(Modelview[12], Modelview[13], Modelview[14]);
+        GL.LoadMatrixf(Matrix.Projection, Projection);
+        GL.LoadMatrixf(Matrix.Modelview, Modelview);
+            
+        var dist = RU.GetDistance(Modelview[12], Modelview[13], Modelview[14]);
 
         if (options.Box.L.Enabled)
         {

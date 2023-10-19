@@ -7,6 +7,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="bin\**" />
     <Compile Remove="obj\**" />
@@ -18,8 +22,14 @@
 
   <ItemGroup>
     <PackageReference Include="Yotic.Hook" Version="1.1.1" />
-    <PackageReference Include="Yotic.Memory" Version="1.0.0" />
-    <PackageReference Include="Yotic.OpenGL" Version="1.1.1" />
+    <PackageReference Include="Yotic.Memory.Extensions" Version="1.0.3" />
+    <PackageReference Include="Yotic.OpenGL" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Cetours">
+      <HintPath>..\..\Cetours\Cetours\bin\Debug\net7.0\Cetours.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
