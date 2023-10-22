@@ -14,11 +14,11 @@ public unsafe class RenderHook : AbstractRenderHook
         Render = render;
 
         SetHooks(
-            //new(GL.Interface->glEnable, (delegate* unmanaged<Cap, void>)&glEnable),
-            //new(GL.Interface->glDisable, (delegate* unmanaged<Cap, void>)&glDisable),
-            //new(GL.Interface->glOrtho, (delegate* unmanaged<double, double, double, double, double, double, void>)&glOrtho),
-            //new(GL.Interface->glTranslatef, (delegate* unmanaged<float, float, float, void>)&glTrasnlateF),
-            //new(GL.Interface->glScalef, (delegate* unmanaged<float, float, float, void>)&glScaleF),
+            new(GL.Interface->glEnable, (delegate* unmanaged<Cap, void>)&glEnable),
+            new(GL.Interface->glDisable, (delegate* unmanaged<Cap, void>)&glDisable),
+            new(GL.Interface->glOrtho, (delegate* unmanaged<double, double, double, double, double, double, void>)&glOrtho),
+            new(GL.Interface->glTranslatef, (delegate* unmanaged<float, float, float, void>)&glTrasnlateF),
+            new(GL.Interface->glScalef, (delegate* unmanaged<float, float, float, void>)&glScaleF),
 
             SwapBuffersHook = new(GetProcAddress(GL.Interface->Module, "wglSwapBuffers"), (delegate* unmanaged<nint, void>)&wglSwapBuffers)
         );
@@ -65,9 +65,7 @@ public unsafe class RenderHook : AbstractRenderHook
     [Native]
     public static void wglSwapBuffers(nint hdc)
     {
-        Logger.WriteLine("ah-s");
         ((delegate* unmanaged<nint, void>)SwapBuffersHook)(hdc);
         Render.SwapBuffers(hdc);
-        Logger.WriteLine("ah-e");
     }
 }

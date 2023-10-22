@@ -1,8 +1,8 @@
 ﻿namespace Core.Utils;
 public static class Logger
 {
-    public static string Path { get; set; }
-    public static Encoding Encoding { get; set; } = Encoding.UTF8;
+    public static string Path;
+    public static Encoding Encoding = Encoding.UTF8;
 
     static FileStream stream;
 

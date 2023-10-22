@@ -14,13 +14,15 @@ public unsafe class Render : DefaultRender
             SetTarget(Targets.Chest, 0, .0625f, -.4375f);
         else if (vec == (1, .4375, .9375))
             SetTarget(Targets.LargeChest, 0, .0625f, -.4375f);
+        else if (vec == (0, 0.2, 0))
+            SetTarget(Targets.Player);
         else
             SetTarget(Targets.Other);
 
         return true;
     }
 
-    public bool ScaleF((double x, double y, double z) vec)
+    public bool ScaleF((float x, float y, float z) vec)
     {
         if (vec == (.9375, .9375, .9375))
             SetTarget(Targets.Player, 0, -1, 0);

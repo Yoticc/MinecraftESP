@@ -51,7 +51,8 @@ public unsafe class ConfigFile
 Github - https://github.com/Yoticc/MinecraftESP
 UnKnoWnCheaTs - https://www.unknowncheats.me/forum/minecraft/576534-esp-naot.html
 
-Available versions - [{string.Join(' ', Enum.GetNames<MinecraftVersion>())}]
+Available versions:
+ {string.Join("\n ", Enum.GetValues<MinecraftVersion>().Select(v => $"{v} - {MinecraftVersionInfo.Description[v]}"))}]
 Available keys for binds - https://github.com/Yoticc/MinecraftESP/blob/master/Core/Utils/Interop.cs
 
 ===== Config =====
@@ -65,12 +66,11 @@ Target minecraft version: {TargetVersion}
 ";
         }
 
+        static int MINECRAFT_VERSION_LINE = 8 + Enum.GetValues<MinecraftVersion>().Length;
+        static int KEYBINDS_LINE = MINECRAFT_VERSION_LINE + 3;
+        static int ENABLE_STATES_LINE = KEYBINDS_LINE + STATES + 2;
         public static Config* Deserialize(string data)
         {
-            const int MINECRAFT_VERSION_LINE = 8;
-            const int KEYBINDS_LINE = MINECRAFT_VERSION_LINE + 3;
-            const int ENABLE_STATES_LINE = KEYBINDS_LINE + STATES + 2;
-
             try
             {
                 var lines = data.Replace(" ", "").Split('\n').Select(l => l.Split(':')).ToArray();

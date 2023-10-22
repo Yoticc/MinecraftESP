@@ -20,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Yotic.Hook" Version="2.0.2" />
 	  <PackageReference Include="Yotic.OpenGL" Version="1.2.0" />
 	</ItemGroup>
 
