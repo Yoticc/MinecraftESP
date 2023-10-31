@@ -15,5 +15,7 @@ NumPad5 - Cave Viewer\
 NumPad6 - Rainbow Text\
 NumPad7 - ESP
 
+For build - dotnet publish -r win-x64 -c Release
+
 SS:\
 ![image](https://user-images.githubusercontent.com/55879406/227733763-a168a6be-3b8e-4b5d-9d3d-5c50dd734b1c.png)
