@@ -1,18 +1,12 @@
-﻿using Hook;
-using Core.Abstracts;
+﻿using Core.Abstracts;
 using Core.Utils;
-using Hook;
-using Microsoft.Win32.SafeHandles;
-using OpenGL;
+using Memory;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
 using static Core.Globals;
+using static Core.Utils.Interop;
 
 using Log = Core.Utils.Logger;
 using Native = System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute;
-using System.Reflection;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Core;
 public unsafe class EntryPoint
@@ -25,24 +19,13 @@ public unsafe class EntryPoint
         Log.WriteLine($"Injected at {DateTime.Now}");
         Config = ConfigFile.GetConfig();
 
-        var render = new Dictionary<MinecraftVersion, Func<AbstractRenderHook>>() {
+        new Dictionary<MinecraftVersion, Func<AbstractRenderHook>>() {
             { MinecraftVersion.v1, () => new v1.RenderHook(new()) },
             { MinecraftVersion.v19, () => new v19.RenderHook(new()) },
             { MinecraftVersion.v115, () => new v115.RenderHook(new()) },
             { MinecraftVersion.Cristalix, () => new vCristalix.RenderHook(new()) }
-        }[Config->TargetVersion]();
+        }[Config->TargetVersion]().Attach();
 
-        render.Attach();
-
-        InitBinds();
-    }
-
-    static void InitBinds()
-    {
-        for (int i = 0; i < ConfigFile.Config.STATES; i++)
-        {
-            int index = i;
-            BindManager.Add(new Bind(Config->Binds[i], () => Config->EnableState[index] = !Config->EnableState[index]));
-        }
+        BindManager.Add(Enumerable.Range(0, ConfigFile.Config.STATES).Select(i => new Bind(Config->Binds[i], Config->EnableState + i)));        
     }
 }

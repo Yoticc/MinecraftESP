@@ -13,8 +13,10 @@ public unsafe struct GLTarget : IDisposable
     {
         GL.LoadMatrixf(Matrix.Projection, Projection);
         GL.LoadMatrixf(Matrix.Modelview, Modelview);
-            
-        var dist = RU.GetDistance(Modelview[12], Modelview[13], Modelview[14]);
+
+        var (x, y, z) = (Modelview[12], Modelview[13], Modelview[14]);
+
+        var dist = RU.GetDistance(x, y, z);
 
         if (options.Box.L.Enabled)
         {
@@ -34,7 +36,7 @@ public unsafe struct GLTarget : IDisposable
             GL.LoadIdentity();
             GL.LineWidth(options.Tracer.LineWidth);
             SetColor(options.Tracer.Color, dist);
-            RU.DrawTracer(0, 0, -0.1f, Modelview[12] + options.Tracer.OffsetX, Modelview[13] + options.Tracer.OffsetY, Modelview[14] + options.Tracer.OffsetZ);
+            RU.DrawTracer(0, 0, -0.1f, x + options.Tracer.OffsetX, y + options.Tracer.OffsetY, z + options.Tracer.OffsetZ);
         }
     }
 

@@ -258,11 +258,11 @@ public unsafe class Interop
     [DllImport(kernel, CharSet = CharSet.Ansi, ExactSpelling = true)] public static extern
         nint GetProcAddress(nint hModule, string procName);
 
-    [DllImport(kernel, CharSet = CharSet.Ansi)] public static extern
-        nint LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string fileName);
-
     [DllImport(kernel)] public static extern
         nint GetCurrentThread();
+
+    [DllImport(kernel, CharSet = CharSet.Unicode)] public static extern 
+        nint LoadLibrary(string lpFileName);
 
     [DllImport(kernel)] public static extern
         nint LoadLibraryEx(string fileName, nint reservedNull, LoadLibraryFlags flags);

@@ -8,7 +8,7 @@ using Hook;
 namespace v115;
 public unsafe class RenderHook : AbstractRenderHook
 {
-    public RenderHook(Render render) : base(render)
+    public RenderHook(Render render)
     {
         Render = render;
 

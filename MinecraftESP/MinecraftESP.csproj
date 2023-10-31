@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Yotic.Hook" Version="2.0.2" />
+    <PackageReference Include="Yotic.Memory.Extensions" Version="1.0.6" />
     <PackageReference Include="Yotic.OpenGL" Version="1.2.0" />
   </ItemGroup>
 
@@ -34,6 +34,15 @@
     <ProjectReference Include="..\v19\v19.csproj" />
     <ProjectReference Include="..\v1\v1.csproj" />
     <ProjectReference Include="..\vCristalix\vCristalix.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Cetours">
+      <HintPath>..\..\Cetours\Cetours\bin\x64\Release\net7.0\Cetours.dll</HintPath>
+    </Reference>
+    <Reference Include="Hook">
+      <HintPath>..\..\Hook\Hook\bin\x64\Release\net7.0\Hook.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

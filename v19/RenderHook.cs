@@ -5,15 +5,19 @@ using Core.Abstracts;
 using OpenGL;
 using Hook;
 using Core.Utils;
+using System.Runtime.InteropServices;
+using Cetours.Assembler;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace v19;
 public unsafe class RenderHook : AbstractRenderHook
 {
-    public RenderHook(Render render) : base(render)
+    public RenderHook(Render render)
     {
         Render = render;
 
-        SetHooks(
+        SetHooks(            
             new(GL.Interface->glEnable, (delegate* unmanaged<Cap, void>)&glEnable),
             new(GL.Interface->glDisable, (delegate* unmanaged<Cap, void>)&glDisable),
             new(GL.Interface->glOrtho, (delegate* unmanaged<double, double, double, double, double, double, void>)&glOrtho),

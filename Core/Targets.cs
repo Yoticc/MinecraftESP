@@ -57,7 +57,7 @@ public class Targets
             new PBox(false, new(new(.6, .5, 0, .2), itemBox))
         )),
 
-    Other = new(true,
+    Other = new(false,
         new Box(
             new LBox(true, new(new(1, 1, 1, .75), otherBox), .7f)
         ));

@@ -23,7 +23,6 @@ public unsafe class ConfigFile
         }
     }
 
-
     public static bool IsExists() => File.Exists(ConfigPath);
 
     [StructLayout(LayoutKind.Sequential)]
@@ -36,7 +35,7 @@ public unsafe class ConfigFile
         public Keys* Binds;
         public bool* EnableState;
 
-        public MinecraftVersion TargetVersion = MinecraftVersion.v115;
+        public MinecraftVersion TargetVersion = MinecraftVersion.v19;
         public Keys NoLightBind = Keys.NumPad0, NoBackgroundBind = Keys.NumPad1, NoFogBind = Keys.NumPad2, CaveViewerBind = Keys.NumPad3, PlayerESPBind = Keys.NumPad4, ChestESPBind = Keys.NumPad5, SignESPBind = Keys.NumPad6, ItemESPBind = Keys.NumPad7;
         public bool NoLightEnabled, NoBackgroundEnabled, NoFogEnabled, CaveViewerEnabled, PlayerESPEnabled = true, ChestESPEnabled = true, SignESPEnabled = true, ItemESPEnabled = true;
 
@@ -52,7 +51,7 @@ Github - https://github.com/Yoticc/MinecraftESP
 UnKnoWnCheaTs - https://www.unknowncheats.me/forum/minecraft/576534-esp-naot.html
 
 Available versions:
- {string.Join("\n ", Enum.GetValues<MinecraftVersion>().Select(v => $"{v} - {MinecraftVersionInfo.Description[v]}"))}]
+ {string.Join("\n ", MinecraftVersionInfo.AvaibleVersions.Select(v => $"{v} - {MinecraftVersionInfo.Description[v]}"))}]
 Available keys for binds - https://github.com/Yoticc/MinecraftESP/blob/master/Core/Utils/Interop.cs
 
 ===== Config =====
@@ -66,7 +65,7 @@ Target minecraft version: {TargetVersion}
 ";
         }
 
-        static int MINECRAFT_VERSION_LINE = 8 + Enum.GetValues<MinecraftVersion>().Length;
+        static int MINECRAFT_VERSION_LINE = 8 + MinecraftVersionInfo.AvaibleVersions.Length;
         static int KEYBINDS_LINE = MINECRAFT_VERSION_LINE + 3;
         static int ENABLE_STATES_LINE = KEYBINDS_LINE + STATES + 2;
         public static Config* Deserialize(string data)

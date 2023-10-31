@@ -1,15 +1,11 @@
 ﻿namespace Core.Abstracts;
 public unsafe abstract class AbstractRenderHook
 {
-    public AbstractRenderHook(AbstractRender render) => Render = render;
-
-    public AbstractRender Render;
-
     protected HookFunction[] hooks;
 
     protected void SetHooks(params HookFunction[] functions) => hooks = functions;
 
-    public void Attach()
+    public AbstractRenderHook Attach()
     {
         foreach (var hook in hooks)
         {
@@ -23,5 +19,7 @@ public unsafe abstract class AbstractRenderHook
                     break;
                 }
         }
+
+        return this;
     }
 }   

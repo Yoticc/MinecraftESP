@@ -6,16 +6,22 @@ public unsafe static class BindManager
         StartThread(() =>
         {
             while (true)
+            {
                 foreach (Bind bind in Binds)
                     if ((GetAsyncKeyState(bind.Key) & 1) == 1)
                         if (IsCursorHide() && IsWindowActive())
                             bind.Func();
+                Thread.Sleep(5);
+            }
         });
     }
 
-    public static List<Bind> Binds { get; set; } = new List<Bind>();
+    public static List<Bind> Binds { get; set; } = new();
 
-    public static void Add(params Bind[] binds) => Binds.AddRange(binds);
+    public static void Add(IEnumerable<Bind> binds) => Binds.AddRange(binds);
 }
 
-public record Bind(Keys Key, Action Func);
+public unsafe record Bind(Keys Key, Action Func)
+{
+    public Bind(Keys key, bool* ptr) : this(key, () => *ptr = !*ptr) { }
+}
