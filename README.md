@@ -27,6 +27,13 @@ Screenshot
 ------------------------------
 ![image](https://user-images.githubusercontent.com/55879406/227733763-a168a6be-3b8e-4b5d-9d3d-5c50dd734b1c.png)
 
+Used Libraries
+------------------------------
+**Cetours** [![NuGet](https://img.shields.io/nuget/v/Cetours.svg)](https://www.nuget.org/packages/Cetours) \
+**Yotic.Hook** [![NuGet](https://img.shields.io/nuget/v/Yotic.Hook.svg)](https://www.nuget.org/packages/Yotic.Hook) \
+**Yotic.OpenGL** [![NuGet](https://img.shields.io/nuget/v/Yotic.OpenGL.svg)](https://www.nuget.org/packages/Yotic.OpenGL) \
+Y**otic.Memory.Extensions** [![NuGet](https://img.shields.io/nuget/v/Yotic.Memory.Extensions.svg)](https://www.nuget.org/packages/Yotic.Memory.Extensions)
+
 Build
 ------------------------------
 Build solution and enter the command `dotnet publish -r win-x64 -c Release` in Powershell for developers
