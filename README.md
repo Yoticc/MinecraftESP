@@ -1,7 +1,7 @@
 # MinecraftESP
 
 Minecraft ESP hack written in C# using NAOT \
-Avaible Version: 1.0 - 1.14.4 and additional projects (Cristalix)
+Avaible Version: 1.0.0 - 1.14.4 and additional projects (Cristalix)
 
 Functions
 ------------------------------
