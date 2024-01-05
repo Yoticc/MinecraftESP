@@ -4,29 +4,9 @@ namespace Core.Utils;
 
 #region Struct
 [StructLayout(LayoutKind.Sequential)]
-public record struct POINT(int X, int Y);
-[StructLayout(LayoutKind.Sequential)]
 public record struct CURSORINFO(int Size, int Flags, nint Cursor, Point ScreenPos);
 #endregion
 #region Enum
-[Flags]
-public enum LoadLibraryFlags : uint
-{
-    None = 0,
-    DONT_RESOLVE_DLL_REFERENCES = 0x00000001,
-    LOAD_IGNORE_CODE_AUTHZ_LEVEL = 0x00000010,
-    LOAD_LIBRARY_AS_DATAFILE = 0x00000002,
-    LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE = 0x00000040,
-    LOAD_LIBRARY_AS_IMAGE_RESOURCE = 0x00000020,
-    LOAD_LIBRARY_SEARCH_APPLICATION_DIR = 0x00000200,
-    LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x00001000,
-    LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR = 0x00000100,
-    LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800,
-    LOAD_LIBRARY_SEARCH_USER_DIRS = 0x00000400,
-    LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008,
-    LOAD_LIBRARY_REQUIRE_SIGNED_TARGET = 0x00000080,
-    LOAD_LIBRARY_SAFE_CURRENT_DIRS = 0x00002000,
-}
 public enum Keys
 {
     KeyCode = 0x0000FFFF,
@@ -227,107 +207,30 @@ public enum Keys
 #endregion
 public unsafe class Interop
 {
-    #region DLLImport
-    const string user = "user32";
-    const string kernel = "kernel32";
+    public static nint GetModuleHandle(string moduleName) => kernel32.GetModuleHandle(moduleName);
+    public static nint GetProcAddress(nint hModule, string procName) => kernel32.GetProcAddress(hModule, procName);
 
-    [DllImport(user, CharSet = CharSet.Auto)] public static extern
-        int MessageBox(nint hWnd, string text, string caption, uint type);
+    static int msgBoxCounter = 0;
+    public static void ShowMessageBox(object message) => user32.MessageBox(0, message == null ? "null" : message.ToString()!, msgBoxCounter++.ToString(), 0);
 
-    [DllImport(user)] public static extern
-        ushort GetAsyncKeyState(Keys key);
-
-    [DllImport(user)] public static extern
-        bool GetCursorInfo(ref CURSORINFO pci);
-
-    [DllImport(user)] public static extern
-        nint GetForegroundWindow();
-
-    [DllImport(kernel, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)] public static extern 
-        nint CreateFileW(string fileName, uint desAccess, uint shareMode, nint securityAttb, uint creationDispose, uint flagsAndAttb, nint templateFile);
-
-    [DllImport(kernel)] [return: MarshalAs(UnmanagedType.Bool)] public static extern 
-        bool AllocConsole();
-
-    [DllImport(kernel)] public static extern
-        uint GetTickCount();
-
-    [DllImport(kernel, CharSet = CharSet.Unicode)] public static extern
-        nint GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)] string moduleName);
-
-    [DllImport(kernel, CharSet = CharSet.Ansi, ExactSpelling = true)] public static extern
-        nint GetProcAddress(nint hModule, string procName);
-
-    [DllImport(kernel)] public static extern
-        nint GetCurrentThread();
-
-    [DllImport(kernel, CharSet = CharSet.Unicode)] public static extern 
-        nint LoadLibrary(string lpFileName);
-
-    [DllImport(kernel)] public static extern
-        nint LoadLibraryEx(string fileName, nint reservedNull, LoadLibraryFlags flags);
-
-    [DllImport(kernel)] public static extern
-        void Sleep(uint dwMilliseconds);
-
-    [DllImport(kernel, CharSet = CharSet.Auto)] public static extern
-        uint CreateThread(uint* threadAttributes, uint stackSize, ThreadStart startAddress, uint* parameter, uint creationFlags, out uint threadId);
-    #endregion
-    #region Method
-    static int counter = 0;
-    public static void Show(object message)
-    {
-        MessageBox(0, message == null ? "null" : message.ToString()!, counter.ToString(), 0);
-        counter++;
-    }
-
-    public static int MessageBox(string text) => MessageBox(0, text, "", 0);
-    public static int MessageBox(string caption, string text) => MessageBox(0, text, caption, 0);
-
-    public static void* GetProcAddressPtr(nint hModule, [MarshalAs(UnmanagedType.LPWStr)] string lpModuleName) => (void*)GetProcAddress(hModule, lpModuleName);
-    public static T* GetProcAddressPtr<T>(nint hModule, [MarshalAs(UnmanagedType.LPWStr)] string lpModuleName) where T : unmanaged => (T*)GetProcAddress(hModule, lpModuleName);
-
-    public static uint StartThread(ThreadStart ThreadFunc)
-    {
-        uint i = 0;
-        uint lpThreadID = 0;
-        uint dwHandle = CreateThread(null, 0, ThreadFunc, &i, 0, out lpThreadID);
-        return dwHandle;
-    }
+    public static int MessageBox(string text) => user32.MessageBox(0, text, "", 0);
+    public static int MessageBox(string caption, string text) => user32.MessageBox(0, text, caption, 0);
 
     public static bool IsCursorHide()
     {
-        var cur = new CURSORINFO();
-        cur.Size = sizeof(CURSORINFO);
-        GetCursorInfo(ref cur);
+        var cur = stackalloc int[6];
+        cur[0] = 24;
+        
+        user32.GetCursorInfo(&cur);
 
-        int realFlag = cur.Cursor.ToInt32();
-        return realFlag > 66000 || realFlag < 65000;
+        return cur[2] > 66000 || cur[2] < 65000;
     }
 
-    public static bool IsWindowActive()
-    {
-        nint activeWindow = GetForegroundWindow();
-        nint procWindow = Process.GetCurrentProcess().MainWindowHandle;
-        return activeWindow == procWindow;
-    }
+    public static bool IsWindowActive() => user32.GetForegroundWindow() == Process.GetCurrentProcess().MainWindowHandle;
 
-    public static FileStream CreateFileStream(string name, uint desAccess, uint shareMode, FileAccess fileAccess)
-    {
-        var fileHandle = CreateFileW(name, desAccess, shareMode, 0, (uint)FileMode.Open, (uint)FileAttributes.Normal, 0);
-        var file = new SafeFileHandle(fileHandle, true);
-        return !file.IsInvalid ? new FileStream(file, fileAccess) : null;
-    }   
+    public static FileStream CreateFileStream(string name, int desAccess, int shareMode, FileAccess fileAccess)
+        => new(new SafeFileHandle(kernel32.CreateFileW(name, desAccess, shareMode, 0, (int)FileMode.Open, (int)FileAttributes.Normal, 0), true), fileAccess);
 
-    public static StreamWriter CreateOutStream() => new(CreateFileStream("CONOUT$", GENERIC_WRITE, FILE_SHARE_WRITE, FileAccess.Write)) { AutoFlush = true };
-
-    public static StreamReader CreateInStream() => new(CreateFileStream("CONIN$", GENERIC_READ, FILE_SHARE_READ, FileAccess.Read));
-
-    const uint
-        GENERIC_WRITE = 0x40000000,
-        GENERIC_READ = 0x80000000,
-        FILE_SHARE_READ = 1,
-        FILE_SHARE_WRITE = 2;
-
-    #endregion
+    public static StreamWriter CreateOutStream() => new(CreateFileStream("CONOUT$", 0x40000000, 2, FileAccess.Write)) { AutoFlush = true };
+    public static StreamReader CreateInStream() => new(CreateFileStream("CONIN$", unchecked((int)0x80000000), 1, FileAccess.Read));
 }

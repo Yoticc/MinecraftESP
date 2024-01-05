@@ -1,14 +1,14 @@
 ﻿using Core;
 using Core.Abstracts;
-using Core.Utils;
 using OpenGL;
-using static OpenGL.Enums;
 using static Core.Globals;
+using static OpenGL.Enums;
+using Vec3F = (float x, float y, float z);
 
 namespace v115;
 public unsafe class Render : DefaultRender
 {
-    public bool TranslateF((float x, float y, float z) vec)
+    public bool TranslateF(Vec3F vec)
     {
         if (vec == (.5, .4375, .9375))
             SetTarget(Targets.Chest, 0, .0625f, -.4375f);
@@ -22,7 +22,7 @@ public unsafe class Render : DefaultRender
         return true;
     }
 
-    public bool ScaleF((float x, float y, float z) vec)
+    public bool ScaleF(Vec3F vec)
     {
         if (vec == (.9375, .9375, .9375))
             SetTarget(Targets.Player, 0, -1, 0);

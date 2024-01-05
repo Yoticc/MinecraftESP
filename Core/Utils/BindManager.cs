@@ -1,22 +1,21 @@
-﻿namespace Core.Utils;
+﻿using static NaotDefines;
+
+namespace Core.Utils;
 public unsafe static class BindManager
 {
     static BindManager()
     {
-        StartThread(() =>
+        threadwhile(() =>
         {
-            while (true)
-            {
-                foreach (Bind bind in Binds)
-                    if ((GetAsyncKeyState(bind.Key) & 1) == 1)
-                        if (IsCursorHide() && IsWindowActive())
-                            bind.Func();
-                Thread.Sleep(5);
-            }
+            foreach (Bind bind in Binds)
+                if ((user32.GetAsyncKeyState((int)bind.Key) & 1) == 1)
+                    if (IsCursorHide() && IsWindowActive())
+                        bind.Func();
+            Thread.Sleep(5);            
         });
     }
 
-    public static List<Bind> Binds { get; set; } = new();
+    public static List<Bind> Binds = [];
 
     public static void Add(IEnumerable<Bind> binds) => Binds.AddRange(binds);
 }

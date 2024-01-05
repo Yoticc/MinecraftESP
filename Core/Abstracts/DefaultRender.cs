@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Abstracts;
+﻿namespace Core.Abstracts;
 public unsafe class DefaultRender : AbstractRender
 {
     public virtual bool Enable(ref Cap cap)

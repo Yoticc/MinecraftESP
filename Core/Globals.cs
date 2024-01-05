@@ -1,22 +1,16 @@
-﻿global using RU = Core.Utils.RenderUtils;
-global using Log = Core.Utils.Logger;
-global using Keys = Core.Utils.Keys;
-
-global using static Core.Utils.Interop;
-global using static Core.Globals;
-global using static OpenGL.Enums;
-global using static Memory.MemEx;
-global using Core.Utils;
-global using OpenGL;
-global using Memory;
+﻿global using Core.Utils;
 global using Hook;
-global using Core;
-
-global using System.Runtime.CompilerServices;
-global using System.Runtime.InteropServices;
+global using OpenGL;
 global using System.Diagnostics;
 global using System.Drawing;
+global using System.Runtime.InteropServices;
 global using System.Text;
+global using static NaotDefines;
+global using static Core.Globals;
+global using static Core.Utils.Interop;
+global using static Memory.MemEx;
+global using static OpenGL.Enums;
+global using RU = Core.Utils.RenderUtils;
 
 namespace Core;
 public static unsafe class Globals

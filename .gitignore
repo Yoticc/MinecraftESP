@@ -361,4 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/MinecraftESP/naot/analyzers
+
+**/naot/analyzers

@@ -1,7 +1,7 @@
 ﻿namespace Core.Abstracts;
 public unsafe abstract class AbstractRender
 {
-    protected const float F2D3 = 2f/3;
+    protected const float F2D3 = 2f / 3;
 
     public Targets Targets = new();
     protected bool nowInInventory;

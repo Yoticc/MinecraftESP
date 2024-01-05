@@ -15,7 +15,7 @@ public class ConsoleApp
 
     public static ConsoleApp Open()
     {
-        AllocConsole();
+        kernel32.AllocConsole();
         return new();
     }
 
@@ -33,15 +33,13 @@ public class ConsoleApp
 
     public ConsoleApp StartHandler()
     {
-        StartThread(() =>
+        threadwhile(() =>
         {
-            while (true)
+            try
             {
-                try
-                {
-                    NewLine?.Invoke(Console.ReadLine());
-                } catch { }
+                NewLine?.Invoke(Console.ReadLine());
             }
+            catch { }
         });
 
         return this;
@@ -52,6 +50,7 @@ public class ConsoleApp
         Console.Clear();
         return this;
     }
+
     public ConsoleApp Beep()
     {
         Console.Beep(500, 500);

@@ -1,6 +1,4 @@
-﻿using Core;
-
-namespace Core.Utils;
+﻿namespace Core.Utils;
 public static class ColorUtils
 {
     const int COUNT_PHASE = 3;
@@ -19,7 +17,7 @@ public static class ColorUtils
     static int speed, ticksPerPhase;
     public static Color GetRGB()
     {
-        int ticks = (int)GetTickCount() % Speed;
+        int ticks = kernel32.GetTickCount() % Speed;
         int phase = ticks / ticksPerPhase;
         int dest = ticks % ticksPerPhase;
         int rest = ticksPerPhase - dest;
@@ -27,13 +25,13 @@ public static class ColorUtils
         switch (phase)
         {
             case 0:
-                return new Color((float)dest / ticksPerPhase, (float)rest / ticksPerPhase, 0);
+                return new((float)dest / ticksPerPhase, (float)rest / ticksPerPhase, 0);
             case 1:
-                return new Color((float)rest / ticksPerPhase, 0, (float)dest / ticksPerPhase);
+                return new((float)rest / ticksPerPhase, 0, (float)dest / ticksPerPhase);
             case 2:
-                return new Color(0, (float)dest / ticksPerPhase, (float)rest / ticksPerPhase);
+                return new(0, (float)dest / ticksPerPhase, (float)rest / ticksPerPhase);
             default:
-                return new Color(0, 0, 0);
+                return new(0, 0, 0);
         }
     }
 
@@ -44,6 +42,6 @@ public static class ColorUtils
         float r = Math.Clamp(perc <= .5f ? 1 : 1 - (perc - .5f) * 2, 0, 1),
               g = Math.Clamp(perc <= .5f ? perc * 2 : 1, 0, 1);
 
-        return new Color(r, g, 0, a);
+        return new(r, g, 0, a);
     }
 }

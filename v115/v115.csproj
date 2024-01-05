@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -12,20 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Yotic.Memory.Extensions" Version="1.0.6" />
+    <PackageReference Include="NAOT" Version="1.0.0" />
+    <PackageReference Include="Yotic.Hook" Version="2.0.4" />
+    <PackageReference Include="Yotic.Memory.Extensions" Version="1.1.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Cetours">
-      <HintPath>..\..\Cetours\Cetours\bin\x64\Release\net7.0\Cetours.dll</HintPath>
-    </Reference>
-    <Reference Include="Hook">
-      <HintPath>..\..\Hook\Hook\bin\x64\Release\net7.0\Hook.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

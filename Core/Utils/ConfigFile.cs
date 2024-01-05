@@ -40,7 +40,7 @@ public unsafe class ConfigFile
         public bool NoLightEnabled, NoBackgroundEnabled, NoFogEnabled, CaveViewerEnabled, PlayerESPEnabled = true, ChestESPEnabled = true, SignESPEnabled = true, ItemESPEnabled = true;
 
         // Oh Allah, today I did big HARAM. I wrote this code, it's the worst code I have written in the last few years. Forgive me for my sins ✡:big_booty_latina_in_hijab:🙏🏼
-        static string[] hackNames = { "NoLight", "NoBackground", "NoFog", "CaveViewer", "PlayerESP", "ChestESP", "SignESP", "ItemESP" };
+        static string[] hackNames = ["NoLight", "NoBackground", "NoFog", "CaveViewer", "PlayerESP", "ChestESP", "SignESP", "ItemESP"];
         public string Serialize()
         {
             var binds = Binds;

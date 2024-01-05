@@ -2,7 +2,7 @@
 public static class ModulesInfo
 {
     static ModulesInfo()
-    {   
+    {
         try
         {
             var collection = Process.GetCurrentProcess().Modules.GetEnumerator();
@@ -24,11 +24,11 @@ public static class ModulesInfo
         }
         catch // At some time, this may return a random Exception, so we pray to Allah and set try-catch
         {
-            
+
         }
     }
 
-    public static List<Module> Modules = new();
+    public static List<Module> Modules = [];
 
     public static Module? GetModuleByName(string name)
     {
