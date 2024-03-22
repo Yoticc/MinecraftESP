@@ -1,4 +1,4 @@
-﻿using static NaotDefines;
+﻿using static korn;
 
 namespace Core.Utils;
 public unsafe static class BindManager

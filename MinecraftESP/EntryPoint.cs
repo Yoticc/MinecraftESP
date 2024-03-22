@@ -1,7 +1,7 @@
 ﻿using Core;
 using Core.Abstracts;
 using Core.Utils;
-using NAOT;
+using static korn;
 using static Core.Globals;
 using Log = Core.Utils.Logger;
 
@@ -9,7 +9,7 @@ namespace MinecraftESP;
 unsafe class EntryPoint
 {
     [EntryPoint]
-    static void Load()
+    void Load()
     {
         Log.SetFile(LogPath);
         Log.Clear();

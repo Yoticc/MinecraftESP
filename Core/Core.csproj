@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAOT" Version="1.0.0" />
+    <PackageReference Include="Korn" Version="1.0.0" />
     <PackageReference Include="Yotic.Hook" Version="2.0.4" />
     <PackageReference Include="Yotic.Memory.Extensions" Version="1.1.3" />
     <PackageReference Include="Yotic.OpenGL" Version="1.2.0" />

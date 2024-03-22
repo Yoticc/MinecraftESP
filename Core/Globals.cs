@@ -5,7 +5,7 @@ global using System.Diagnostics;
 global using System.Drawing;
 global using System.Runtime.InteropServices;
 global using System.Text;
-global using static NaotDefines;
+global using static korn;
 global using static Core.Globals;
 global using static Core.Utils.Interop;
 global using static Memory.MemEx;
