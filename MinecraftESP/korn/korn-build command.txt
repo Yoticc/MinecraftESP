@@ -1,0 +1,1 @@
+dotnet publish -r win-x64 -c Release -p:PublishAot=true -p:IncludeNativeLibrariesForSelfExtract=true -p:StripSymbols=true

@@ -27,4 +27,10 @@
     <PackageReference Include="Yotic.OpenGL" Version="1.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="korn">
+      <Static>True</Static>
+    </Using>
+  </ItemGroup>
+
 </Project>

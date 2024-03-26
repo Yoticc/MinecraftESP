@@ -51,7 +51,7 @@ Github - https://github.com/Yoticc/MinecraftESP
 UnKnoWnCheaTs - https://www.unknowncheats.me/forum/minecraft/576534-esp-naot.html
 
 Available versions:
- {string.Join("\n ", MinecraftVersionInfo.AvaibleVersions.Select(v => $"{v} - {MinecraftVersionInfo.Description[v]}"))}]
+ {string.Join("\n ", MinecraftVersionInfo.AvaibleVersions.Select(v => $"{v} - {MinecraftVersionInfo.Description[v]}"))}
 Available keys for binds - https://github.com/Yoticc/MinecraftESP/blob/master/Core/Utils/Interop.cs
 
 ===== Config =====

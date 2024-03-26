@@ -31,4 +31,10 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="korn">
+      <Static>True</Static>
+    </Using>
+  </ItemGroup>
+
 </Project>

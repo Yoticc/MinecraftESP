@@ -5,19 +5,22 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	  <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
-	  <PublishAot>true</PublishAot>
-	  <StripSymbols>true</StripSymbols>
 	  <RootNamespace>Core</RootNamespace>
 	  <AssemblyName>MinecraftESP</AssemblyName>
-	  <SignAssembly>False</SignAssembly>
+	  <SignAssembly>false</SignAssembly>
+	  <StripSymbols>true</StripSymbols>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="korn\analyzers\**" />
     <Compile Remove="obj\**" />
+    <Compile Remove="out\**" />
+    <EmbeddedResource Remove="korn\analyzers\**" />
     <EmbeddedResource Remove="obj\**" />
+    <EmbeddedResource Remove="out\**" />
+    <None Remove="korn\analyzers\**" />
     <None Remove="obj\**" />
+    <None Remove="out\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,8 +38,14 @@
     <ProjectReference Include="..\vCristalix\vCristalix.csproj" />
   </ItemGroup>
 
-<Target Name="IncrementalClean" AfterTargets="_CleanGetCurrentAndPriorFileWrites">
-    <Exec Command="call naot\build.bat" />
-</Target>
+  <ItemGroup>
+    <Using Include="korn">
+      <Static>True</Static>
+    </Using>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="korn\" />
+  </ItemGroup>
 
 </Project>

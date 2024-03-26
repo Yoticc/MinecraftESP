@@ -1,0 +1,22 @@
+{
+  "CustomEntryPointPath": {
+    "Use": true,
+    "Path": "EntryPoint.Load",
+    "desc": "Instead of using the EntryPointAttribute. Here can be written path to EntryPoint method without the EntryPointAttrbute"
+  },
+  "CustomNativeOut": {
+    "Use": true,
+    "Path": "out\\MinecraftESP.dll",
+    "ExportPdbFile": true,
+    "AutoRenamePdbFileToDllName": true,
+    "desc": "Copy output native file to the path. Base path is the project dir"
+  },
+  "AddictionalBuildArguments": {
+    "InvariantGlobalization": true,
+    "StackTraceSupport": true,
+    "UseSystemResourceKeys": true,
+    "desc": "Adds an additional argument to the build command. Set null if you don't want to consider the argument",
+    "desc_": "For best file size use: [InvariantGlobalization = true, StackTraceSupport = false, UseSystemResourceKeys = true]"
+  },
+  "BypassNonStaticNativeMethods": true
+}

@@ -56,7 +56,7 @@ public unsafe class RenderHook : AbstractRenderHook
             GL.Scalef(x, y, z);
     }
 
-    public void wglSwapBuffers(nint hdc)
+    void wglSwapBuffers(nint hdc)
     {
         ((delegate* unmanaged<nint, void>)SwapBuffersHook)(hdc);
         Render.SwapBuffers(hdc);

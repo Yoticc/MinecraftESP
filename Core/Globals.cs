@@ -18,7 +18,7 @@ public static unsafe class Globals
     static Globals()
     {
         ExecModule = GetModuleHandle("MinecraftESP");
-        ExecFile = ModulesInfo.GetModuleByName("MinecraftESP").Path;
+        ExecFile = ModulesInfo.GetModuleByName("MinecraftESP")!.Path;
         ExecDir = Path.GetDirectoryName(ExecFile)!;
         LocalAppdata = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
