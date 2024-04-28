@@ -32,7 +32,7 @@ Used Libraries
 **Cetours** [![NuGet](https://img.shields.io/nuget/v/Cetours.svg)](https://www.nuget.org/packages/Cetours) \
 **Yotic.Hook** [![NuGet](https://img.shields.io/nuget/v/Yotic.Hook.svg)](https://www.nuget.org/packages/Yotic.Hook) \
 **Yotic.OpenGL** [![NuGet](https://img.shields.io/nuget/v/Yotic.OpenGL.svg)](https://www.nuget.org/packages/Yotic.OpenGL) \
-Y**otic.Memory.Extensions** [![NuGet](https://img.shields.io/nuget/v/Yotic.Memory.Extensions.svg)](https://www.nuget.org/packages/Yotic.Memory.Extensions)
+**Yotic.Memory.Extensions** [![NuGet](https://img.shields.io/nuget/v/Yotic.Memory.Extensions.svg)](https://www.nuget.org/packages/Yotic.Memory.Extensions)
 
 Build
 ------------------------------
