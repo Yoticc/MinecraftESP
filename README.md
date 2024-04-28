@@ -36,7 +36,6 @@ Used Libraries
 
 Build
 ------------------------------
-Build solution and enter the command `dotnet publish -r win-x64 -c Release` in Powershell for developers
-![image](https://media.discordapp.net/attachments/940166965216051232/1168738178694381568/image.png) \
+Build solution and enter the command `dotnet publish -r win-x64 -c Release` in Powershell for developers\
 It will create `MinecraftESP.dll` in `MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\native`\
 `Wrapper.dll` you can get from `MinecraftESP\x64\Release`
