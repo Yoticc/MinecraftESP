@@ -39,3 +39,7 @@ Build
 Build solution and enter the command `dotnet publish -r win-x64 -c Release` in Powershell for developers\
 It will create `MinecraftESP.dll` in `MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\native`\
 `Wrapper.dll` you can get from `MinecraftESP\x64\Release`
+
+Special Thanks
+------------------------------
+**August Vishnevsky** - for his original idea and C++ [source code](https://github.com/aurenex/simple-esp)
