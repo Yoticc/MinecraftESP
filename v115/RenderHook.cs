@@ -8,6 +8,7 @@ public unsafe class RenderHook : AbstractRenderHook
         SetHooks(
             new(GL.Interface->glEnable, ldftn(glEnable)),
             new(GL.Interface->glDisable, ldftn(glDisable)),
+            new(GL.Interface->glScalef, ldftn(glScaleF)),
             new(GL.Interface->glOrtho, ldftn(glOrtho)),
             DrawArraysHook = new(LwjglModule.glDrawArrays, ldftn(glDrawArrays)),
             VertexPointerHook = new(LwjglModule.glVertexPointer, ldftn(glVertexPointer)),
@@ -32,10 +33,16 @@ public unsafe class RenderHook : AbstractRenderHook
             GL.Disable(cap);
     }
 
+    void glScaleF(float x, float y, float z)
+    {
+        Render.ScaleF((x, y, z));
+        GL.Scalef(x, y, z);
+    }
+
     void glOrtho(double left, double right, double bottom, double top, double zNear, double zFar)
     {
-        if (Render.Ortho(left, right, bottom, top, zNear, zFar))
-            GL.Ortho(left, right, bottom, top, zNear, zFar);
+        Render.Ortho(left, right, bottom, top, zNear, zFar);
+        GL.Ortho(left, right, bottom, top, zNear, zFar);
     }
 
     void glDrawArrays(pointer env, pointer clazz, Mode mode, int first, int count)
@@ -46,8 +53,8 @@ public unsafe class RenderHook : AbstractRenderHook
 
     void glVertexPointer(pointer env, pointer clazz, int size, TexType type, int stride, pointer pointer)
     {
-        if (Render.VertexPointer(size, type, stride, pointer))
-            calli(VertexPointerHook, env, clazz, size, type, stride, pointer);
+        Render.VertexPointer(size, type, stride, pointer);
+        calli(VertexPointerHook, env, clazz, size, type, stride, pointer);
     }
 
     void wglSwapBuffers(nint hdc)

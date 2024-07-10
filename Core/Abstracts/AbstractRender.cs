@@ -2,6 +2,7 @@
 public unsafe abstract class AbstractRender
 {
     protected const float F2D3 = 2f / 3;
+    protected const float F2D30 = 2f / 30;
 
     public Targets Targets = new();
     protected bool nowInInventory;
