@@ -1,9 +1,5 @@
-﻿using Core.Abstracts;
-using Hook;
-using OpenGL;
-using static Core.Utils.Interop;
-using static korn;
-using static OpenGL.Enums;
+﻿using Memory;
+using System.Runtime.InteropServices;
 
 namespace v19;
 public unsafe class RenderHook : AbstractRenderHook
@@ -13,24 +9,27 @@ public unsafe class RenderHook : AbstractRenderHook
         Render = render;
                 
         SetHooks(
-            new HookFunction(GL.Interface->glEnable, ldftn(glEnable)),
+            new(GL.Interface->glEnable, ldftn(glEnable)),
             new(GL.Interface->glDisable, ldftn(glDisable)),
             new(GL.Interface->glOrtho, ldftn(glOrtho)),
             new(GL.Interface->glTranslatef, ldftn(glTrasnlateF)),
             new(GL.Interface->glScalef, ldftn(glScaleF)),
-
             SwapBuffersHook = new(GetProcAddress(GL.Interface->Module, "wglSwapBuffers"), ldftn(wglSwapBuffers))
         );
     }
 
-    static Render Render;
-    static HookFunction SwapBuffersHook;
+    [AllowNull] static Render Render;
+    [AllowNull] static HookFunction SwapBuffersHook;
 
     void glEnable(Cap cap)
     {
-        if (Render.Enable(ref cap))
+        if (Render.Enable(ref cap)) 
             GL.Enable(cap);
+
+        var opengl = GetModuleHandle("opengl32");
+        msg($"version: {Marshal.PtrToStringUTF8((nint)GL.GetString(StringName.Version))}, ptr: {GetProcAddress(opengl, "glUseProgram")}, wptr : {((delegate* unmanaged<pointer, pointer>)GetProcAddress(opengl, "wglGetProcAddress"))(new CoMem("glUseProgram"))}");
     }
+    static void msg(object obj) => user32.MessageBox(0, obj.ToString()!, "", 0);
 
     void glDisable(Cap cap)
     {   
@@ -58,7 +57,7 @@ public unsafe class RenderHook : AbstractRenderHook
 
     void wglSwapBuffers(nint hdc)
     {
-        ((delegate* unmanaged<nint, void>)SwapBuffersHook)(hdc);
+        calli(SwapBuffersHook, hdc);
         Render.SwapBuffers(hdc);
     }
 }

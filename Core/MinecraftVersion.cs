@@ -16,6 +16,7 @@ public class MinecraftVersionInfo
     [
         v1,
         v19,
+        v115,
         Cristalix
     ];
 

@@ -1,11 +1,4 @@
-﻿using Core.Abstracts;
-using Hook;
-using OpenGL;
-using static Core.Utils.Interop;
-using static korn;
-using static OpenGL.Enums;
-
-namespace v115;
+﻿namespace v115;
 public unsafe class RenderHook : AbstractRenderHook
 {
     public RenderHook(Render render)
@@ -16,15 +9,16 @@ public unsafe class RenderHook : AbstractRenderHook
             new(GL.Interface->glEnable, ldftn(glEnable)),
             new(GL.Interface->glDisable, ldftn(glDisable)),
             new(GL.Interface->glOrtho, ldftn(glOrtho)),
-            new(GL.Interface->glTranslatef, ldftn(glTrasnlateF)),
-            new(GL.Interface->glScalef, ldftn(glScaleF)),
-
+            DrawArraysHook = new(LwjglModule.glDrawArrays, ldftn(glDrawArrays)),
+            VertexPointerHook = new(LwjglModule.glVertexPointer, ldftn(glVertexPointer)),
             SwapBuffersHook = new(GetProcAddress(GL.Interface->Module, "wglSwapBuffers"), ldftn(wglSwapBuffers))
         );
     }
 
-    static Render Render;
-    static HookFunction SwapBuffersHook;
+    [AllowNull] static Render Render;
+    [AllowNull] static HookFunction SwapBuffersHook;
+    [AllowNull] static HookFunction DrawArraysHook;
+    [AllowNull] static HookFunction VertexPointerHook;
 
     void glEnable(Cap cap)
     {
@@ -44,21 +38,21 @@ public unsafe class RenderHook : AbstractRenderHook
             GL.Ortho(left, right, bottom, top, zNear, zFar);
     }
 
-    void glTrasnlateF(float x, float y, float z)
+    void glDrawArrays(pointer env, pointer clazz, Mode mode, int first, int count)
     {
-        if (Render.TranslateF((x, y, z)))
-            GL.Translatef(x, y, z);
+        if (Render.DrawArrays(mode, first, count))
+            calli(DrawArraysHook, env, clazz, mode, first, count);
     }
 
-    void glScaleF(float x, float y, float z)
+    void glVertexPointer(pointer env, pointer clazz, int size, TexType type, int stride, pointer pointer)
     {
-        if (Render.ScaleF((x, y, z)))
-            GL.Scalef(x, y, z);
+        if (Render.VertexPointer(size, type, stride, pointer))
+            calli(VertexPointerHook, env, clazz, size, type, stride, pointer);
     }
 
     void wglSwapBuffers(nint hdc)
     {
-        ((delegate* unmanaged<nint, void>)SwapBuffersHook)(hdc);
+        calli(SwapBuffersHook, hdc);
         Render.SwapBuffers(hdc);
     }
 }

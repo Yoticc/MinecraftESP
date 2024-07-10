@@ -1,9 +1,4 @@
-﻿using Core.Abstracts;
-using Hook;
-using OpenGL;
-using static Core.Utils.Interop;
-using static korn;
-using static OpenGL.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace v1;
 public unsafe class RenderHook : AbstractRenderHook
@@ -18,13 +13,12 @@ public unsafe class RenderHook : AbstractRenderHook
             new(GL.Interface->glOrtho, ldftn(glOrtho)),
             new(GL.Interface->glTranslatef, ldftn(glTrasnlateF)),
             new(GL.Interface->glScalef, ldftn(glScaleF)),
-
             SwapBuffersHook = new(GetProcAddress(GL.Interface->Module, "wglSwapBuffers"), ldftn(wglSwapBuffers))
         );
     }
 
-    static Render Render;
-    static HookFunction SwapBuffersHook;
+    [AllowNull] static Render Render;
+    [AllowNull] static HookFunction SwapBuffersHook;
 
     void glEnable(Cap cap)
     {
@@ -58,7 +52,7 @@ public unsafe class RenderHook : AbstractRenderHook
 
     void wglSwapBuffers(nint hdc)
     {
-        ((delegate* unmanaged<nint, void>)SwapBuffersHook)(hdc);
+        calli(SwapBuffersHook, hdc);
         Render.SwapBuffers(hdc);
     }
 }

@@ -1,8 +1,11 @@
 {
-  "CustomEntryPointPath": {
-    "Use": true,
-    "Path": "EntryPoint.Load",
-    "desc": "Instead of using the EntryPointAttribute. Here can be written path to EntryPoint method without the EntryPointAttrbute"
+  "EntryPoint": {
+    "UseCustomEntryPoint": true,
+    "EntryPointPath": {
+      "Use": true,
+      "Path": "EntryPoint.Load",
+      "desc": "Instead of using the EntryPointAttribute. Here can be written path to EntryPoint method without the EntryPointAttrbute"
+    }
   },
   "CustomNativeOut": {
     "Use": true,
@@ -13,10 +16,14 @@
   },
   "AddictionalBuildArguments": {
     "InvariantGlobalization": true,
-    "StackTraceSupport": true,
+    "StackTraceSupport": false,
     "UseSystemResourceKeys": true,
+    "GenerateLogFile": false,
     "desc": "Adds an additional argument to the build command. Set null if you don't want to consider the argument",
-    "desc_": "For best file size use: [InvariantGlobalization = true, StackTraceSupport = false, UseSystemResourceKeys = true]"
+    "desc_": "For best file size use: [InvariantGlobalization = true, StackTraceSupport = false, UseSystemResourceKeys = true, GenerateLogFile = false]"
   },
-  "BypassNonStaticNativeMethods": true
+  "BypassNonStaticNativeMethods": true,
+  "AutoCloseDotnetProcesses": true,
+  "LibrariesToIgnore": [],
+  "desc": "Optimizing compiler by adding some libraries to ignore, it's worth adding here libraries-mappings that have a lot of non-user code. Example of name: \"UnrealEngine.Mappings.dll\""
 }

@@ -1,39 +1,63 @@
-﻿using Core;
-using Core.Abstracts;
-using OpenGL;
-using static Core.Globals;
-using static OpenGL.Enums;
-using Vec3F = (float x, float y, float z);
-
-namespace v115;
+﻿namespace v115;
 public unsafe class Render : DefaultRender
 {
-    public bool TranslateF(Vec3F vec)
+    List<float[]> arrays = [];
+    public bool DrawArrays(Mode mode, int first, int count)
     {
-        if (vec == (.5, .4375, .9375))
-            SetTarget(Targets.Chest, 0, .0625f, -.4375f);
-        else if (vec == (1, .4375, .9375))
-            SetTarget(Targets.LargeChest, 0, .0625f, -.4375f);
-        else if (vec == (0, 0.2, 0))
-            SetTarget(Targets.Player);
-        else
-            SetTarget(Targets.Other);
+        if (mode == Mode.Quads)
+        {
+            for (var i = 0; i < arrays.Count; i++)
+            {
+                var values = arrays[i];
+
+                GL.PushAttrib(0x000fffff);
+
+                GL.Disable(Cap.Texture2D);
+                GL.Disable(Cap.CullFace);
+                GL.Disable(Cap.Lighting);
+                GL.Disable(Cap.DepthTest);
+
+                GL.Enable(Cap.LineSmooth);
+
+                GL.Enable(Cap.Blend);
+                GL.BlendFunc(Factor.SrcAlpha, Factor.OneMinusSrcAlpha);
+
+                GL.LineWidth(3);
+                GL.Color3f(1, 0, 0);
+
+                GL.Begin(Mode.Lines);
+                for (var o = 0; o < values.Length; o += 3)
+                    GL.Vertex3f(values[o], values[o + 1], values[o + 2]);
+                GL.End();
+
+                GL.PopAttrib();
+            }
+
+            arrays.Clear();
+        }
 
         return true;
     }
 
-    public bool ScaleF(Vec3F vec)
+    public bool VertexPointer(int size, TexType type, int stride, pointer pointer)
     {
-        if (vec == (.9375, .9375, .9375))
-            SetTarget(Targets.Player, 0, -1, 0);
-        else if (vec == (.25, .25, .25))
-            SetTarget(Targets.Item);
-        else if (vec == (.5, .5, .5))
-            SetTarget(Targets.Item);
-        else if (vec == (F2D3, -F2D3, -F2D3))
-            SetTarget(Targets.Sign);
-        else
-            SetTarget(Targets.Other);
+        if (type == TexType.Float)
+        {
+            if (pointer > 0x10000)
+            {
+                float[] values = new float[size * 3];
+
+                for (var i = 0; i < values.Length; i += 3)
+                {
+                    var start = (float*)(pointer + stride * i);
+                    values[i] = start[0];
+                    values[i + 1] = start[1];
+                    values[i + 2] = start[2];
+                }
+                
+                arrays.Add(values);
+            }
+        }
 
         return true;
     }

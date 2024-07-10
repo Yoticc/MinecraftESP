@@ -1,9 +1,4 @@
-﻿using Core;
-using Core.Abstracts;
-using OpenGL;
-using static Core.Globals;
-using static OpenGL.Enums;
-using Vec3F = (float x, float y, float z);
+﻿using Vec3F = (float x, float y, float z);
 
 namespace v19;
 public unsafe class Render : DefaultRender

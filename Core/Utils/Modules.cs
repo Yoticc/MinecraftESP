@@ -13,7 +13,7 @@ public static class ModulesInfo
                 if (moduleObj == null)
                     continue;
 
-                var module = moduleObj as ProcessModule;
+                var module = (moduleObj as ProcessModule)!;
 
                 var path = module.FileName;
                 var name = Path.GetFileNameWithoutExtension(path);

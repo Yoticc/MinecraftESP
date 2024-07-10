@@ -1,6 +1,4 @@
-﻿using Core;
-using Core.Abstracts;
-using Vec3F = (float x, float y, float z);
+﻿using Vec3F = (float x, float y, float z);
 using Vec3D = (double x, double y, double z);
 
 namespace vCristalix;
