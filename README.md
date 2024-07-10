@@ -1,7 +1,7 @@
 # MinecraftESP
 
-Internal Minecraft ESP hack written in C# using NAOT \
-Avaible Version: 1.0.0 - 1.14.4 and additional projects (Cristalix)
+Internal Minecraft ESP hack written in C# using Korn \
+Avaible Version: 1.0.0 - 1.14.4 and additional projects: Cristalix
 
 Functions
 ------------------------------
@@ -32,11 +32,14 @@ Used Libraries
 **Cetours** [![NuGet](https://img.shields.io/nuget/v/Cetours.svg)](https://www.nuget.org/packages/Cetours) \
 **Yotic.Hook** [![NuGet](https://img.shields.io/nuget/v/Yotic.Hook.svg)](https://www.nuget.org/packages/Yotic.Hook) \
 **Yotic.OpenGL** [![NuGet](https://img.shields.io/nuget/v/Yotic.OpenGL.svg)](https://www.nuget.org/packages/Yotic.OpenGL) \
-Y**otic.Memory.Extensions** [![NuGet](https://img.shields.io/nuget/v/Yotic.Memory.Extensions.svg)](https://www.nuget.org/packages/Yotic.Memory.Extensions)
+**Yotic.Memory.Extensions** [![NuGet](https://img.shields.io/nuget/v/Yotic.Memory.Extensions.svg)](https://www.nuget.org/packages/Yotic.Memory.Extensions)
 
 Build
 ------------------------------
-Build solution and enter the command `dotnet publish -r win-x64 -c Release` in Powershell for developers
-![image](https://media.discordapp.net/attachments/940166965216051232/1168738178694381568/image.png) \
+Build solution and enter the command `dotnet publish -r win-x64 -c Release` in Powershell for developers\
 It will create `MinecraftESP.dll` in `MinecraftESP\MinecraftESP\bin\Release\net7.0\win-x64\native`\
 `Wrapper.dll` you can get from `MinecraftESP\x64\Release`
+
+Special Thanks
+------------------------------
+**August Vishnevsky** - for his original idea and C++ [source code](https://github.com/aurenex/simple-esp)
