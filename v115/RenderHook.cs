@@ -40,8 +40,8 @@ public unsafe class RenderHook : AbstractRenderHook
 
     void glDrawArrays(pointer env, pointer clazz, Mode mode, int first, int count)
     {
-        if (Render.DrawArrays(mode, first, count))
-            calli(DrawArraysHook, env, clazz, mode, first, count);
+        calli(DrawArraysHook, env, clazz, mode, first, count);
+        Render.DrawArrays(mode, first, count);
     }
 
     void glVertexPointer(pointer env, pointer clazz, int size, TexType type, int stride, pointer pointer)
