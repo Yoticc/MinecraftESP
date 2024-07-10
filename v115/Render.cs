@@ -1,14 +1,14 @@
 ﻿namespace v115;
 public unsafe class Render : DefaultRender
 {
-    List<float[]> arrays = [];
+    List<(pointer pointer, int stride)> pointers = [];
     public bool DrawArrays(Mode mode, int first, int count)
     {
         if (mode == Mode.Quads)
         {
-            for (var i = 0; i < arrays.Count; i++)
+            for (var i = 0; i < pointers.Count; i++)
             {
-                var values = arrays[i];
+                var pointer = pointers[i];
 
                 GL.PushAttrib(0x000fffff);
 
@@ -26,14 +26,19 @@ public unsafe class Render : DefaultRender
                 GL.Color3f(1, 0, 0);
 
                 GL.Begin(Mode.Lines);
-                for (var o = 0; o < values.Length; o += 3)
-                    GL.Vertex3f(values[o], values[o + 1], values[o + 2]);
+
+                for (var o = 0; o < count /*/ 3*/; o++)
+                {
+                    var start = (float*)(pointer.pointer + pointer.stride * i);
+                    GL.Vertex3f(start[0], start[1], start[2]);
+                }
+
                 GL.End();
 
                 GL.PopAttrib();
             }
 
-            arrays.Clear();
+            pointers.Clear();
         }
 
         return true;
@@ -45,17 +50,7 @@ public unsafe class Render : DefaultRender
         {
             if (pointer > 0x10000)
             {
-                float[] values = new float[size * 3];
-
-                for (var i = 0; i < values.Length; i += 3)
-                {
-                    var start = (float*)(pointer + stride * i);
-                    values[i] = start[0];
-                    values[i + 1] = start[1];
-                    values[i + 2] = start[2];
-                }
-                
-                arrays.Add(values);
+                pointers.Add((pointer, stride));
             }
         }
 
