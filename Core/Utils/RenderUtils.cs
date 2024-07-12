@@ -1,4 +1,4 @@
-﻿namespace Core.Utils;
+﻿namespace Core;
 public class RenderUtils
 {
     public static void Push()

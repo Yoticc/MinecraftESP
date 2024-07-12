@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Core.Utils.Interop">
+    <Using Include="Core.Interop">
       <Static>True</Static>
     </Using>
   </ItemGroup>

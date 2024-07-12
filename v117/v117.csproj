@@ -1,9 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cetours" Version="1.0.6" />
+    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
+    <PackageReference Include="Korn" Version="1.0.0" />
+    <PackageReference Include="Memory.Manipulation" Version="1.0.3" />
+    <PackageReference Include="Yotic.Hook" Version="2.0.7" />
+    <PackageReference Include="Yotic.Memory.Extensions" Version="2.0.4" />
+    <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Yotic.Math\Yotic.Math\Yotic.Math.csproj" />
+    <ProjectReference Include="..\Core115\Core115.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Core" />
+    <Using Include="Core.Globals">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Hook" />
+    <Using Include="korn">
+      <Static>True</Static>
+    </Using>
+    <Using Include="OpenGL" />
+    <Using Include="OpenGL.Enums">
+      <Static>True</Static>
+    </Using>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
+    <Using Include="Yotic.Math">
+      <Static>True</Static>
+    </Using>
+  </ItemGroup>
 
 </Project>

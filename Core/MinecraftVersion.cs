@@ -4,9 +4,10 @@ namespace Core;
 
 public enum MinecraftVersion
 {
-    v1,
-    v19,
+    v100,
+    v109,
     v115,
+    v117,
     Cristalix
 }
 
@@ -14,17 +15,19 @@ public class MinecraftVersionInfo
 {
     public static MinecraftVersion[] AvaibleVersions =
     [
-        v1,
-        v19,
+        v100,
+        v109,
         v115,
+        v117,
         Cristalix
     ];
 
-    public static Dictionary<MinecraftVersion, string> Description = new()
+    public static Dictionary<MinecraftVersion, string> Descriptions = new()
     {
-        { v1, "For 1.0 - 1.8.9" },
-        { v19, "For 1.9 - 1.14.4" },
-        { v115, "For 1.15 - ???" },
+        { v100, "For 1.0 - 1.8.9" },
+        { v109, "For 1.9 - 1.14.4" },
+        { v115, "For 1.15 - 1.16.5" },
+        { v117, "For 1.17 - ???" },
         { Cristalix, "For Cristalix (RU: cristalix.gg)" }
     };
 }

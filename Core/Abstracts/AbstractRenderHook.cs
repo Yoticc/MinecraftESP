@@ -1,4 +1,4 @@
-﻿namespace Core.Abstracts;
+﻿namespace Core;
 public unsafe abstract class AbstractRenderHook
 {
     protected HookFunction[] hooks = [];

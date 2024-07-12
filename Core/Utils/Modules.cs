@@ -1,4 +1,4 @@
-﻿namespace Core.Utils;
+﻿namespace Core;
 public static class ModulesInfo
 {
     static ModulesInfo()

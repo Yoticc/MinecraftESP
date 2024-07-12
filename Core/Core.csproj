@@ -25,11 +25,10 @@
     <Using Include="Core.Globals">
       <Static>True</Static>
     </Using>
-    <Using Include="Core.Utils" />
-    <Using Include="Core.Utils.Interop">
+    <Using Include="Core.Interop">
       <Static>True</Static>
     </Using>
-    <Using Include="Core.Utils.RenderUtils">
+    <Using Include="Core.RenderUtils">
       <Alias>RU</Alias>
     </Using>
     <Using Include="Hook" />
@@ -39,6 +38,7 @@
     <Using Include="Memory.MemEx">
       <Static>True</Static>
     </Using>
+    <Using Include="Microsoft.Win32.SafeHandles" />
     <Using Include="OpenGL" />
     <Using Include="OpenGL.Enums">
       <Static>True</Static>

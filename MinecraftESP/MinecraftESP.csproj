@@ -27,9 +27,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\v100\v100.csproj" />
+    <ProjectReference Include="..\v109\v109.csproj" />
     <ProjectReference Include="..\v115\v115.csproj" />
-    <ProjectReference Include="..\v19\v19.csproj" />
-    <ProjectReference Include="..\v1\v1.csproj" />
+    <ProjectReference Include="..\v117\v117.csproj" />
     <ProjectReference Include="..\vCristalix\vCristalix.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -42,12 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Using Include="Core" />
-    <Using Include="Core.Abstracts" />
     <Using Include="Core.Globals">
       <Static>True</Static>
     </Using>
-    <Using Include="Core.Utils" />
-    <Using Include="Core.Utils.Logger">
+    <Using Include="Core.Logger">
       <Alias>Log</Alias>
     </Using>
     <Using Include="korn">

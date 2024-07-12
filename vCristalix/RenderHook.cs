@@ -12,7 +12,7 @@ public unsafe class RenderHook : AbstractRenderHook
             new(GL.Interface->glTranslatef, ldftn(glTrasnlateF)),
             new(GL.Interface->glScaled, ldftn(glScaleD)),
             new(GL.Interface->glScalef, ldftn(glScaleF)),
-            SwapBuffersHook = new(GetProcAddress(GL.Interface->Module, "wglSwapBuffers"), ldftn(wglSwapBuffers))
+            SwapBuffersHook = new(OpenGLModule.wglSwapBuffers, ldftn(wglSwapBuffers))
         );
     }
 
@@ -21,38 +21,38 @@ public unsafe class RenderHook : AbstractRenderHook
 
     void glEnable(Cap cap)
     {
-        if (Render.Enable(ref cap))
+        if (Render.Enable(cap))
             GL.Enable(cap);
     }
 
     void glDisable(Cap cap)
     {
-        if (Render.Disable(ref cap))
+        if (Render.Disable(cap))
             GL.Disable(cap);
     }
 
     void glOrtho(double left, double right, double bottom, double top, double zNear, double zFar)
     {
-        if (Render.Ortho(left, right, bottom, top, zNear, zFar))
-            GL.Ortho(left, right, bottom, top, zNear, zFar);
+        Render.Ortho(left, right, bottom, top, zNear, zFar);
+        GL.Ortho(left, right, bottom, top, zNear, zFar);
     }
 
     void glTrasnlateF(float x, float y, float z)
     {
-        if (Render.TranslateF((x, y, z)))
-            GL.Translatef(x, y, z);
+        Render.TranslateF((x, y, z));
+        GL.Translatef(x, y, z);
     }
 
     void glScaleD(double x, double y, double z)
     {
-        if (Render.ScaleD((x, y, z)))
-            GL.Scaled(x, y, z);
+        Render.ScaleD((x, y, z));
+        GL.Scaled(x, y, z);
     }
 
     void glScaleF(float x, float y, float z)
     {
-        if (Render.ScaleF((x, y, z)))
-            GL.Scalef(x, y, z);
+        Render.ScaleF((x, y, z));
+        GL.Scalef(x, y, z);
     }
 
     void wglSwapBuffers(nint hdc)

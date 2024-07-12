@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace v115;
+﻿namespace v117;
 public unsafe class RenderHook : AbstractRenderHook
 {
     public RenderHook(Render render)

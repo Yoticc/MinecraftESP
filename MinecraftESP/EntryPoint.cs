@@ -7,9 +7,10 @@
         Config = ConfigFile.GetConfig();
 
         ((Func<AbstractRenderHook>[])[
-            () => new v1.RenderHook(new()),
-            () => new v19.RenderHook(new()),
+            () => new v100.RenderHook(new()),
+            () => new v109.RenderHook(new()),
             () => new v115.RenderHook(new()),
+            () => new v117.RenderHook(new()),
             () => new vCristalix.RenderHook(new())
         ])[(byte)Config->TargetVersion]().Attach();
         

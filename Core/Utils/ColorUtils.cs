@@ -1,4 +1,4 @@
-﻿namespace Core.Utils;
+﻿namespace Core;
 public static class ColorUtils
 {
     const int COUNT_PHASE = 3;

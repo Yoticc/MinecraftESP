@@ -1,4 +1,4 @@
-﻿namespace Core.Utils;
+﻿namespace Core;
 public static class Logger
 {
     [AllowNull] public static string Path;

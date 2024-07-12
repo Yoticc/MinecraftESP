@@ -26,8 +26,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Using Include="Core" />
-	  <Using Include="Core.Abstracts" />
-	  <Using Include="Core.Utils.Interop">
+	  <Using Include="Core.Interop">
 	    <Static>True</Static>
 	  </Using>
 	  <Using Include="Hook" />

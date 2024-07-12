@@ -28,12 +28,8 @@
   </ItemGroup>
   <ItemGroup>
     <Using Include="Core" />
-    <Using Include="Core.Abstracts" />
+    <Using Include="Core" />
     <Using Include="Core.Globals">
-      <Static>True</Static>
-    </Using>
-    <Using Include="Core.Utils" />
-    <Using Include="Core.Utils.Interop">
       <Static>True</Static>
     </Using>
     <Using Include="Hook" />

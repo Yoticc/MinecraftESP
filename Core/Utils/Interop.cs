@@ -1,7 +1,4 @@
-﻿using Microsoft.Win32.SafeHandles;
-
-namespace Core.Utils;
-
+﻿namespace Core;
 #region Struct
 [StructLayout(LayoutKind.Sequential)]
 public record struct CURSORINFO(int Size, int Flags, nint Cursor, Point ScreenPos);

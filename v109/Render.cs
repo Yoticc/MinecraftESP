@@ -1,7 +1,6 @@
-﻿using Vec3F = (float x, float y, float z);
-using Vec3D = (double x, double y, double z);
+﻿using Vec3F = (float, float, float);
 
-namespace vCristalix;
+namespace v109;
 public unsafe class Render : DefaultRender
 {
     public void TranslateF(Vec3F vec)
@@ -13,7 +12,7 @@ public unsafe class Render : DefaultRender
         else SetTarget(Targets.Other);
     }
 
-    public void ScaleD(Vec3D vec)
+    public void ScaleF(Vec3F vec)
     {
         if (vec == (.9375, .9375, .9375))
             SetTarget(Targets.Player, 0, -1, 0);
@@ -21,12 +20,8 @@ public unsafe class Render : DefaultRender
             SetTarget(Targets.Item);
         else if (vec == (.5, .5, .5))
             SetTarget(Targets.Item);
-        else SetTarget(Targets.Other);
-    }
-
-    public void ScaleF(Vec3F vec)
-    {
-        if (vec == (F2D3, -F2D3, -F2D3))
+        else if (vec == (F2D3, -F2D3, -F2D3))
             SetTarget(Targets.Sign);
+        else SetTarget(Targets.Other);
     }
 }

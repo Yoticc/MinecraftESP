@@ -1,4 +1,4 @@
-﻿namespace Core.Utils;
+﻿namespace Core;
 public class ConsoleApp
 {
     public static bool IsOpen()

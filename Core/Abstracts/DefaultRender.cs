@@ -1,7 +1,7 @@
-﻿namespace Core.Abstracts;
+﻿namespace Core;
 public unsafe class DefaultRender : AbstractRender
 {
-    public virtual bool Enable(ref Cap cap)
+    public virtual bool Enable(Cap cap)
     {
         if (cap == Cap.Lighting && Config->NoLightEnabled) { }
         else if (cap == Cap.Fog && Config->NoFogEnabled) { }
@@ -11,7 +11,7 @@ public unsafe class DefaultRender : AbstractRender
         return false;
     }
 
-    public virtual bool Disable(ref Cap cap)
+    public virtual bool Disable(Cap cap)
     {
         if (cap == Cap.Texture2D && Config->NoBackgroundEnabled) { }
         else return true;
@@ -31,13 +31,34 @@ public unsafe class DefaultRender : AbstractRender
         }
     }
 
-    public bool Ortho(double left, double right, double bottom, double top, double zNear, double zFar)
+    public virtual void Ortho(double left, double right, double bottom, double top, double zNear, double zFar)
     {
         if (zNear != 1000 || zFar != 3000)
-            return true;
+            return;
 
         nowInInventory = true;
 
+        Push();
+
+        Draw(Config->PlayerESPEnabled, Targets.Player);
+        Draw(Config->ChestESPEnabled, Targets.Chest, Targets.LargeChest);
+        Draw(Config->ItemESPEnabled, Targets.Item);
+        Draw(Config->SignESPEnabled, Targets.Sign);
+        Draw(Targets.Other.Enabled, Targets.Other);
+
+        Pop();
+
+        void Draw(bool enabled, params TargetOpt[] targetOpts)
+        {
+            if (enabled)
+                foreach (var targetOpt in targetOpts)
+                    foreach (var target in targetOpt.Targets)
+                        target.DrawOver(targetOpt);
+        }
+    }
+
+    protected void Push()
+    {
         GL.PushAttrib(0x000fffff);
         GL.PushMatrix();
 
@@ -50,24 +71,11 @@ public unsafe class DefaultRender : AbstractRender
 
         GL.Enable(Cap.Blend);
         GL.BlendFunc(Factor.SrcAlpha, Factor.OneMinusSrcAlpha);
+    }
 
-        Draw(Config->PlayerESPEnabled, Targets.Player);
-        Draw(Config->ChestESPEnabled, Targets.Chest, Targets.LargeChest);
-        Draw(Config->ItemESPEnabled, Targets.Item);
-        Draw(Config->SignESPEnabled, Targets.Sign);
-        Draw(Targets.Other.Enabled, Targets.Other);
-
+    protected void Pop()
+    {
         GL.PopAttrib();
         GL.PopMatrix();
-
-        return true;
-
-        void Draw(bool enabled, params TargetOpt[] targetOpts)
-        {
-            if (enabled)
-                foreach (var targetOpt in targetOpts)
-                    foreach (var target in targetOpt.Targets)
-                        target.DrawOver(targetOpt);
-        }
     }
 }
