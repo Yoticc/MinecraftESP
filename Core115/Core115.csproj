@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
+    <PackageReference Include="Korn" Version="1.0.0" />
+    <PackageReference Include="Memory.Manipulation" Version="1.0.3" />
+    <PackageReference Include="Yotic.Memory.Extensions" Version="2.0.4" />
+    <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Core.Utils.Interop">
+      <Static>True</Static>
+    </Using>
+  </ItemGroup>
+
+</Project>

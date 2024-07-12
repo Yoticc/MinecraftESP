@@ -1,4 +1,4 @@
-﻿namespace Core;
+﻿namespace Core.Utils;
 public class LwjglModule
 {
     static LwjglModule()
