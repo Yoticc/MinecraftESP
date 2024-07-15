@@ -1,5 +1,4 @@
-﻿namespace Core;
-public class ConsoleApp
+﻿class ConsoleApp
 {
     public static bool IsOpen()
     {
@@ -7,8 +6,7 @@ public class ConsoleApp
         {
             Console.Write("");
             return true;
-        }
-        catch { }
+        } catch { }
 
         return false;
     }

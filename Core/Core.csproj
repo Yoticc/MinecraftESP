@@ -14,6 +14,9 @@
     <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Yotic.Math\Yotic.Math\Yotic.Math.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Cetours">
       <HintPath>..\..\Cetours\Cetours\bin\x64\Release\net8.0\Cetours.dll</HintPath>
     </Reference>
@@ -48,5 +51,8 @@
     <Using Include="System.Drawing" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="System.Text" />
+    <Using Include="Yotic.Math">
+      <Static>True</Static>
+    </Using>
   </ItemGroup>
 </Project>

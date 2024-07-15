@@ -1,10 +1,8 @@
 ﻿namespace vCristalix;
 public unsafe class RenderHook : AbstractRenderHook
 {
-    public RenderHook(Render render)
+    public RenderHook()
     {
-        Render = render;
-
         SetHooks(   
             new(GL.Interface->glEnable, ldftn(glEnable)),
             new(GL.Interface->glDisable, ldftn(glDisable)),
@@ -16,7 +14,7 @@ public unsafe class RenderHook : AbstractRenderHook
         );
     }
 
-    [AllowNull] static Render Render;
+    static Render Render = new();
     [AllowNull] static HookFunction SwapBuffersHook;
 
     void glEnable(Cap cap)

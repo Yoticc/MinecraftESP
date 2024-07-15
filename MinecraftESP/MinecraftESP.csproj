@@ -26,6 +26,7 @@
     <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\cheats\Yotic.Linq\Yotic.Linq\Yotic.Linq.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\v100\v100.csproj" />
     <ProjectReference Include="..\v109\v109.csproj" />
@@ -46,13 +47,20 @@
     <Using Include="Core.Globals">
       <Static>True</Static>
     </Using>
+    <Using Include="Core.Interop">
+      <Static>True</Static>
+    </Using>
     <Using Include="Core.Logger">
       <Alias>Log</Alias>
     </Using>
     <Using Include="korn">
       <Static>True</Static>
     </Using>
+    <Using Include="System.Diagnostics" />
     <Using Include="System.Linq.Enumerable">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Yotic.Linq">
       <Static>True</Static>
     </Using>
   </ItemGroup>

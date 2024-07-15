@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cetours" Version="1.0.6" />
     <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
     <PackageReference Include="Korn" Version="1.0.0" />
     <PackageReference Include="Memory.Manipulation" Version="1.0.3" />
@@ -26,6 +25,9 @@
   <ItemGroup>
     <Using Include="Core" />
     <Using Include="Core.Globals">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Core.TargetOptions">
       <Static>True</Static>
     </Using>
     <Using Include="Hook" />

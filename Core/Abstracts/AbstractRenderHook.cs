@@ -17,7 +17,7 @@ public unsafe abstract class AbstractRenderHook
                     glInterface[i] = (nint)hook;
                     break;
                 }
-        }   
+        }
 
         return this;
     }

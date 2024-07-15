@@ -14,6 +14,7 @@
     <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core100\Core100.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -30,6 +31,9 @@
       <Static>True</Static>
     </Using>
     <Using Include="Core.Interop">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Core.TargetCollection">
       <Static>True</Static>
     </Using>
     <Using Include="Hook" />

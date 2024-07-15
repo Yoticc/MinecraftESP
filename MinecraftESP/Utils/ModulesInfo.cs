@@ -1,5 +1,4 @@
-﻿namespace Core;
-public static class ModulesInfo
+﻿static class ModulesInfo
 {
     static ModulesInfo()
     {
@@ -22,13 +21,10 @@ public static class ModulesInfo
                 Modules.Add(new(handle, path, lowName, lowName));
             }
         }
-        catch // At some time, this may return a random Exception, so we pray to Allah and set try-catch
-        {
-
-        }
+        catch { } // At some time, this may return a random Exception, so we pray to Allah and set try-catch
     }
 
-    public static List<Module> Modules = [];
+    public static readonly List<Module> Modules = [];
 
     public static Module? GetModuleByName(string name)
     {
@@ -37,4 +33,4 @@ public static class ModulesInfo
     }
 }
 
-public record Module(nint Handle, string Path, string Name, string LowName);
+record Module(nint Handle, string Path, string Name, string LowName);

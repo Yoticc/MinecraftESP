@@ -6,28 +6,26 @@ public unsafe class Render : DefaultRender
     public void TranslateF(Vec3F vec)
     {
         if (vec == (.5, .4375, .9375))
-            SetTarget(Targets.Chest, 0, .0625f, -.4375f);
+            SetTarget(Chest, 0, .0625f, -.4375f);
         else if (vec == (1, .4375, .9375))
-            SetTarget(Targets.LargeChest, 0, .0625f, -.4375f);
-        else
-            SetTarget(Targets.Other);
+            SetTarget(LargeChest, 0, .0625f, -.4375f);
+        else SetTarget(TargetCollection.Other);
     }
 
     public void ScaleF(Vec3F vec)
     {
         if (vec == (.9375, .9375, .9375))
-            SetTarget(Targets.Player, 0, -1, 0);
+            SetTarget(Player, 0, -1, 0);
         else if (vec == (.25, .25, .25))
-            SetTarget(Targets.Item);
+            SetTarget(Item);
         else if (vec == (.5, .5, .5))
-            SetTarget(Targets.Item);
+            SetTarget(Item);
         else if (vec == (F2D3, -F2D3, -F2D3))
-            SetTarget(Targets.Sign);
-        else
-            SetTarget(Targets.Other);
+            SetTarget(Sign);
+        else SetTarget(TargetCollection.Other);
     }
 
-    public new void Ortho(double left, double right, double bottom, double top, double zNear, double zFar)
+    public override void Ortho(double left, double right, double bottom, double top, double zNear, double zFar)
     {
         if (zNear != 1000 || zFar != 3000)
             return;
@@ -36,17 +34,17 @@ public unsafe class Render : DefaultRender
 
         Push();
 
-        Draw(Config->PlayerESPEnabled, Targets.Player);
-        Draw(Config->ChestESPEnabled, Targets.Chest, Targets.LargeChest);
+        Draw(Cfg->PlayerESPEnabled, Player);
+        Draw(Cfg->ChestESPEnabled, Chest, LargeChest);
         GL.Scalef(2, 2, 2);
-        Draw(Config->ItemESPEnabled, Targets.Item);
+        Draw(Cfg->ItemESPEnabled, Item);
         GL.Scalef(0.5f, .5f, .5f);
-        Draw(Config->SignESPEnabled, Targets.Sign);
-        Draw(Targets.Other.Enabled, Targets.Other);
+        Draw(Cfg->SignESPEnabled, Sign);
+        Draw(TargetCollection.Other.Options.Enabled, TargetCollection.Other);
 
         Pop();
 
-        void Draw(bool enabled, params TargetOpt[] targetOpts)
+        void Draw(bool enabled, params TargetCollection[] targetOpts)
         {
             if (enabled)
                 foreach (var targetOpt in targetOpts)

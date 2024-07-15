@@ -6,14 +6,14 @@ public static class Logger
 
     [AllowNull] static FileStream stream;
 
-    public static void StartNewSession(string path, string message)
+    public static void StartNewSession(string fileName, string message)
     {
-        SetFile(path);
+        SetFile(fileName);
         Clear();
         WriteLine(message);
     }
 
-    public static void SetFile(string path) => stream = new FileStream(Path = path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+    public static void SetFile(string fileName) => stream = new FileStream(Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
     public static void Clear() => stream.SetLength(0);
 

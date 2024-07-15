@@ -1,17 +1,15 @@
 ﻿namespace Core;
 public unsafe static class BindManager
 {
-    static BindManager()
-    {
+    static BindManager() =>
         threadwhile(() =>
         {
-            foreach (Bind bind in Binds)
+            foreach (var bind in Binds)
                 if ((user32.GetAsyncKeyState((int)bind.Key) & 1) == 1)
                     if (IsCursorHide() && IsWindowActive())
                         bind.Func();
-            Thread.Sleep(5);            
+            Thread.Sleep(5);
         });
-    }
 
     public static List<Bind> Binds = [];
 

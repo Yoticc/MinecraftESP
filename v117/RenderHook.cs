@@ -1,25 +1,20 @@
-﻿namespace v117;
+﻿using Buffer = OpenGL.Enums.Buffer;
+
+namespace v117;
 public unsafe class RenderHook : AbstractRenderHook
 {
-    public RenderHook(Render render)
+    public RenderHook()
     {
-        Render = render;
-
         SetHooks(
             new(GL.Interface->glEnable, ldftn(glEnable)),
             new(GL.Interface->glDisable, ldftn(glDisable)),
-            new(GL.Interface->glScalef, ldftn(glScaleF)),
-            new(GL.Interface->glOrtho, ldftn(glOrtho)),
-            DrawArraysHook = new(LwjglModule.glDrawArrays, ldftn(glDrawArrays)),
-            VertexPointerHook = new(LwjglModule.glVertexPointer, ldftn(glVertexPointer)),
-            SwapBuffersHook = new(OpenGLModule.wglSwapBuffers, ldftn(wglSwapBuffers))
+            DrawElementsHook = new(LwjglModule.glDrawElements, ldftn(glDrawElements)),
+            BufferDataHook = new(LwjglModule.glBufferData, ldftn(glBufferData))
         );
     }
 
-    [AllowNull] static Render Render;
-    [AllowNull] static HookFunction SwapBuffersHook;
-    [AllowNull] static HookFunction DrawArraysHook;
-    [AllowNull] static HookFunction VertexPointerHook;
+    static Render Render = new();
+    [AllowNull] static HookFunction DrawElementsHook, BufferDataHook;
 
     void glEnable(Cap cap)
     {
@@ -33,33 +28,15 @@ public unsafe class RenderHook : AbstractRenderHook
             GL.Disable(cap);
     }
 
-    void glScaleF(float x, float y, float z)
+    void glDrawElements(pointer env, pointer @class, Mode mode, int count, BUType type, pointer indicies)
     {
-        Render.ScaleF((x, y, z));
-        GL.Scalef(x, y, z);
+        Render.DrawElements(ref mode, count, type, indicies);
+        calli(DrawElementsHook, env, @class, mode, count, type, indicies);
     }
 
-    void glOrtho(double left, double right, double bottom, double top, double zNear, double zFar)
+    void glBufferData(pointer env, pointer @class, Buffer type, int size, pointer data, BufferUsage usage)
     {
-        Render.Ortho(left, right, bottom, top, zNear, zFar);
-        GL.Ortho(left, right, bottom, top, zNear, zFar);
-    }
-
-    void glDrawArrays(pointer env, pointer clazz, Mode mode, int first, int count)
-    {
-        calli(DrawArraysHook, env, clazz, mode, first, count);
-        Render.DrawArrays(mode, first, count);
-    }
-
-    void glVertexPointer(pointer env, pointer clazz, int size, TexType type, int stride, pointer pointer)
-    {
-        Render.VertexPointer(size, type, stride, pointer);
-        calli(VertexPointerHook, env, clazz, size, type, stride, pointer);
-    }
-
-    void wglSwapBuffers(nint hdc)
-    {
-        calli(SwapBuffersHook, hdc);
-        Render.SwapBuffers(hdc);
+        Render.BufferData(type, size, data, usage);
+        calli(BufferDataHook, env, @class, type, size, data, usage);
     }
 }

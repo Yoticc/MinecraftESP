@@ -2,9 +2,9 @@
 using Vec3F = (float X, float Y, float Z);
 
 namespace v115;
-public unsafe class Render : DefaultRender
+public unsafe class Render : AbstractRender
 {
-    record Line
+    record struct Line
     {
         public Vertex First;
         public Vertex Last;
@@ -33,21 +33,8 @@ public unsafe class Render : DefaultRender
         if (countVertices % 4 != 0)
             return;
 
-        GL.PushAttrib(0x000fffff);
-        GL.PushMatrix();
-
-        GL.Disable(Cap.Texture2D);
-        GL.Disable(Cap.CullFace);
-        GL.Disable(Cap.Lighting);
-        GL.Disable(Cap.DepthTest);
-
-        GL.Enable(Cap.LineSmooth);
-
-        GL.Enable(Cap.Blend);
-        GL.BlendFunc(Factor.SrcAlpha, Factor.OneMinusSrcAlpha);
-
+        Push();
         GL.LoadIdentity();
-
         GL.LineWidth(1);
 
         var countQuads = countVertices / 4;
@@ -109,8 +96,7 @@ public unsafe class Render : DefaultRender
             }
         }
 
-        GL.PopMatrix();
-        GL.PopAttrib();
+        Pop();
 
         return;
 

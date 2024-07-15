@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Yotic.Math\Yotic.Math\Yotic.Math.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 

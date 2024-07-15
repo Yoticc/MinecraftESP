@@ -32,6 +32,9 @@
     <Using Include="Core.Globals">
       <Static>True</Static>
     </Using>
+    <Using Include="Core.TargetOptions">
+      <Static>True</Static>
+    </Using>
     <Using Include="Hook" />
     <Using Include="korn">
       <Static>True</Static>

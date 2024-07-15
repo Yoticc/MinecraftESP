@@ -1,148 +1,50 @@
 ﻿using Vertex = Core.Vertex;
-using Vec3F = (float X, float Y, float Z);
+using Buffer = OpenGL.Enums.Buffer;
 
 namespace v117;
-public unsafe class Render : DefaultRender
+public unsafe class Render : AbstractRender
 {
-    record Line
-    {
-        public Vertex First;
-        public Vertex Last;
-        public float Length => round(pow(First.Position[0] - Last.Position[0]) + pow(First.Position[1] - Last.Position[1]) + pow(First.Position[2] - Last.Position[2]), 4);
-    }
-
     Vertex* lastBuffer;
-    Vec3F lastScaleF;
+    int bufferSize;
 
-    public void DrawArrays(Mode mode, int first, int countVertices)
+    public void DrawElements(ref Mode mode, int count, BUType type, pointer indicies)
     {
-        if (mode != Mode.Quads)
-            return;
+        if (count > 10)
+            mode = Mode.LineLoop;
 
-        // No buffer, like it do for blocks
-        if (lastBuffer is null)
-            return;
-
-        // Most entities
-        if (lastScaleF is not (F2D30, F2D30, F2D30))
-            return;
-
-        if (first != 0)
-            return;
-
-        if (countVertices % 4 != 0)
-            return;
-
-        GL.PushAttrib(0x000fffff);
-        GL.PushMatrix();
-
-        GL.Disable(Cap.Texture2D);
-        GL.Disable(Cap.CullFace);
-        GL.Disable(Cap.Lighting);
-        GL.Disable(Cap.DepthTest);
-
-        GL.Enable(Cap.LineSmooth);
-
-        GL.Enable(Cap.Blend);
-        GL.BlendFunc(Factor.SrcAlpha, Factor.OneMinusSrcAlpha);
-
-        GL.LoadIdentity();
-
-        GL.LineWidth(1);
-
-        var countQuads = countVertices / 4;
-
-        var quads = stackalloc Quad[countQuads];
-        for (var i = 0; i < countQuads; i++)
-            quads[i] = new Quad
-            {
-                StartVertexIndex = i * 4,
-                VertexNode = lastBuffer
-            };
-
-        if (countVertices % 144 == 0) // Idk why not % 144
+        if (lastBuffer is not null && mode == Mode.Triangles && bufferSize >= count && count % 3 == 0 && count == 432)
         {
-            if (TexPredicates.Player.IsSuitable(quads, countQuads))
+            /* Creates lags 
+            Push();
+            GL.LoadIdentity();
+            GL.LineWidth(1);
+
+            GL.Begin(Mode.Triangles);
+            for (var vertexIndex = 0; vertexIndex < count; vertexIndex += 3)
             {
-                for (var vertexIndex = 0; vertexIndex < countVertices; vertexIndex += 4)
-                {
-                    var a = lastBuffer[vertexIndex].Position;
-                    var b = lastBuffer[vertexIndex + 1].Position;
-                    var c = lastBuffer[vertexIndex + 2].Position;
-                    var d = lastBuffer[vertexIndex + 3].Position;
+                var a = lastBuffer[vertexIndex].Position;
+                var b = lastBuffer[vertexIndex + 1].Position;
+                var c = lastBuffer[vertexIndex + 2].Position;
 
-                    var line = new Line
-                    {
-                        First = lastBuffer[vertexIndex],
-                        Last = lastBuffer[vertexIndex + 1]
-                    };
-
-                    // Remove additional layer
-                    if (line.Length is .0421f or .0695f or .248f or .2481f or .2781f or .5364f or .5365f)
-                        continue;
-
-                    var quadIndex = vertexIndex / 4;
-                    var quad = quads + quadIndex;
-
-                    GL.Color4d(.1, .8, .7, .75);
-                    DrawOutlined(quad);
-
-                    GL.Color4d(.1, .7, .8, .05);
-                    DrawQuad(quad);
-                }
+                GL.Vertex3f(a[0], a[1], a[2]);
+                GL.Vertex3f(b[0], b[1], b[2]);
+                GL.Vertex3f(c[0], c[1], c[2]);
             }
-        }
-        else if (countVertices % 72 == 0)
-        {
-            if (TexPredicates.Chest.IsSuitable(quads, countQuads))
-            {
-                for (var quadIndex = 0; quadIndex < countQuads; quadIndex++)
-                {
-                    var quad = quads + quadIndex;
-
-                    GL.Color4d(.8, .5, 0, .5);
-                    DrawOutlined(quad);
-
-                    GL.Color4d(.8, .5, 0, .09);
-                    DrawQuad(quad);
-                }
-            }
-        }
-
-        GL.PopMatrix();
-        GL.PopAttrib();
-
-        return;
-
-        void DrawOutlined(Quad* quad)
-        {
-            GL.Begin(Mode.LineLoop);
-            Vertex(quad->A->Position);
-            Vertex(quad->B->Position);
-            Vertex(quad->C->Position);
-            Vertex(quad->D->Position);
-            Vertex(quad->A->Position);
             GL.End();
-        }
 
-        void DrawQuad(Quad* quad)
-        {
-            GL.Begin(Mode.Quads);
-            Vertex(quad->A->Position);
-            Vertex(quad->B->Position);
-            Vertex(quad->C->Position);
-            Vertex(quad->D->Position);
-            GL.End();
-        }
+            Pop();
+            */
 
-        void Vertex(float* arr) => GL.Vertex3f(arr[0], arr[1], arr[2]);
+            lastBuffer = null;
+        }
     }
 
-    public void VertexPointer(int size, TexType type, int stride, pointer pointer)
+    public void BufferData(Buffer type, int size, pointer data, BufferUsage usage)
     {
-        if (size == 3 && type == TexType.Float && stride == 36 && pointer > 0x10000)
-            lastBuffer = (Vertex*)pointer;
+        if (type == Buffer.ElementArray && usage == BufferUsage.DynamicDraw)
+        {
+            lastBuffer = (Vertex*)data;
+            bufferSize = size;
+        }
     }
-
-    public void ScaleF(Vec3F vec) => lastScaleF = vec;
 }

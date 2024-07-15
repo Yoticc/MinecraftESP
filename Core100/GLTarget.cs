@@ -1,33 +1,31 @@
 ﻿namespace Core;
-public unsafe struct GLTarget : IDisposable
+public unsafe struct GLTarget
 {
-    public GLTarget()
-    {
-        Projection = Alloc<float>(16);
-        Modelview = Alloc<float>(16);
-    }
+    public fixed float Projection[16];
+    public fixed float Modelview[16];
 
-    public float* Projection, Modelview;
-
-    public void DrawOver(TargetOpt options)
+    public void DrawOver(TargetCollection target)
     {
-        GL.LoadMatrixf(Matrix.Projection, Projection);
-        GL.LoadMatrixf(Matrix.Modelview, Modelview);
+        fixed (float* projection = Projection)
+            GL.LoadMatrixf(Matrix.Projection, projection);
+        fixed (float* modelview = Modelview)
+            GL.LoadMatrixf(Matrix.Modelview, modelview);
 
         var (x, y, z) = (Modelview[12], Modelview[13], Modelview[14]);
 
-        var dist = RU.GetDistance(x, y, z);
+        var distance = RU.GetDistance(x, y, z);
+        var options = target.Options;
 
         if (options.Box.L.Enabled)
         {
             GL.LineWidth(options.Box.L.LineWidth);
-            SetColor(options.Box.L.CAABB.Color, dist);
+            SetColor(options.Box.L.CAABB.Color, distance);
             RU.DrawOutlineAABB(options.Box.L.CAABB.AABB);
         }
 
         if (options.Box.P.Enabled)
         {
-            SetColor(options.Box.P.CAABB.Color, dist);
+            SetColor(options.Box.P.CAABB.Color, distance);
             RU.DrawSolidAABB(options.Box.P.CAABB.AABB);
         }
 
@@ -35,19 +33,17 @@ public unsafe struct GLTarget : IDisposable
         {
             GL.LoadIdentity();
             GL.LineWidth(options.Tracer.LineWidth);
-            SetColor(options.Tracer.Color, dist);
+            SetColor(options.Tracer.Color, distance);
             RU.DrawTracer(0, 0, -0.1f, x + options.Tracer.OffsetX, y + options.Tracer.OffsetY, z + options.Tracer.OffsetZ);
         }
     }
 
-    static void SetColor(Color baseColor, float dist)
+    static void SetColor(Color baseColor, double distance)
     {
         if (baseColor.Equals(Color.RGBColor))
             RU.Color(ColorUtils.GetRGB());
         else if (baseColor.Equals(Color.DistanceColor))
-            RU.Color(ColorUtils.GetDistColor(64, dist));
+            RU.Color(ColorUtils.GetDistColor(64, distance));
         else RU.Color(baseColor);
     }
-
-    public void Dispose() => Free(Projection, Modelview);
 }

@@ -1,9 +1,50 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
+    <PackageReference Include="Korn" Version="1.0.0" />
+    <PackageReference Include="Yotic.Hook" Version="2.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Yotic.Math\Yotic.Math\Yotic.Math.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Core.Globals">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Core.Interop">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Core.RenderUtils">
+      <Alias>RU</Alias>
+    </Using>
+    <Using Include="Hook" />
+    <Using Include="korn">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Memory.MemEx">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Microsoft.Win32.SafeHandles" />
+    <Using Include="OpenGL" />
+    <Using Include="OpenGL.Enums">
+      <Static>True</Static>
+    </Using>
+    <Using Include="System.Diagnostics" />
+    <Using Include="System.Diagnostics.CodeAnalysis" />
+    <Using Include="System.Drawing" />
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="System.Text" />
+  </ItemGroup>
 
 </Project>

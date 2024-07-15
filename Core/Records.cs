@@ -40,10 +40,3 @@ public record struct Color(float R, float G, float B, float A = 1)
     public static implicit operator Color((double r, double g, double b, double a) a) => new(a.r, a.g, a.b, a.a);
 }
 
-public record TargetOpt(bool Enabled, Box Box, Tracer Tracer = default)
-{
-    public List<GLTarget> Targets = [];
-
-    public static implicit operator TargetOpt((bool enalbed, Box box) a) => new(a.enalbed, a.box);
-    public static implicit operator TargetOpt((bool enalbed, Box box, Tracer tracer) a) => new(a.enalbed, a.box, a.tracer);
-}
