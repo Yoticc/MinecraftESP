@@ -7,9 +7,9 @@ public unsafe struct GLTarget
     public void DrawOver(TargetCollection target)
     {
         fixed (float* projection = Projection)
-            GL.LoadMatrixf(Matrix.Projection, projection);
+            GL.LoadProjection(projection);
         fixed (float* modelview = Modelview)
-            GL.LoadMatrixf(Matrix.Modelview, modelview);
+            GL.LoadModelview(modelview);
 
         var (x, y, z) = (Modelview[12], Modelview[13], Modelview[14]);
 

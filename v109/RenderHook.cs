@@ -37,13 +37,13 @@ public unsafe class RenderHook : AbstractRenderHook
     void glTrasnlateF(float x, float y, float z)
     {
         Render.TranslateF((x, y, z));
-        GL.Translatef(x, y, z);
+        GL.Translate(x, y, z);
     }
 
     void glScaleF(float x, float y, float z)
     {
         Render.ScaleF((x, y, z));
-        GL.Scalef(x, y, z);
+        GL.Scale(x, y, z);
     }
 
     void wglSwapBuffers(nint hdc)

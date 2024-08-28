@@ -11,7 +11,7 @@ public unsafe abstract class AbstractRenderHook
         foreach (var hook in hooks)
         {
             hook.Attach();
-            for (var i = 0; i < GLInterface.FunctionsCount; i++)
+            for (var i = 0; i < sizeof(GLInterface) / 8 - 1; i++)
                 if (glInterface[i] == hook.Origin.Pointer)
                 {
                     glInterface[i] = (nint)hook;

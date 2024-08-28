@@ -1,5 +1,4 @@
 ﻿using Vertex = Core.Vertex;
-using Buffer = OpenGL.Enums.Buffer;
 
 namespace v117;
 public unsafe class Render : AbstractRender
@@ -39,9 +38,9 @@ public unsafe class Render : AbstractRender
         }
     }
 
-    public void BufferData(Buffer type, int size, pointer data, BufferUsage usage)
+    public void BufferData(BufferType type, int size, pointer data, BufferUsage usage)
     {
-        if (type == Buffer.ElementArray && usage == BufferUsage.DynamicDraw)
+        if (type == BufferType.ElementArray && usage == BufferUsage.DynamicDraw)
         {
             lastBuffer = (Vertex*)data;
             bufferSize = size;

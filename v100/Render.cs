@@ -9,7 +9,7 @@ public unsafe class Render : DefaultRender
             SetTarget(Chest, 0, .0625f, -.4375f);
         else if (vec == (1, .4375, .9375))
             SetTarget(LargeChest, 0, .0625f, -.4375f);
-        else SetTarget(TargetCollection.Other);
+        else SetTarget(Other);
     }
 
     public void ScaleF(Vec3F vec)
@@ -22,7 +22,7 @@ public unsafe class Render : DefaultRender
             SetTarget(Item);
         else if (vec == (F2D3, -F2D3, -F2D3))
             SetTarget(Sign);
-        else SetTarget(TargetCollection.Other);
+        else SetTarget(Other);
     }
 
     public override void Ortho(double left, double right, double bottom, double top, double zNear, double zFar)
@@ -36,11 +36,11 @@ public unsafe class Render : DefaultRender
 
         Draw(Cfg->PlayerESPEnabled, Player);
         Draw(Cfg->ChestESPEnabled, Chest, LargeChest);
-        GL.Scalef(2, 2, 2);
+        GL.Scale(2, 2, 2);
         Draw(Cfg->ItemESPEnabled, Item);
-        GL.Scalef(0.5f, .5f, .5f);
+        GL.Scale(.5f, .5f, .5f);
         Draw(Cfg->SignESPEnabled, Sign);
-        Draw(TargetCollection.Other.Options.Enabled, TargetCollection.Other);
+        Draw(Other.Options.Enabled, Other);
 
         Pop();
 

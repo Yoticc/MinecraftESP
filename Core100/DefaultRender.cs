@@ -47,8 +47,8 @@ public unsafe class DefaultRender : AbstractRender
 
         GLTarget targetEntity;
 
-        GL.GetFloatv(PName.ProjectionMatrix, targetEntity.Projection);
-        GL.GetFloatv(PName.ModelviewMatrix, targetEntity.Modelview);
+        GL.GetFloat(PName.ProjectionMatrix, targetEntity.Projection);
+        GL.GetFloat(PName.ModelviewMatrix, targetEntity.Modelview);
 
         var mv = targetEntity.Modelview;
         mv[12] = mv[0] * x + mv[4] * y + mv[8] * z + mv[12];

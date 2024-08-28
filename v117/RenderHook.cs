@@ -1,6 +1,4 @@
-﻿using Buffer = OpenGL.Enums.Buffer;
-
-namespace v117;
+﻿namespace v117;
 public unsafe class RenderHook : AbstractRenderHook
 {
     public RenderHook()
@@ -34,7 +32,7 @@ public unsafe class RenderHook : AbstractRenderHook
         calli(DrawElementsHook, env, @class, mode, count, type, indicies);
     }
 
-    void glBufferData(pointer env, pointer @class, Buffer type, int size, pointer data, BufferUsage usage)
+    void glBufferData(pointer env, pointer @class, BufferType type, int size, pointer data, BufferUsage usage)
     {
         Render.BufferData(type, size, data, usage);
         calli(BufferDataHook, env, @class, type, size, data, usage);

@@ -5,14 +5,18 @@
       "Use": true,
       "Path": "EntryPoint.Load",
       "desc": "Instead of using the EntryPointAttribute. Here can be written path to EntryPoint method without the EntryPointAttrbute"
-    }
+    },
+    "desc": "Use if you want to make a custom EntryPoint. Usually, if you are making a Console App, you do not need to use this option"
   },
   "CustomNativeOut": {
     "Use": true,
-    "Path": "out\\MinecraftESP.dll",
+    "DirectoryPath": "out",
+    "FileName": {
+      "UseCustomName": true,
+      "CustomName": "MinecraftESP"
+    },
     "ExportPdbFile": true,
-    "AutoRenamePdbFileToDllName": true,
-    "desc": "Copy output native file to the path. Base path is the project dir"
+    "desc": "Copy output native file to the path. DirectoryPath relative to the project dir"
   },
   "AddictionalBuildArguments": {
     "InvariantGlobalization": true,
@@ -20,10 +24,10 @@
     "UseSystemResourceKeys": true,
     "GenerateLogFile": false,
     "desc": "Adds an additional argument to the build command. Set null if you don't want to consider the argument",
-    "desc_": "For best file size use: [InvariantGlobalization = true, StackTraceSupport = false, UseSystemResourceKeys = true, GenerateLogFile = false]"
+    "desc_": "For best file size use: [InvariantGlobalization = true, StackTraceSupport = false, UseSystemResourceKeys = true]"
   },
   "BypassNonStaticNativeMethods": true,
   "AutoCloseDotnetProcesses": true,
   "LibrariesToIgnore": [],
-  "desc": "Optimizing compiler by adding some libraries to ignore, it's worth adding here libraries-mappings that have a lot of non-user code. Example of name: \"UnrealEngine.Mappings.dll\""
+  "desc": "Optimizing compiler by adding some libraries to ignore, it's worth adding here libraries-mappings that have a lot of non-user code. Example of name: \"UnrealEngine.Mappings\""
 }

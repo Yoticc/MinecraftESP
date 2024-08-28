@@ -33,95 +33,79 @@ public unsafe class Render : AbstractRender
         if (countVertices % 4 != 0)
             return;
 
-        Push();
-        GL.LoadIdentity();
-        GL.LineWidth(1);
-
         var countQuads = countVertices / 4;
-
-        var quads = stackalloc Quad[countQuads];
-        for (var i = 0; i < countQuads; i++)
-            quads[i] = new Quad
-            {
-                StartVertexIndex = i * 4,
-                VertexNode = lastBuffer
-            };
-
-        if (countVertices % 144 == 0) // Idk why not % 144
+        var quads = (Quad*)lastBuffer;
+        
+        if (countVertices % 144 == 0 && TexPredicates.Player.IsSuitable(quads, countQuads)) // Can be used 288
         {
-            if (TexPredicates.Player.IsSuitable(quads, countQuads))
+            Push();
+            GL.LoadIdentity();
+            GL.LineWidth(1);
+
+            for (var vertexIndex = 0; vertexIndex < countVertices; vertexIndex += 4)
             {
-                for (var vertexIndex = 0; vertexIndex < countVertices; vertexIndex += 4)
+                var line = new Line
                 {
-                    var a = lastBuffer[vertexIndex].Position;
-                    var b = lastBuffer[vertexIndex + 1].Position;
-                    var c = lastBuffer[vertexIndex + 2].Position;
-                    var d = lastBuffer[vertexIndex + 3].Position;
+                    First = lastBuffer[vertexIndex],
+                    Last = lastBuffer[vertexIndex + 1]
+                };
 
-                    var line = new Line
-                    {
-                        First = lastBuffer[vertexIndex],
-                        Last = lastBuffer[vertexIndex + 1]
-                    };
+                // Remove additional layer
+                if (line.Length is .0421f or .0695f or .248f or .2481f or .2781f or .5364f or .5365f)
+                    continue;
 
-                    // Remove additional layer
-                    if (line.Length is .0421f or .0695f or .248f or .2481f or .2781f or .5364f or .5365f)
-                        continue;
+                var quadIndex = vertexIndex / 4;
+                var quad = quads + quadIndex;
 
-                    var quadIndex = vertexIndex / 4;
-                    var quad = quads + quadIndex;
+                GL.Color(.1, .8, .7, .75);
+                DrawOutlined(quad);
 
-                    GL.Color4d(.1, .8, .7, .75);
-                    DrawOutlined(quad);
-
-                    GL.Color4d(.1, .7, .8, .05);
-                    DrawQuad(quad);
-                }
+                GL.Color(.1, .7, .8, .05);
+                DrawQuad(quad);
             }
-        }
-        else if (countVertices % 72 == 0)
-        {
-            if (TexPredicates.Chest.IsSuitable(quads, countQuads))
-            {
-                for (var quadIndex = 0; quadIndex < countQuads; quadIndex++)
-                {
-                    var quad = quads + quadIndex;
 
-                    GL.Color4d(.8, .5, 0, .5);
-                    DrawOutlined(quad);
-
-                    GL.Color4d(.8, .5, 0, .09);
-                    DrawQuad(quad);
-                }
-            }
+            Pop();
         }
 
-        Pop();
+        if (countVertices % 72 == 0 && TexPredicates.Chest.IsSuitable(quads, countQuads))
+        {
+            Push();
+            GL.LoadIdentity();
+            GL.LineWidth(1);
 
-        return;
+            for (var quadIndex = 0; quadIndex < countQuads; quadIndex++)
+            {
+                var quad = quads + quadIndex;
+
+                GL.Color(.8, .5, 0, .5);
+                DrawOutlined(quad);
+
+                GL.Color(.8, .5, 0, .09);
+                DrawQuad(quad);
+            }
+
+            Pop();
+        }        
 
         void DrawOutlined(Quad* quad)
         {
             GL.Begin(Mode.LineLoop);
-            Vertex(quad->A->Position);
-            Vertex(quad->B->Position);
-            Vertex(quad->C->Position);
-            Vertex(quad->D->Position);
-            Vertex(quad->A->Position);
+            Vertex(quad->A, quad->B, quad->C, quad->D, quad->A);
             GL.End();
         }
 
         void DrawQuad(Quad* quad)
         {
             GL.Begin(Mode.Quads);
-            Vertex(quad->A->Position);
-            Vertex(quad->B->Position);
-            Vertex(quad->C->Position);
-            Vertex(quad->D->Position);
+            Vertex(quad->A, quad->B, quad->C, quad->D);
             GL.End();
         }
 
-        void Vertex(float* arr) => GL.Vertex3f(arr[0], arr[1], arr[2]);
+        void Vertex(params Vertex[] vertices)
+        {
+            foreach (var vertex in vertices)
+                GL.Vertex3(vertex.Position);
+        }
     }
 
     public void VertexPointer(int size, TexType type, int stride, pointer pointer)

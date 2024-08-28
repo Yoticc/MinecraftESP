@@ -10,7 +10,7 @@ public unsafe class RenderHook : AbstractRenderHook
             new(GL.Interface->glTranslatef, ldftn(glTrasnlateF)),
             new(GL.Interface->glScaled, ldftn(glScaleD)),
             new(GL.Interface->glScalef, ldftn(glScaleF)),
-            SwapBuffersHook = new(OpenGLModule.wglSwapBuffers, ldftn(wglSwapBuffers))
+            SwapBuffersHook = new(GL.Interface->wglSwapBuffers, ldftn(wglSwapBuffers))
         );
     }
 
@@ -38,19 +38,19 @@ public unsafe class RenderHook : AbstractRenderHook
     void glTrasnlateF(float x, float y, float z)
     {
         Render.TranslateF((x, y, z));
-        GL.Translatef(x, y, z);
+        GL.Translate(x, y, z);
     }
 
     void glScaleD(double x, double y, double z)
     {
         Render.ScaleD((x, y, z));
-        GL.Scaled(x, y, z);
+        GL.Scale(x, y, z);
     }
 
     void glScaleF(float x, float y, float z)
     {
         Render.ScaleF((x, y, z));
-        GL.Scalef(x, y, z);
+        GL.Scale(x, y, z);
     }
 
     void wglSwapBuffers(nint hdc)

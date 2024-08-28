@@ -32,7 +32,7 @@ public unsafe abstract class AbstractRender
         GL.Enable(Cap.LineSmooth);
 
         GL.Enable(Cap.Blend);
-        GL.BlendFunc(Factor.SrcAlpha, Factor.OneMinusSrcAlpha);
+        GL.BlendFunc(FactorEnum.SrcAlpha, FactorEnum.OneMinusSrcAlpha);
     }
 
     protected void Pop()

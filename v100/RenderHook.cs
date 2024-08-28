@@ -9,17 +9,16 @@ public unsafe class RenderHook : AbstractRenderHook
             new(GL.Interface->glOrtho, ldftn(glOrtho)),
             new(GL.Interface->glTranslatef, ldftn(glTrasnlateF)),
             new(GL.Interface->glScalef, ldftn(glScaleF)),
-            SwapBuffersHook = new(OpenGLModule.wglSwapBuffers, ldftn(wglSwapBuffers))
+            new(GL.Interface->wglSwapBuffers, ldftn(wglSwapBuffers))
         );
     }
 
     static Render Render = new();
-    [AllowNull] static HookFunction SwapBuffersHook;
 
     void glEnable(Cap cap)
     {
         if (Render.Enable(cap))
-            GL.Enable(cap);
+            GL.Enable(cap); 
     }
 
     void glDisable(Cap cap)
@@ -37,18 +36,18 @@ public unsafe class RenderHook : AbstractRenderHook
     void glTrasnlateF(float x, float y, float z)
     {
         Render.TranslateF((x, y, z));
-        GL.Translatef(x, y, z);
+        GL.Translate(x, y, z);
     }
 
     void glScaleF(float x, float y, float z)
     {
         Render.ScaleF((x, y, z));
-        GL.Scalef(x, y, z);
+        GL.Scale(x, y, z);
     }
 
     void wglSwapBuffers(nint hdc)
     {
-        calli(SwapBuffersHook, hdc);
+        GL.SwapBuffers(hdc);
         Render.SwapBuffers(hdc);
     }
 }

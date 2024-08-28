@@ -1,46 +1,42 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	  <TargetFramework>net8.0-windows</TargetFramework>
-	  <ImplicitUsings>enable</ImplicitUsings>
-	  <Nullable>enable</Nullable>
-	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	  <RootNamespace>Core</RootNamespace>
-	  <AssemblyName>MinecraftESP</AssemblyName>
-	  <SignAssembly>false</SignAssembly>
-	  <StripSymbols>true</StripSymbols>
-	  <Platforms>x64</Platforms>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>MinecraftESP</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+    <StripSymbols>true</StripSymbols>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="korn\analyzers\**" />
     <Compile Remove="out\**" />
+    <EmbeddedResource Remove="korn\analyzers\**" />
     <EmbeddedResource Remove="out\**" />
+    <None Remove="korn\analyzers\**" />
     <None Remove="out\**" />
+    <None Remove="korn\cache.data" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="msbuild.log" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
-    <PackageReference Include="Korn" Version="1.0.0" />
-    <PackageReference Include="Memory.Manipulation" Version="1.0.3" />
-    <PackageReference Include="Yotic.Memory.Extensions" Version="2.0.4" />
-    <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
+    <PackageReference Include="Korn" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\cheats\Yotic.Linq\Yotic.Linq\Yotic.Linq.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\Cetours\Cetours\Cetours.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\DotnetNative.Base\DotnetNative.Base\DotnetNative.Base.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\Hook\Hook\Hook.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\OpenGL\OpenGL\OpenGL.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\v100\v100.csproj" />
     <ProjectReference Include="..\v109\v109.csproj" />
     <ProjectReference Include="..\v115\v115.csproj" />
     <ProjectReference Include="..\v117\v117.csproj" />
     <ProjectReference Include="..\vCristalix\vCristalix.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Cetours">
-      <HintPath>..\..\Cetours\Cetours\bin\x64\Release\net8.0\Cetours.dll</HintPath>
-    </Reference>
-    <Reference Include="Hook">
-      <HintPath>..\..\Hook\Hook\bin\x64\Release\net8.0\Hook.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Using Include="Core" />
@@ -54,7 +50,7 @@
       <Alias>Log</Alias>
     </Using>
     <Using Include="korn">
-      <Static>True</Static>
+      <Static>true</Static>
     </Using>
     <Using Include="System.Diagnostics" />
     <Using Include="System.Linq.Enumerable">
@@ -63,5 +59,8 @@
     <Using Include="Yotic.Linq">
       <Static>True</Static>
     </Using>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="korn\" />
   </ItemGroup>
 </Project>

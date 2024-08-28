@@ -30,7 +30,7 @@ public unsafe class RenderHook : AbstractRenderHook
     void glScaleF(float x, float y, float z)
     {
         Render.ScaleF((x, y, z));
-        GL.Scalef(x, y, z);
+        GL.Scale(x, y, z);
     }
 
     void glDrawArrays(pointer env, pointer clazz, Mode mode, int first, int count)

@@ -5,15 +5,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	<Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
-    <PackageReference Include="Korn" Version="1.0.0" />
-    <PackageReference Include="Yotic.Hook" Version="2.0.7" />
+    <PackageReference Include="Korn" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\dotnetnative\Cetours\Cetours\Cetours.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\DotnetNative.Base\DotnetNative.Base\DotnetNative.Base.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\Hook\Hook\Hook.csproj" />
     <ProjectReference Include="..\..\Yotic.Math\Yotic.Math\Yotic.Math.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>

@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 **/naot/analyzers
 **/korn/analyzers
+**/korn/cache.data
+**/korn/log.txt

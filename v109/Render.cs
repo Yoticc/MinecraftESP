@@ -9,7 +9,7 @@ public unsafe class Render : DefaultRender
             SetTarget(Chest, 0, .0625f, -.4375f);
         else if (vec == (1, .4375, .9375))
             SetTarget(LargeChest, 0, .0625f, -.4375f);
-        else SetTarget(TargetCollection.Other);
+        else SetTarget(Other);
     }
 
     public void ScaleF(Vec3F vec)
@@ -22,6 +22,6 @@ public unsafe class Render : DefaultRender
             SetTarget(Item);
         else if (vec == (F2D3, -F2D3, -F2D3))
             SetTarget(Sign);
-        else SetTarget(TargetCollection.Other);
+        else SetTarget(Other);
     }
 }

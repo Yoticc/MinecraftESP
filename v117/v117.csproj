@@ -5,18 +5,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	<Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
-    <PackageReference Include="Korn" Version="1.0.0" />
-    <PackageReference Include="Memory.Manipulation" Version="1.0.3" />
-    <PackageReference Include="Yotic.Hook" Version="2.0.7" />
-    <PackageReference Include="Yotic.Memory.Extensions" Version="2.0.4" />
-    <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
+    <PackageReference Include="Korn" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\dotnetnative\DotnetNative.Base\DotnetNative.Base\DotnetNative.Base.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\OpenGL\OpenGL\OpenGL.csproj" />
     <ProjectReference Include="..\..\Yotic.Math\Yotic.Math\Yotic.Math.csproj" />
     <ProjectReference Include="..\Core115\Core115.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />

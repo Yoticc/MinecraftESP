@@ -7,24 +7,14 @@
     <Platforms>x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
-    <PackageReference Include="Korn" Version="1.0.0" />
-    <PackageReference Include="Memory.Manipulation" Version="1.0.3" />
-    <PackageReference Include="Yotic.Memory.Extensions" Version="2.0.4" />
-    <PackageReference Include="Yotic.OpenGL" Version="2.0.3" />
+    <PackageReference Include="Korn" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\dotnetnative\DotnetNative.Base\DotnetNative.Base\DotnetNative.Base.csproj" />
+    <ProjectReference Include="..\..\..\dotnetnative\OpenGL\OpenGL\OpenGL.csproj" />
     <ProjectReference Include="..\..\Yotic.Math\Yotic.Math\Yotic.Math.csproj" />
     <ProjectReference Include="..\Core115\Core115.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Cetours">
-      <HintPath>..\..\Cetours\Cetours\bin\x64\Release\net8.0\Cetours.dll</HintPath>
-    </Reference>
-    <Reference Include="Hook">
-      <HintPath>..\..\Hook\Hook\bin\x64\Release\net8.0\Hook.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Using Include="Core" />
@@ -44,6 +34,10 @@
       <Static>True</Static>
     </Using>
     <Using Include="System.Diagnostics.CodeAnalysis" />
+    <Using Include="Yotic" />
+    <Using Include="Yotic.Linq">
+      <Static>True</Static>
+    </Using>
     <Using Include="Yotic.Math">
       <Static>True</Static>
     </Using>
