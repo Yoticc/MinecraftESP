@@ -13,7 +13,7 @@ public unsafe struct Config
     public Keys NoLightBind = Keys.NumPad0, NoBackgroundBind = Keys.NumPad1, NoFogBind = Keys.NumPad2, CaveViewerBind = Keys.NumPad3, PlayerESPBind = Keys.NumPad4, ChestESPBind = Keys.NumPad5, SignESPBind = Keys.NumPad6, ItemESPBind = Keys.NumPad7;
     public bool NoLightEnabled, NoBackgroundEnabled, NoFogEnabled, CaveViewerEnabled, PlayerESPEnabled = true, ChestESPEnabled = true, SignESPEnabled = true, ItemESPEnabled = true;
 
-    // Oh Allah, today I did big HARAM. I wrote this code, it's the worst code I have written in the last few years. Forgive me for my sins ✡:big_booty_latina_in_hijab:🙏🏼
+    // Oh great Xi Jinping, today I did big TAIWAN. I wrote this code, it's the worst code I have written in the last few years. Forgive me for my sins 🇨🇳:big_booty_asian_in_anime_suite:🙏🏼
     static string[] hackNames = ["NoLight", "NoBackground", "NoFog", "CaveViewer", "PlayerESP", "ChestESP", "SignESP", "ItemESP"];
     public string Serialize()
     {
